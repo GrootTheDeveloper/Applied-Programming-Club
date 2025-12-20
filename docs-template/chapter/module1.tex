@@ -1,0 +1,85 @@
+\chapter{TỔNG QUAN VỀ LẬP TRÌNH THI ĐẤU}
+
+Người viết: Đặng Phúc An Khang
+
+Tài liệu tham khảo: Nhập môn Lập trình - Khoa CNTT, HCMUS
+
+\minitoc
+
+\section{Giới thiệu về Lập trình thi đấu}
+
+\subsection{Lập trình thi đấu là gì?}
+\textbf{Lập trình thi đấu (Competitive Programming - CP)} là hình thức giải các bài toán thuật toán (làm bài trên trên máy tính) trong một khoảng thời gian hữu hạn (thường từ 1,5 đến 5 giờ), dưới những \emph{ràng buộc chặt chẽ} về thời gian chạy và bộ nhớ. Thí sinh (cá nhân hoặc đội) viết chương trình:
+\begin{itemize}
+  \item \textbf{Đọc} dữ liệu từ bàn phím/file và \textbf{ghi} kết quả ra màn hình/file.
+  \item \textbf{Được chấm tự động} trên bộ test ẩn bởi hệ thống \emph{Online Judge} (OJ) hoặc chấm offline với các kỳ thi như Học sinh giỏi Quốc gia (HSGQG).
+  \item \textbf{Được đánh giá} theo tiêu chí chính: \emph{đúng} (correctness), \emph{nhanh} (time complexity/performance), \emph{tiết kiệm bộ nhớ} (space usage), đôi khi có \emph{điểm từng phần} (partial score).
+\end{itemize}
+
+\textbf{Một số thuật ngữ \& verdict thường gặp}:
+\begin{itemize}
+  \item \texttt{AC} (Accepted): Kết quả đúng trên tất cả test.
+  \item \texttt{WA} (Wrong Answer): Sai kết quả trên ít nhất một test.
+  \item \texttt{TLE} (Time Limit Exceeded): Vượt quá giới hạn thời gian.
+  \item \texttt{MLE} (Memory Limit Exceeded): Vượt quá giới hạn bộ nhớ.
+  \item \texttt{RE} (Runtime Error): Lỗi khi chạy (chia cho 0, truy cập ngoài mảng,\dots).
+  \item \texttt{CE} (Compilation Error): Lỗi biên dịch.
+\end{itemize}
+
+\subsection{Lợi ích khi tham gia CP}
+Lập trình thi đấu không chỉ là “giải cho đúng rồi lấy điểm”. Đây là môi trường giúp người học rèn luyện rất nhiều kỹ năng quan trọng theo cách rõ ràng và thực tế. Trước hết, bạn học cách \textit{nghĩ có trình tự}: tách một bài toán thành các bước nhỏ, chọn cách làm hợp lý (thuật toán) và chọn cách lưu trữ dữ liệu phù hợp (cấu trúc dữ liệu). Bạn cũng hình thành thói quen ước lượng thời gian chạy để chương trình không bị \textbf{TLE} (chạy quá thời gian) và viết mã gọn gàng, dễ đọc để dễ \textit{debug} (tìm và sửa lỗi), hạn chế lỗi thường gặp như lệch chỉ số, tràn số hay sai số khi tính toán. Trong lúc thi, bạn học cách quản lý thời gian: làm bài dễ trước để “mở khoá” điểm, phân bổ thời lượng hợp lý và giữ bình tĩnh khi gặp \textbf{WA} (sai đáp án) hoặc các lỗi khác. Nếu thi theo đội (như ICPC, đội 3 người dùng chung 1 máy), bạn còn rèn kỹ năng làm việc nhóm: phân vai rõ ràng (người đọc đề, người nghĩ thuật toán, người code), thống nhất \emph{template} (khung mã dùng sẵn) và tự kiểm thử trước khi nộp. Nhờ đó, bạn xây nền tảng \textbf{DSA} (Cấu trúc dữ liệu \& Giải thuật) vững chắc, có lợi thế khi phỏng vấn thực tập/việc làm, đồng thời có cơ hội tham gia các sân chơi, học bổng và giao lưu quốc tế. Cuối cùng, CP tạo cho bạn kỷ luật tự học và tư duy phản biện: luôn kiểm chứng lời giải, tự tạo ví dụ phản bác để “bắt lỗi” chương trình, từ đó dần dần tìm ra cách giải đúng và tốt hơn.
+
+\subsection{Các cuộc thi nổi bật trong CP}
+
+\subsubsection{Quốc tế}
+\begin{itemize}
+    \item \textbf{ICPC (International Collegiate Programming Contest)} --- Cuộc thi đồng đội gồm \textbf{3 sinh viên/đội} dùng \textbf{1 máy tính} trong \textbf{4--5 giờ}, giải khoảng \textbf{8--13 bài}. Xếp hạng dựa trên \textbf{số bài giải đúng (AC)}, hoà giải bằng \textbf{penalty time}: thời gian đến lần nộp chấp nhận đầu tiên của mỗi bài cộng \textbf{20 phút phạt cho mỗi lần nộp sai} trước đó; bài không giải được thì \emph{không tính thời gian}.\footnote{Quy tắc chấm thời gian và phạt được mô tả trong quy định World Finals/Regionals.} Điều kiện dự thi nêu rõ giới hạn số lần tham dự vòng khu vực/thế giới theo từng mùa và điều kiện sinh viên.\footnote{Xem quy định eligibility của khu vực châu Á và ICPC Regionals.} 
+
+    \item \textbf{Codeforces Rounds/Global Rounds} --- Hệ thống thi \textbf{cá nhân} trực tuyến; thời lượng thường \textbf{1.5--2 giờ}, nhiều bài từ \textbf{A (dễ) đến F/G (khó)}. Kết quả các vòng \textbf{ảnh hưởng rating} cá nhân; cơ chế tính điểm/xếp hạng và một số chi tiết chấm điểm (đúng/sai, đôi khi có điểm động theo thời gian ở các format nhất định) được công bố trên blog quy tắc/chấm điểm của Codeforces. Đây là môi trường luyện tốc độ đọc đề, lựa chọn chiến lược làm bài và giữ phong độ ổn định qua các vòng xếp hạng định kỳ.
+\end{itemize}
+
+\subsubsection{Trong nước}
+\begin{itemize}
+    \item \textbf{OLP Tin học Sinh viên Việt Nam (OLP)} --- Sự kiện học thuật quốc gia tổ chức \textbf{định kỳ cuối năm (tháng 12)} bên cạnh các hoạt động ICPC Việt Nam. OLP có nhiều khối thi (Chuyên, Không chuyên, Siêu cúp, Nguồn mở\dots), thể thức chấm có thể \textbf{đúng/sai hoặc theo subtask} tùy nội dung, và là sân chơi phù hợp cho sinh viên xây nền DSA và cọ xát học thuật trong nước.
+    
+    \item \textbf{ICPC Việt Nam} --- Hệ sinh thái \textbf{đội 3 người} theo chuẩn ICPC quốc tế: \textbf{vòng sơ loại trực tuyến} và \textbf{vòng khu vực/quốc gia onsite}. Xếp hạng theo \textbf{số bài AC + penalty time}, là cửa ngõ để các đội tiến tới các vòng khu vực châu Á và xa hơn. Lịch thi và điều lệ cập nhật hằng năm theo thông báo chính thức.
+    
+    \item \textbf{VNOI CUP} --- Giải lập trình thường niên do cộng đồng VNOI tổ chức. Vòng loại trực tuyến trên \textbf{VNOJ} thường có \textbf{180 phút} với khoảng \textbf{7 bài}; \textbf{chung kết} diễn ra \textbf{onsite}, chọn các thí sinh điểm cao nhất từ vòng loại. Thể thức từng năm có thể điều chỉnh (số bài, cách chấm điểm/điểm phần), lịch và điều lệ được công bố trước mùa giải.
+\end{itemize}
+
+
+\textit{Lưu ý: Thể lệ, lịch thi và thể thức có thể thay đổi theo từng mùa giải/đơn vị tổ chức; hãy luôn kiểm tra trang chính thức để cập nhật mới nhất.}
+
+\subsection{Nền tảng luyện tập \& OJ phổ biến}
+
+\subsubsection{Quốc tế}
+\begin{itemize}
+    \item \textbf{CSES Problem Set} --- Bộ sưu tập bài tập có cấu trúc lộ trình (Introductory, Sorting \& Searching, DP, Graph, Geometry, \dots) nhằm \textbf{xây nền thuật toán} theo tiến trình, thích hợp cho người mới đến trung cấp; không có rating/thi định kỳ, tập trung vào chất lượng đề và tính hệ thống.%
+    \item \textbf{SPOJ (Sphere Online Judge)} --- Hệ thống \emph{online judge} lâu năm với \(\sim\)20{,}000+ bài, hỗ trợ \(\ge\)40 ngôn ngữ, cho phép tổ chức contest riêng và nộp bài bất kỳ lúc nào. Phù hợp để \textbf{đa dạng hoá luyện tập} theo chủ đề, độ khó và ngôn ngữ lập trình.%
+\end{itemize}
+
+\subsubsection{Trong nước}
+\begin{itemize}
+    \item \textbf{VNOJ (VNOI Online Judge)} --- Online judge \textbf{chính thức} của cộng đồng VNOI, phát triển dựa trên DMOJ; tập trung cung cấp \textbf{môi trường luyện tập \& thi đấu} cho học sinh/sinh viên Việt Nam, lưu trữ các bộ đề VOI/ICPC trong nước, có hệ thống contest định kỳ.%
+    \item \textbf{MarisaOJ} --- Nền tảng luyện tập được xây dựng bởi cộng đồng cựu học sinh chuyên ở Việt Nam, có \textbf{lộ trình học (roadmap)} định hướng từ cơ bản đến nâng cao, tài liệu hướng dẫn sử dụng, và tài nguyên ghi chú giúp người mới bắt đầu \textbf{tiếp cận CP có hệ thống}.%
+    \item \textbf{LQDOJ (Lê Quý Đôn Online Judge)} --- Online judge phát triển trên nền tảng DMOJ, khởi nguồn phục vụ học sinh Trường THPT Chuyên Lê Quý Đôn và \textbf{mở đăng ký công khai} cho cộng đồng; có bảng xếp hạng, chấm tự động, và contest nội bộ/định kỳ.%
+\end{itemize}
+
+
+\section{Ngôn ngữ lập trình trong CP}
+
+\subsection{Vì sao C++ là lựa chọn hàng đầu?}
+
+\subsection{So sánh nhanh với Python, Java}
+
+\section{Cài đặt môi trường}
+
+\subsection{Cài đặt g++/MinGW, VS Code}
+
+\subsection{Thiết lập template C++ cho CP}
+
+\section{Giới thiệu các nền tảng luyện tập}
+
+
+
+
