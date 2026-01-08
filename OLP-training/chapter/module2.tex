@@ -1,0 +1,1676 @@
+\chapter{KIỂU DỮ LIỆU -- TOÁN TỬ -- NHẬP XUẤT}
+
+\noindent\textbf{Người soạn:} Đặng Phúc An Khang -- Khóa 2 ngành Công nghệ Thông tin \\
+\textbf{Tài liệu tham khảo chính:}
+\begin{itemize}
+    \item \textit{Competitive Programmer's Handbook} -- Antti Laaksonen
+    \item \textit{C++} -- 28tech
+\end{itemize}
+
+\minitoc
+
+\section{Kiểu dữ liệu}
+
+Trong lập trình thi đấu, việc lựa chọn \textbf{kiểu dữ liệu} phù hợp ảnh hưởng trực tiếp đến tính đúng đắn của chương trình.
+Một lỗi rất thường gặp là \textbf{tràn số} (overflow) khi dùng kiểu quá nhỏ, hoặc sai số khi xử lý \textbf{số thực}.
+Phần này trình bày các kiểu dữ liệu cơ bản thường dùng: \textbf{số nguyên}, \textbf{số thực}, \textbf{ký tự} và \textbf{đúng/sai}.
+
+\subsection{Kiểu dữ liệu số nguyên (Integers)}
+
+Kiểu số nguyên dùng để lưu các giá trị \emph{không có phần thập phân}. Trong C++, các kiểu số nguyên phổ biến như sau:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|l|l|}
+\hline
+\textbf{Kiểu dữ liệu} & \textbf{Kích thước (byte)} & \textbf{Giá trị có thể lưu} & \textbf{Phạm vi giá trị có thể lưu} \\
+\hline
+\texttt{short} & 2 & Signed integer & $-32{,}768 \rightarrow 32{,}767$ \\
+\texttt{unsigned short} & 2 & Unsigned integer & $0 \rightarrow 65{,}535$ \\
+\texttt{int} & 4 & Signed integer & $-2{,}147{,}483{,}648 \rightarrow 2{,}147{,}483{,}647$ \\
+\texttt{unsigned int} & 4 & Unsigned integer & $0 \rightarrow 4{,}294{,}967{,}295$ \\
+\texttt{long long} & 8 & Signed integer & $-9{,}223{,}372{,}036{,}854{,}775{,}808 \rightarrow 9{,}223{,}372{,}036{,}854{,}775{,}807$ \\
+\texttt{unsigned long long} & 8 & Unsigned integer & $0 \rightarrow 18{,}446{,}744{,}073{,}709{,}551{,}615$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Cách tính phạm vi theo số bit}
+
+Dựa theo số byte mà kiểu dữ liệu cần để lưu trữ, ta có thể tính ra phạm vi giá trị mà kiểu số nguyên đó có thể biểu diễn.
+Vì $1$ byte $= 8$ bit, nếu một kiểu dữ liệu có $K$ bit thì:
+\begin{itemize}
+    \item \textbf{Số nguyên có dấu (signed):}
+    \[
+        -2^{K-1} \ \rightarrow\ 2^{K-1}-1.
+    \]
+    Ví dụ, \texttt{int} thường có $4$ byte $=32$ bit nên phạm vi là $-2^{31} \rightarrow 2^{31}-1$.
+
+    \item \textbf{Số nguyên không dấu (unsigned):}
+    \[
+        0 \ \rightarrow\ 2^{K}-1.
+    \]
+    Ví dụ, \texttt{unsigned int} thường có $32$ bit nên phạm vi là $0 \rightarrow 2^{32}-1$.
+\end{itemize}
+
+Thông thường, mỗi kiểu số nguyên có dấu sẽ có một kiểu không dấu tương ứng.
+Kiểu có dấu sử dụng $1$ bit để biểu diễn dấu âm/dương, còn kiểu không dấu dùng toàn bộ $K$ bit để biểu diễn giá trị,
+vì vậy phạm vi không âm của kiểu không dấu thường lớn hơn.
+
+\subsubsection*{Khi nào dùng \texttt{int} và khi nào dùng \texttt{long long}?}
+
+Trong lập trình thi đấu, kiểu được dùng nhiều nhất là \texttt{int} (thường 32-bit) với phạm vi xấp xỉ:
+\[
+-2^{31} \ldots 2^{31}-1 \approx -2\cdot 10^9 \ldots 2\cdot 10^9.
+\]
+Nếu giá trị có thể vượt ngoài khoảng này (ví dụ tổng lớn, tích lớn, hoặc công thức có thể lên tới $10^{18}$),
+ta nên dùng \texttt{long long} (thường 64-bit) với phạm vi xấp xỉ:
+\[
+-2^{63} \ldots 2^{63}-1 \approx -9\cdot 10^{18} \ldots 9\cdot 10^{18}.
+\]
+
+\subsubsection*{Lưu ý quan trọng: overflow do biểu thức vẫn là \texttt{int}}
+
+Một lỗi rất phổ biến là biến kết quả có kiểu \texttt{long long}, nhưng biểu thức trung gian vẫn bị tính bằng \texttt{int}.
+Ví dụ sau chứa lỗi tinh vi:
+
+\begin{lstlisting}
+int a = 123456789;
+long long b = a * a; 
+cout << b << "\n"; // wrong because a*a overflows in int
+\end{lstlisting}
+
+Nguyên nhân: cả hai toán hạng của \texttt{a*a} đều là \texttt{int}, nên phép nhân được thực hiện bằng \texttt{int} trước.
+Cách sửa an toàn là ép kiểu một vế hoặc dùng hằng \texttt{1LL}:
+
+\begin{lstlisting}
+long long b1 = (long long)a * a; // cast before multiplication
+long long b2 = 1LL * a * a;      // force long long multiplication
+\end{lstlisting}
+
+\subsubsection*{Kiểu 128-bit (tham khảo)}
+
+Trình biên dịch \texttt{g++} còn hỗ trợ kiểu 128-bit \texttt{\_\_int128\_t} (phạm vi rất lớn, xấp xỉ $\pm 10^{38}$).
+Tuy nhiên, kiểu này không phải lúc nào cũng có trên mọi hệ thống chấm, nên chỉ dùng khi thật sự cần.
+
+\subsection{Số học modulo (Modular arithmetic)}
+
+Ký hiệu $x \bmod m$ là số dư khi chia $x$ cho $m$. Ví dụ:
+\[
+17 \bmod 5 = 2 \quad \text{vì} \quad 17 = 3\cdot 5 + 2.
+\]
+
+Trong nhiều bài toán, đáp án có thể rất lớn nhưng đề bài chỉ yêu cầu in theo modulo, ví dụ ``mod $10^9+7$''.
+Khi đó, ta có thể lấy modulo sau mỗi phép toán để giá trị không bị quá lớn.
+
+Tính chất quan trọng:
+\[
+(a+b)\bmod m = ((a\bmod m) + (b\bmod m))\bmod m
+\]
+\[
+(a-b)\bmod m = ((a\bmod m) - (b\bmod m))\bmod m
+\]
+\[
+(a\cdot b)\bmod m = ((a\bmod m)\cdot (b\bmod m))\bmod m
+\]
+
+\textbf{Ví dụ:} tính $n!$ modulo $m$:
+\begin{lstlisting}
+long long x = 1;
+for (int i = 2; i <= n; i++) {
+    x = (x * i) % m; // keep numbers small by taking modulo each step
+}
+cout << x << "\n";
+\end{lstlisting}
+
+\textbf{Lưu ý về số âm:} trong C++, nếu $x$ âm thì $x \% m$ có thể âm. Nếu muốn kết quả luôn trong $[0, m-1]$:
+\begin{lstlisting}
+x %= m;             // take remainder
+if (x < 0) x += m;  // normalize to [0, m-1]
+\end{lstlisting}
+
+\subsection{Kiểu dữ liệu số thực (Floating point)}
+
+Khi cần lưu giá trị có phần thập phân, ta dùng kiểu số thực. Trong C++ có ba kiểu số thực phổ biến:
+\texttt{float}, \texttt{double}, \texttt{long double}.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|l|}
+\hline
+\textbf{Kiểu dữ liệu} & \textbf{Kích thước (byte)} & \textbf{Độ chính xác (tham khảo)} \\
+\hline
+\texttt{float} & 4 & 6 -- 9 decimal digits \\
+\texttt{double} & 8 & 15 -- 18 decimal digits \\
+\texttt{long double} & 16 & 33 -- 36 decimal digits \\
+\hline
+\end{tabular}
+\end{center}
+
+Thông thường, \texttt{double} là lựa chọn đủ tốt cho đa số bài toán.
+Dù số thực có thể lưu số nguyên, ta không nên dùng số thực để thay thế số nguyên vì số thực có thể có rounding error.
+
+\subsubsection*{In số thực theo độ chính xác yêu cầu}
+
+Độ chính xác cần thiết thường được nêu trong đề bài (ví dụ: in ra 9 chữ số sau dấu phẩy).
+Với \texttt{cout}, ta dùng thư viện \texttt{iomanip} để định dạng:
+
+\begin{lstlisting}
+#include <iomanip>
+
+double x = 3.141592653589793;
+cout << fixed << setprecision(9) << x << "\n"; // print 9 digits after decimal
+\end{lstlisting}
+
+Trong đó:
+\begin{itemize}
+    \item \texttt{fixed} buộc in theo dạng thập phân cố định.
+    \item \texttt{setprecision(9)} đặt số chữ số sau dấu phẩy là 9.
+\end{itemize}
+
+\subsubsection*{Sai số làm tròn và so sánh số thực}
+
+Một số giá trị không thể biểu diễn chính xác tuyệt đối dưới dạng số thực, dẫn đến sai số.
+Ví dụ:
+
+\begin{lstlisting}
+double x = 0.3*3 + 0.1;
+cout << fixed << setprecision(20) << x << "\n"; 
+// may print 0.99999999999999988898
+\end{lstlisting}
+
+Vì vậy, không nên so sánh số thực bằng \texttt{==}.
+Thay vào đó, coi hai số bằng nhau nếu sai khác nhỏ hơn một ngưỡng nhỏ $\varepsilon$:
+
+\begin{lstlisting}
+double eps = 1e-9;
+if (abs(a - b) < eps) {
+    // treat a and b as equal
+}
+\end{lstlisting}
+
+
+\subsection{Kiểu dữ liệu ký tự (Character)}
+
+Khi cần lưu trữ một ký tự, ta sử dụng kiểu \texttt{char}. 
+Các ký tự như chữ cái, chữ số và ký tự đặc biệt đều có thể lưu bằng \texttt{char}.
+Mỗi ký tự có một mã số (ASCII) tương ứng, vì vậy \texttt{char} cũng có thể được xem như một số nguyên nhỏ.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|l|l|}
+\hline
+\textbf{Kiểu dữ liệu} & \textbf{Kích thước (byte)} & \textbf{Giá trị có thể lưu} & \textbf{Phạm vi giá trị có thể lưu} \\
+\hline
+\texttt{char} & 1 & Integer or character & $-128 \rightarrow 127$ \\
+\texttt{unsigned char} & 1 & Non-negative integer or character & $0 \rightarrow 255$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Kiểu đúng/sai (Boolean)}
+
+Kiểu đúng sai (luận lý) được dùng để lưu trữ giá trị \texttt{true} hoặc \texttt{false}.
+Trong C++, kiểu \texttt{bool} được sử dụng cho mục đích này và thường có kích thước khoảng $1$ byte.
+
+\begin{lstlisting}
+bool ok = true;
+if (ok) cout << "YES\n";  // print YES if ok is true
+else cout << "NO\n";      // otherwise print NO
+\end{lstlisting}
+
+\section{Biến và từ khóa}
+
+\subsection{Khai báo biến}
+
+\textbf{Biến (variable)} được sử dụng để lưu trữ các giá trị cần thiết trong quá trình giải bài toán.
+Hầu hết mọi chương trình đều sử dụng biến, ví dụ để lưu chiều dài, chiều rộng, kết quả tính toán,
+trạng thái đúng/sai, v.v.
+
+Mỗi biến khi khai báo cần xác định rõ:
+\begin{itemize}
+    \item \textbf{Kiểu dữ liệu} của biến (ví dụ: \texttt{int}, \texttt{long long}, \texttt{double}, \texttt{char}, \texttt{bool}).
+    \item \textbf{Tên biến} do người lập trình đặt.
+    \item \textbf{Giá trị khởi tạo} (có thể có hoặc không).
+\end{itemize}
+
+\textbf{Cú pháp chung:}
+\begin{center}
+\texttt{<kiểu dữ liệu> <tên biến>;}
+\end{center}
+
+Hoặc khai báo kèm khởi tạo giá trị:
+\begin{center}
+\texttt{<kiểu dữ liệu> <tên biến> = <giá trị>;}
+\end{center}
+
+\textbf{Lưu ý:} nếu khai báo biến mà không khởi tạo giá trị ban đầu, biến có thể chứa \emph{giá trị rác}
+(không xác định).
+
+\subsubsection*{Ví dụ 1: Khai báo và khởi tạo biến}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 28;
+    long long b = 282828282828282LL;
+    float c = 3.8912f;
+    double d = 10.8912781;
+    char ch = '@';
+    bool ok = true;
+
+    cout << "Value of a: " << a << "\n";
+    cout << "Value of b: " << b << "\n";
+    cout << "Value of c: " << c << "\n";
+    cout << "Value of d: " << d << "\n";
+    cout << "Value of ch: " << ch << "\n";
+    cout << "Value of ok: " << ok << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Kết quả:}
+\begin{verbatim}
+Value of a: 28
+Value of b: 282828282828282
+Value of c: 3.8912
+Value of d: 10.8913
+Value of ch: @
+Value of ok: 1
+\end{verbatim}
+
+\textbf{Giải thích:} với kiểu \texttt{bool}, giá trị \texttt{true} được in ra dưới dạng \texttt{1},
+và \texttt{false} được in ra dưới dạng \texttt{0}.
+
+\subsubsection*{Ví dụ 2: Khai báo nhiều biến cùng kiểu trên một dòng}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 10, b = 20, c = 30;
+    char x = '@', y = '#', z = '$';
+
+    cout << a << " " << b << " " << c << "\n";
+    cout << x << " " << y << " " << z << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Kết quả:}
+\begin{verbatim}
+10 20 30
+@ # $
+\end{verbatim}
+
+\subsection{Quy tắc đặt tên biến}
+
+Ngôn ngữ C++ quy định một số quy tắc để tên biến được coi là hợp lệ.
+Ngoài ra, người lập trình nên đặt tên biến sao cho \emph{ngắn gọn, dễ hiểu và có ý nghĩa}.
+
+\textbf{Các quy tắc cơ bản:}
+\begin{itemize}
+    \item Tên biến \textbf{không được bắt đầu bằng chữ số}.  
+    Ví dụ sai: \texttt{21APC}, \texttt{300radius}.
+    \item Tên biến \textbf{không được chứa dấu cách hoặc ký tự đặc biệt}.  
+    Ví dụ sai: \texttt{ban kinh}, \texttt{ban\#kinh}.
+    \item Tên biến \textbf{không được trùng với từ khóa của C++}.  
+    Ví dụ sai: \texttt{int}, \texttt{using}, \texttt{for}.
+    \item Không được khai báo \textbf{hai biến cùng tên} trong cùng một phạm vi.  
+    Ví dụ sai: \texttt{int a; double a;}
+    \item C++ \textbf{phân biệt chữ hoa và chữ thường}.  
+    \texttt{tech28} và \texttt{Tech28} là hai biến khác nhau.
+\end{itemize}
+
+\textbf{Khuyến nghị khi đặt tên biến:}
+\begin{itemize}
+    \item Đặt tên có ý nghĩa, phản ánh nội dung biến lưu trữ.
+    \item Tránh đặt tên quá dài hoặc quá khó hiểu.
+    \item Có thể dùng:
+    \begin{itemize}
+        \item \textbf{CamelCase}: \texttt{BanKinh}, \texttt{ChuVi}, \texttt{DienTich}.
+        \item \textbf{snake\_case}: \texttt{ban\_kinh}, \texttt{chu\_vi}, \texttt{dien\_tich}.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Từ khóa (Keywords)}
+
+\textbf{Từ khóa (keywords)} là các từ được định nghĩa sẵn trong ngôn ngữ C++ và có ý nghĩa đặc biệt.
+Người lập trình \textbf{không được} sử dụng từ khóa làm tên biến hay tên hàm.
+
+Một số từ khóa thường gặp:
+\begin{itemize}
+    \item Kiểu dữ liệu: \texttt{int}, \texttt{long}, \texttt{double}, \texttt{char}, \texttt{bool}, \texttt{void}.
+    \item Điều khiển luồng: \texttt{if}, \texttt{else}, \texttt{for}, \texttt{while}, \texttt{break}, \texttt{continue}.
+    \item Khác: \texttt{return}, \texttt{using}, \texttt{namespace}, \texttt{true}, \texttt{false}.
+\end{itemize}
+
+Thực tế, người học \textbf{không cần học thuộc toàn bộ từ khóa}.
+Khi học đến kiến thức nào, các từ khóa liên quan sẽ tự nhiên xuất hiện và được ghi nhớ qua quá trình sử dụng.
+
+\section{Input và Output}
+
+Trong lập trình thi đấu, chương trình thường đọc dữ liệu đầu vào (input) 
+và in kết quả ra (output) thông qua các luồng chuẩn. 
+Với ngôn ngữ C++, hai luồng chuẩn được sử dụng phổ biến nhất là 
+\texttt{cin} để đọc dữ liệu và \texttt{cout} để ghi dữ liệu.
+
+\subsection{Đọc dữ liệu cơ bản}
+
+Dữ liệu đầu vào trong các bài toán lập trình thi đấu thường bao gồm các số và chuỗi ký tự, 
+được phân tách bởi dấu cách hoặc ký tự xuống dòng. 
+Ta có thể đọc các dữ liệu này bằng toán tử \texttt{>>} của \texttt{cin} như sau:
+
+\begin{lstlisting}
+int a, b;
+string x;
+cin >> a >> b >> x;
+\end{lstlisting}
+
+Câu lệnh trên sẽ lần lượt đọc hai số nguyên \texttt{a}, \texttt{b} 
+và một chuỗi ký tự \texttt{x} từ input. 
+Cách đọc này hoạt động tốt miễn là giữa các dữ liệu có ít nhất một dấu cách 
+hoặc một dòng mới.
+
+Ví dụ, cả hai dạng input sau đều được đọc đúng:
+
+\noindent Dạng 1:
+\begin{verbatim}
+123 456 monkey
+\end{verbatim}
+
+\noindent Dạng 2:
+\begin{verbatim}
+123 456
+monkey
+\end{verbatim}
+
+\subsection{Ghi dữ liệu ra màn hình}
+
+Sau khi xử lý xong dữ liệu, chương trình cần in kết quả ra output. 
+Trong C++, việc này thường được thực hiện bằng \texttt{cout}:
+
+\begin{lstlisting}
+int a = 123, b = 456;
+string x = "monkey";
+cout << a << " " << b << " " << x << "\n";
+\end{lstlisting}
+
+Ký tự \texttt{"\textbackslash n"} dùng để xuống dòng sau khi in xong kết quả.
+
+\subsection{Tăng tốc Input và Output}
+
+Trong các bài toán có lượng dữ liệu lớn, việc đọc và ghi dữ liệu có thể làm chương trình chạy chậm. 
+Để cải thiện tốc độ, người lập trình thường thêm hai dòng lệnh sau vào đầu chương trình:
+
+\begin{lstlisting}
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
+\end{lstlisting}
+
+Hai dòng lệnh này giúp \texttt{cin} và \texttt{cout} hoạt động nhanh hơn. 
+Ngoài ra, nên sử dụng \texttt{"\textbackslash n"} thay cho \texttt{endl}, 
+vì \texttt{endl} luôn thực hiện thao tác làm rỗng bộ đệm, gây chậm chương trình.
+
+\subsection{Đọc cả dòng dữ liệu}
+
+Trong một số bài toán, dữ liệu đầu vào là một dòng văn bản hoàn chỉnh 
+có thể chứa dấu cách. 
+Khi đó, ta sử dụng hàm \texttt{getline}:
+
+\begin{lstlisting}
+string s;
+getline(cin, s);
+\end{lstlisting}
+
+Hàm \texttt{getline} sẽ đọc toàn bộ một dòng, 
+bao gồm cả các khoảng trắng, cho đến khi gặp ký tự xuống dòng.
+
+\subsection{Đọc dữ liệu cho đến khi hết input}
+
+Nếu số lượng dữ liệu đầu vào không được cho trước, 
+ta có thể sử dụng vòng lặp sau:
+
+\begin{lstlisting}
+while (cin >> x) {
+    // code
+}
+\end{lstlisting}
+
+Vòng lặp này sẽ liên tục đọc dữ liệu cho đến khi không còn dữ liệu trong input.
+
+\subsection{Input và Output từ tệp}
+
+Trong một số hệ thống thi hoặc khi test chương trình trên máy cá nhân, 
+dữ liệu vào và ra được lưu trong tệp. 
+Ta có thể sử dụng các lệnh sau để đọc và ghi dữ liệu từ tệp:
+
+\begin{lstlisting}
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+\end{lstlisting}
+
+Sau khi sử dụng các lệnh trên, 
+chương trình sẽ đọc dữ liệu từ tệp \texttt{input.txt} 
+và ghi kết quả ra tệp \texttt{output.txt}, 
+trong khi phần còn lại của code vẫn giữ nguyên.
+
+\section{Kiểu dữ liệu \texttt{pair}}
+
+Trong lập trình, đặc biệt là lập trình thi đấu, rất nhiều bài toán yêu cầu
+lưu trữ dữ liệu theo \textbf{cặp giá trị}.
+Ví dụ:
+\begin{itemize}
+    \item Tọa độ điểm $(x, y)$
+    \item Thời gian bắt đầu và kết thúc của một công việc
+    \item Đỉnh đầu và đỉnh cuối của một cạnh trong đồ thị
+\end{itemize}
+
+C++ cung cấp kiểu dữ liệu \texttt{pair} để giải quyết trực tiếp nhu cầu này.
+
+%------------------------------------------------
+
+\subsection{Giới thiệu về \texttt{pair}}
+
+\texttt{pair} là một container nằm trong thư viện \texttt{utility},
+cho phép lưu trữ \textbf{hai giá trị đi kèm nhau} nhưng chỉ sử dụng \textbf{một biến}.
+
+\subsubsection*{Đặc điểm của \texttt{pair}}
+
+\begin{itemize}
+    \item Phần tử thứ nhất gọi là \texttt{first}
+    \item Phần tử thứ hai gọi là \texttt{second}
+    \item Có thể gán, sao chép, so sánh như các kiểu dữ liệu thông thường
+    \item Truy cập phần tử bằng toán tử dấu chấm \texttt{.}
+\end{itemize}
+
+\subsubsection*{Cú pháp khai báo}
+
+\begin{lstlisting}
+// Method 1: Declare a pair with default-initialized values
+pair<T1, T2> p;
+
+// Method 2: Initialize using make_pair (explicitly creates a pair from two values)
+pair<T1, T2> p = make_pair(value1, value2);
+
+// Method 3: Initialize using the constructor
+pair<T1, T2> p(value1, value2);
+
+// Method 4: Initialize using brace-initialization (uniform initialization)
+pair<T1, T2> p = {value1, value2};
+\end{lstlisting}
+
+
+\texttt{T1} và \texttt{T2} có thể là:
+\texttt{int, long long, double, char, string} hoặc thậm chí là \texttt{pair} khác.
+
+%------------------------------------------------
+
+\subsection{Ví dụ cơ bản với \texttt{pair}}
+
+\subsubsection*{Ví dụ 1: Các cách khai báo \texttt{pair}}
+
+\begin{lstlisting}
+#include <iostream>
+#include <utility>
+using namespace std;
+
+int main() {
+    pair<int, int> a = make_pair(28, 100);
+    cout << a.first << " " << a.second << "\n";
+
+    pair<char, int> b = {'@', 28};
+    cout << b.first << " " << b.second << "\n";
+
+    pair<char, char> c('#', '$');
+    cout << c.first << " " << c.second << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+28 100
+@ 28
+# $
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Pair lồng nhau (Nested pair)}
+
+Một \texttt{pair} có thể chứa một \texttt{pair} khác,
+giúp biểu diễn cấu trúc dữ liệu phức tạp hơn.
+
+\subsubsection*{Ví dụ 2: Pair lồng nhau}
+
+\begin{lstlisting}
+#include <iostream>
+#include <utility>
+using namespace std;
+
+int main() {
+    pair<int, pair<char, int>> p1 = make_pair(28, make_pair('@', 100));
+    cout << p1.first << "\n";
+    cout << p1.second.first << " " << p1.second.second << "\n";
+
+    pair<pair<int, int>, pair<int, int>> p2 = {{10, 20}, {30, 40}};
+    cout << p2.first.first << " " << p2.first.second << "\n";
+    cout << p2.second.first << " " << p2.second.second << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+28
+@ 100
+10 20
+30 40
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Toán tử với \texttt{pair}}
+
+\texttt{pair} hỗ trợ các toán tử:
+\begin{itemize}
+    \item Gán (\texttt{=})
+    \item So sánh (\texttt{==, !=, <, >, <=, >=})
+    \item Hoán đổi (\texttt{swap})
+\end{itemize}
+
+\subsubsection*{Toán tử gán}
+
+Khi gán một \texttt{pair} cho \texttt{pair} khác,
+giá trị của \texttt{first} và \texttt{second} sẽ được sao chép.
+
+\begin{lstlisting}
+#include <iostream>
+#include <utility>
+using namespace std;
+
+int main() {
+    pair<string, int> p = make_pair("APC", 21);
+    pair<string, int> p1 = p;
+    cout << p1.first << " " << p1.second << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+APC 21
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{So sánh \texttt{pair}}
+
+Khi so sánh hai \texttt{pair}:
+\begin{itemize}
+    \item So sánh \texttt{first} trước
+    \item Nếu bằng nhau thì so sánh \texttt{second}
+\end{itemize}
+
+\begin{lstlisting}
+#include <iostream>
+#include <utility>
+using namespace std;
+
+int main() {
+    pair<int, int> p1 = {10, 20};
+    pair<int, int> p2 = {10, 21};
+    pair<int, int> p3 = {5, 35};
+
+    cout << boolalpha << (p1 == p2) << "\n";
+    cout << boolalpha << (p1 != p2) << "\n";
+    cout << boolalpha << (p1 < p2) << "\n";
+    cout << boolalpha << (p1 > p3) << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+false
+true
+true
+true
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Hoán đổi hai \texttt{pair}}
+
+\begin{lstlisting}
+#include <iostream>
+#include <utility>
+using namespace std;
+
+int main() {
+    pair<int, int> p1 = {10, 20};
+    pair<int, int> p2 = {30, 40};
+
+    cout << "Before swap:\n";
+    cout << "p1 = {" << p1.first << ", " << p1.second << "}\n";
+    cout << "p2 = {" << p2.first << ", " << p2.second << "}\n";
+
+    p1.swap(p2);
+
+    cout << "After swap:\n";
+    cout << "p1 = {" << p1.first << ", " << p1.second << "}\n";
+    cout << "p2 = {" << p2.first << ", " << p2.second << "}\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+Before swap:
+p1 = {10, 20}
+p2 = {30, 40}
+After swap:
+p1 = {30, 40}
+p2 = {10, 20}
+\end{verbatim}
+
+%------------------------------------------------
+
+\section{Chú thích (Comment)}
+
+\textbf{Chú thích (comment)} là một phần rất quan trọng khi viết chương trình.
+Chú thích được dùng để ghi chú, giải thích và làm rõ ý tưởng của mã nguồn,
+giúp người đọc (hoặc chính người viết trong tương lai) dễ dàng hiểu được chương trình đang làm gì.
+
+Chú thích \textbf{không được coi là mã nguồn thực thi} và sẽ bị trình biên dịch bỏ qua hoàn toàn khi biên dịch chương trình.
+
+\subsection{Vì sao cần chú thích khi viết code}
+
+Chú thích mang lại nhiều lợi ích và là một thói quen tốt của lập trình viên:
+
+\begin{itemize}
+    \item \textbf{Giải thích mã nguồn:}  
+    Chú thích có thể được sử dụng như mã giả (pseudo-code) để mô tả ý tưởng và chức năng của từng đoạn chương trình.
+    Khi đọc lại code cũ hoặc khi người khác đọc code, họ có thể nhanh chóng nắm được logic tổng thể.
+
+    \item \textbf{Mô tả thuật toán:}  
+    Khi thuật toán trở nên phức tạp, việc chú thích giúp giải thích rõ cách hoạt động,
+    các bước xử lý và ý tưởng chính của thuật toán.
+
+    \item \textbf{Metadata (siêu dữ liệu):}  
+    Chú thích có thể dùng để mô tả thông tin về file mã nguồn như:
+    tên chương trình, tác giả, mục đích, ngày viết, hoặc các lưu ý quan trọng.
+
+    \item \textbf{Hỗ trợ gỡ lỗi (debugging):}  
+    Trong quá trình debug, ta có thể tạm thời vô hiệu hóa một hoặc nhiều dòng code
+    bằng cách chuyển chúng thành chú thích thay vì xóa hẳn.
+\end{itemize}
+
+Nhìn chung, việc sử dụng chú thích hợp lý giúp code \textbf{dễ đọc, dễ hiểu và dễ bảo trì hơn}.
+
+\subsection{Chú thích trên một dòng}
+
+Trong C++, chú thích trên một dòng được tạo bằng hai dấu gạch chéo \texttt{//}.
+Mọi nội dung nằm sau \texttt{//} trên cùng một dòng sẽ được coi là chú thích.
+
+\textbf{Ví dụ:}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+// This is a single-line comment
+
+int main() {
+    // Declare three integer variables and initialize them
+    int a = 10, b = 20, c = 30;
+
+    // Declare three character variables and initialize them
+    char x = '@', y = '#', z = '$';
+
+    // Print values of a, b, and c
+    cout << a << " " << b << " " << c << "\n";
+
+    // Print values of x, y, and z
+    cout << x << " " << y << " " << z << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Kết quả:}
+\begin{verbatim}
+10 20 30
+@ # $
+\end{verbatim}
+
+\textbf{Ghi chú:}  
+Trong nhiều trình soạn thảo code, bạn có thể dùng tổ hợp phím \texttt{Ctrl + /}
+để nhanh chóng chú thích hoặc bỏ chú thích nhiều dòng code cùng lúc,
+rất hữu ích khi debug.
+
+\subsection{Chú thích trên nhiều dòng}
+
+Để chú thích trên nhiều dòng, ta đặt nội dung cần chú thích giữa \texttt{/*} và \texttt{*/}.
+Cách này thường dùng khi cần mô tả dài hoặc chú thích một khối mã lớn.
+
+\textbf{Ví dụ:}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+ This is a multi-line comment.
+ It can span multiple lines.
+ Useful for describing programs or algorithms.
+*/
+
+int main() {
+    /*
+     This program declares three integer variables
+     and prints their values to the screen.
+    */
+    int a = 10, b = 20, c = 30;
+    cout << a << " " << b << " " << c << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Kết quả:}
+\begin{verbatim}
+10 20 30
+\end{verbatim}
+
+\subsection{Lưu ý khi sử dụng chú thích}
+
+\begin{itemize}
+    \item Chú thích nên \textbf{ngắn gọn, rõ ràng} và đúng trọng tâm.
+    \item Tránh chú thích những điều quá hiển nhiên (ví dụ: \texttt{i++ // increase i}).
+    \item Nên chú thích \textbf{ý tưởng và mục đích}, không chỉ mô tả lại từng dòng code.
+    \item Trong lập trình thi đấu, ưu tiên chú thích cho:
+    \begin{itemize}
+        \item Ý tưởng thuật toán.
+        \item Các đoạn xử lý quan trọng.
+        \item Các trường hợp đặc biệt (edge cases).
+    \end{itemize}
+\end{itemize}
+
+\section{Toán tử (Operator)}
+
+Toán tử (operator) là các ký hiệu đặc biệt được dùng để thực hiện phép tính, so sánh,
+kiểm tra điều kiện và thao tác trên dữ liệu.
+Trong C++, toán tử xuất hiện trong hầu hết mọi chương trình, vì vậy việc hiểu rõ cách hoạt động
+của chúng là điều bắt buộc.
+
+\subsection{Phân loại toán tử}
+
+Các toán tử thường dùng trong C++ có thể chia thành các nhóm chính sau:
+\begin{itemize}
+    \item Toán tử gán
+    \item Toán tử toán học
+    \item Toán tử so sánh
+    \item Toán tử logic
+    \item Toán tử tăng giảm
+    \item Toán tử điều kiện (toán tử ba ngôi)
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{Toán tử gán}
+
+Toán tử gán (\texttt{=}) dùng để gán giá trị của một biểu thức cho một biến.
+
+\textbf{Cú pháp:}
+\[
+X = Y
+\]
+
+\textbf{Ý nghĩa:} giá trị của biểu thức $Y$ được tính trước, sau đó gán cho biến $X$.
+
+\subsubsection*{Ví dụ: gán và gán lại giá trị}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n = 28;            // assign 28 to n
+    cout << "Value of n: " << n << "\n";
+
+    int m = n;             // m gets value of n
+    cout << "Value of m: " << m << "\n";
+
+    int p = m;             // p gets value of m
+    p = 56;                // reassign p
+    cout << "Value of p: " << p << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+Value of n: 28
+Value of m: 28
+Value of p: 56
+\end{verbatim}
+
+\textbf{Lưu ý:} phép gán khác hoàn toàn phép so sánh. \texttt{=} khác với \texttt{==}.
+
+%------------------------------------------------
+
+\subsection{Toán tử toán học}
+
+Các toán tử toán học cơ bản trong C++ gồm:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Toán tử} & \textbf{Ý nghĩa} & \textbf{Ví dụ} \\
+\hline
+\texttt{+} & Phép cộng & \texttt{a + b} \\
+\texttt{-} & Phép trừ & \texttt{a - b} \\
+\texttt{*} & Phép nhân & \texttt{a * b} \\
+\texttt{/} & Phép chia & \texttt{a / b} \\
+\texttt{\%} & Phép chia dư & \texttt{a \% b} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Thứ tự ưu tiên toán tử}
+
+Trong một biểu thức:
+\begin{itemize}
+    \item \texttt{*}, \texttt{/}, \texttt{\%} có ưu tiên cao hơn \texttt{+}, \texttt{-}
+    \item dấu ngoặc \texttt{()} có ưu tiên cao nhất
+    \item cùng mức ưu tiên thì tính từ trái sang phải
+\end{itemize}
+
+\subsubsection*{Ví dụ: độ ưu tiên và dấu ngoặc}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int x = 2 + 3 * 4;      // 2 + (3*4)
+    int y = (2 + 3) * 4;    // (2+3) * 4
+    cout << x << "\n";
+    cout << y << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+14
+20
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Ví dụ 1: chu vi và diện tích hình chữ nhật}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int length, width;
+    cin >> length >> width;
+
+    int perimeter = 2 * (length + width);
+    int area = length * width;
+
+    cout << "Perimeter: " << perimeter << "\n";
+    cout << "Area: " << area << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Sample input:}
+\begin{verbatim}
+5 3
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+Perimeter: 16
+Area: 15
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Ví dụ 2: chu vi và diện tích hình tròn}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    double r;
+    cin >> r;
+
+    double perimeter = 2 * 3.14 * r;
+    double area = 3.14 * r * r;
+
+    cout << fixed << setprecision(2);
+    cout << "Perimeter: " << perimeter << "\n";
+    cout << "Area: " << area << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Sample input:}
+\begin{verbatim}
+2
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+Perimeter: 12.56
+Area: 12.56
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Chú ý 1: chia nguyên và chia thực}
+
+Nếu cả hai toán hạng đều là số nguyên, phép chia là \textbf{chia nguyên} (mất phần thập phân):
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 10, b = 3;
+    cout << a / b << "\n";   // integer division
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+3
+\end{verbatim}
+
+Muốn có phần thập phân, cần ép kiểu hoặc nhân với \texttt{1.0}:
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 10, b = 3;
+    cout << fixed << setprecision(2);
+    cout << (double)a / b << "\n"; // casting
+    cout << 1.0 * a / b << "\n";   // multiply by 1.0
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+3.33
+3.33
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Chú ý 2: tràn số khi nhân}
+
+Một lỗi phổ biến trong lập trình thi đấu là tràn số khi nhân hai số \texttt{int} lớn:
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 1000000, b = 1000000;
+
+    long long wrong = a * b;          // overflow happens here
+    long long correct1 = (long long)a * b;
+    long long correct2 = 1LL * a * b;
+
+    cout << wrong << "\n";
+    cout << correct1 << "\n";
+    cout << correct2 << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output (thường gặp trên máy 32-bit int):}
+\begin{verbatim}
+-727379968
+1000000000000
+1000000000000
+\end{verbatim}
+
+\textbf{Giải thích:} dù biến \texttt{wrong} là \texttt{long long}, nhưng biểu thức \texttt{a*b}
+được tính bằng \texttt{int} trước, nên đã tràn rồi mới gán sang \texttt{long long}.
+
+%------------------------------------------------
+
+\subsection{Toán tử gán kết hợp}
+
+Các toán tử gán kết hợp giúp viết code ngắn gọn hơn:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Toán tử} & \textbf{Tương đương} \\
+\hline
+\texttt{a += b} & \texttt{a = a + b} \\
+\texttt{a -= b} & \texttt{a = a - b} \\
+\texttt{a *= b} & \texttt{a = a * b} \\
+\texttt{a /= b} & \texttt{a = a / b} \\
+\texttt{a \%= b} & \texttt{a = a \% b} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ví dụ: gán kết hợp}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int a = 10;
+    a += 5;   // a = 15
+    a *= 2;   // a = 30
+    a -= 7;   // a = 23
+    cout << a << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+23
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Toán tử so sánh}
+
+Toán tử so sánh dùng để so sánh hai giá trị và trả về \texttt{true} hoặc \texttt{false}.
+
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Toán tử} & \textbf{Ý nghĩa} \\
+\hline
+\texttt{>} & Lớn hơn \\
+\texttt{>=} & Lớn hơn hoặc bằng \\
+\texttt{<} & Nhỏ hơn \\
+\texttt{<=} & Nhỏ hơn hoặc bằng \\
+\texttt{==} & Bằng \\
+\texttt{!=} & Khác \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ví dụ: in ra kết quả so sánh}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    cout << boolalpha; // print true/false instead of 1/0
+
+    cout << (20 > 10) << "\n";
+    cout << (30 < 50) << "\n";
+    cout << (10 != 10) << "\n";
+    cout << (10 == 10) << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+true
+true
+false
+true
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Toán tử logic}
+
+Ba toán tử logic cơ bản:
+\begin{itemize}
+    \item \texttt{\&\&} (AND): đúng nếu tất cả đều đúng
+    \item \texttt{||} (OR): đúng nếu có ít nhất một đúng
+    \item \texttt{!} (NOT): phủ định
+\end{itemize}
+
+\subsubsection*{Ví dụ: AND/OR/NOT}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    bool res1 = (10 < 20) && (20 >= 20);     // true && true
+    bool res2 = (10 > 20) || (5 == 5);       // false || true
+    bool res3 = !(10 < 20);                  // !true
+
+    cout << res1 << " " << res2 << " " << res3 << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 1 0
+\end{verbatim}
+
+\textbf{Lưu ý:} khi in \texttt{bool} mặc định sẽ ra \texttt{1/0}.
+Nếu muốn in \texttt{true/false}, dùng \texttt{boolalpha}.
+
+%------------------------------------------------
+
+\subsection{Toán tử tăng giảm}
+
+Toán tử tăng (\texttt{++}) và giảm (\texttt{--}) (2 dấu - liền kề nhau) thay đổi giá trị biến thêm hoặc bớt 1 đơn vị.
+\begin{itemize}
+    \item \texttt{++x}: tăng trước (pre-increment)
+    \item \texttt{x++}: tăng sau (post-increment)
+    \item \texttt{--x}: giảm trước (pre-decrement)
+    \item \texttt{x--}: giảm sau (post-decrement)
+\end{itemize}
+
+\subsubsection*{Ví dụ: tăng/giảm cơ bản}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n = 100;
+
+    ++n;  // n = 101
+    cout << n << "\n";
+
+    n++;  // n = 102
+    cout << n << "\n";
+
+    n--;  // n = 101
+    cout << n << "\n";
+
+    --n;  // n = 100
+    cout << n << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+101
+102
+101
+100
+\end{verbatim}
+
+\subsubsection*{Ví dụ: khác nhau giữa \texttt{n++} và \texttt{++n}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n = 100;
+
+    cout << n++ << "\n"; // prints 100, then n becomes 101
+    cout << n << "\n";   // prints 101
+
+    cout << ++n << "\n"; // n becomes 102, then prints 102
+    cout << n << "\n";   // prints 102
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+100
+101
+102
+102
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Toán tử điều kiện (Toán tử ba ngôi)}
+
+Toán tử ba ngôi là dạng rút gọn của \texttt{if--else}.
+
+\textbf{Cú pháp:}
+\[
+\texttt{condition ? value\_if\_true : value\_if\_false}
+\]
+
+\subsubsection*{Ví dụ: toán tử ba ngôi}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n = (10 < 20) ? 28 : 82;
+    cout << n << "\n";
+
+    n = ((50 < 50) && (10 > 3)) ? 28 : 82;
+    cout << n << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+28
+82
+\end{verbatim}
+
+%------------------------------------------------
+
+\section{Rút gọn code}
+
+Trong lập trình thi đấu, thời gian viết code là yếu tố rất quan trọng.
+Vì vậy, các lập trình viên thường rút gọn code bằng cách đặt tên ngắn hơn cho kiểu dữ liệu,
+cấu trúc dữ liệu và các thao tác thường dùng.
+
+\subsection{Rút gọn tên kiểu dữ liệu (typedef / using)}
+
+Trong C++, ta có thể đặt tên mới (ngắn hơn) cho một kiểu dữ liệu đã tồn tại.
+Điều này giúp code gọn gàng và dễ viết hơn.
+
+\subsubsection*{Sử dụng \texttt{typedef}}
+
+Ví dụ, kiểu \texttt{long long} rất hay dùng nhưng tên khá dài.
+Ta có thể đặt tên rút gọn là \texttt{ll}:
+
+\begin{lstlisting}
+typedef long long ll;
+\end{lstlisting}
+
+Sau đó, hai đoạn code sau là hoàn toàn tương đương:
+
+\begin{lstlisting}
+long long a = 123456789;
+long long b = 987654321;
+cout << a * b << "\n";
+\end{lstlisting}
+
+\begin{lstlisting}
+ll a = 123456789;
+ll b = 987654321;
+cout << a * b << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+121932631112635269
+\end{verbatim}
+
+\subsubsection*{Rút gọn các kiểu phức tạp}
+
+\texttt{typedef} đặc biệt hữu ích với các kiểu dữ liệu dài như \texttt{vector} hay \texttt{pair}:
+
+\begin{lstlisting}
+typedef vector<int> vi;
+typedef pair<int,int> pi;
+\end{lstlisting}
+
+Ví dụ sử dụng:
+
+\begin{lstlisting}
+vi v;
+v.push_back(10);
+v.push_back(20);
+
+pi p = make_pair(3, 5);
+cout << p.first << " " << p.second << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+3 5
+\end{verbatim}
+
+\subsubsection*{Cách viết hiện đại: \texttt{using}}
+
+Trong C++ hiện đại, có thể dùng \texttt{using} thay cho \texttt{typedef}:
+
+\begin{lstlisting}
+using ll = long long;
+using vi = vector<int>;
+using pi = pair<int,int>;
+\end{lstlisting}
+
+Hai cách này là tương đương, nhưng \texttt{using} dễ đọc hơn với kiểu phức tạp.
+
+%------------------------------------------------
+
+\subsection{Macros (\texttt{\#define})}
+
+Macro cho phép thay thế một đoạn văn bản trước khi chương trình được biên dịch.
+Trong C++, macro được định nghĩa bằng từ khóa \texttt{\#define}.
+
+\subsubsection*{Macro rút gọn thao tác phổ biến}
+
+Ví dụ các macro thường gặp trong lập trình thi đấu:
+
+\begin{lstlisting}
+#define F first
+#define S second
+#define PB push_back
+#define MP make_pair
+\end{lstlisting}
+
+Khi đó, đoạn code sau:
+
+\begin{lstlisting}
+vector<pair<int,int>> v;
+v.push_back(make_pair(y1, x1));
+v.push_back(make_pair(y2, x2));
+int d = v[i].first + v[i].second;
+\end{lstlisting}
+
+có thể được rút gọn thành:
+
+\begin{lstlisting}
+vector<pair<int,int>> v;
+v.PB(MP(y1, x1));
+v.PB(MP(y2, x2));
+int d = v[i].F + v[i].S;
+\end{lstlisting}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Code ngắn hơn
+    \item Viết nhanh hơn khi thi
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Khó đọc với người mới
+    \item Dễ gây lỗi nếu lạm dụng
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{Macro có tham số}
+
+Macro cũng có thể nhận tham số, thường dùng để rút gọn vòng lặp.
+
+Ví dụ:
+
+\begin{lstlisting}
+#define REP(i,a,b) for (int i = a; i <= b; i++)
+\end{lstlisting}
+
+Sau đó, vòng lặp:
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) {
+    search(i);
+}
+\end{lstlisting}
+
+có thể viết gọn lại:
+
+\begin{lstlisting}
+REP(i,1,n) {
+    search(i);
+}
+\end{lstlisting}
+
+\textbf{Lưu ý:} macro không kiểm tra cú pháp như hàm, nên cần dùng cẩn thận.
+
+%------------------------------------------------
+
+\subsection{Lỗi thường gặp khi dùng macro}
+
+Xét macro tính bình phương:
+
+\begin{lstlisting}
+#define SQ(a) a*a
+\end{lstlisting}
+
+Macro này có thể gây lỗi nghiêm trọng.
+
+Ví dụ:
+
+\begin{lstlisting}
+cout << SQ(3 + 3) << "\n";
+\end{lstlisting}
+
+Sau khi thay thế macro, code thực tế trở thành:
+
+\begin{lstlisting}
+cout << 3 + 3 * 3 + 3 << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+15
+\end{verbatim}
+
+Kết quả sai so với mong đợi là 36.
+
+\subsubsection*{Cách viết macro an toàn hơn}
+
+Luôn đặt tham số trong dấu ngoặc:
+
+\begin{lstlisting}
+#define SQ(a) ((a) * (a))
+\end{lstlisting}
+
+Khi đó:
+
+\begin{lstlisting}
+cout << SQ(3 + 3) << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+36
+\end{verbatim}
+
+%------------------------------------------------
+
+\section{Thư viện \texttt{cmath} và \texttt{algorithm}}
+
+Trong quá trình lập trình, đặc biệt là lập trình thi đấu, việc sử dụng các hàm toán học
+và các hàm thuật toán có sẵn giúp chương trình ngắn gọn, rõ ràng và ít lỗi hơn.
+Ngôn ngữ C++ cung cấp hai thư viện rất quan trọng:
+\begin{itemize}
+    \item \texttt{cmath} (hoặc \texttt{math.h}): chứa các hàm toán học
+    \item \texttt{algorithm}: chứa các hàm thuật toán cơ bản
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{Các hàm toán học phổ biến (\texttt{cmath})}
+
+Hầu hết các hàm trong thư viện \texttt{cmath}:
+\begin{itemize}
+    \item Nhận tham số kiểu \texttt{double}
+    \item Trả về kết quả kiểu \texttt{double}
+\end{itemize}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{STT} & \textbf{Hàm} & \textbf{Chức năng} \\
+\hline
+1 & \texttt{pow(x,y)} & Tính $x^y$ \\
+2 & \texttt{sqrt(x)} & Căn bậc hai của $x$ \\
+3 & \texttt{cbrt(x)} & Căn bậc ba của $x$ \\
+4 & \texttt{ceil(x)} & Làm tròn lên \\
+5 & \texttt{floor(x)} & Làm tròn xuống \\
+6 & \texttt{round(x)} & Làm tròn gần nhất \\
+7 & \texttt{fabs(x)} & Giá trị tuyệt đối \\
+8 & \texttt{exp(x)} & $e^x$ \\
+9 & \texttt{fmod(x,y)} & Phần dư của $x/y$ \\
+10 & \texttt{log(x)} & Logarit tự nhiên \\
+11 & \texttt{log10(x)} & Logarit cơ số 10 \\
+12 & \texttt{sin(x)} & Hàm sin (radian) \\
+13 & \texttt{cos(x)} & Hàm cos (radian) \\
+14 & \texttt{tan(x)} & Hàm tan (radian) \\
+\hline
+\end{tabular}
+\end{center}
+
+%------------------------------------------------
+
+\subsubsection*{Hàm \texttt{pow}}
+
+\begin{lstlisting}
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    int a = 2, b = 10;
+    cout << a << "^" << b << " = " << (int)pow(a, b) << "\n";
+
+    int n = 100;
+    double root = pow(n, 1.0 / 5);
+    cout << fixed << setprecision(3) << root << "\n";
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+2^10 = 1024
+2.512
+\end{verbatim}
+
+\textbf{Lưu ý:} \texttt{pow} trả về \texttt{double}, cần ép kiểu nếu muốn số nguyên.
+
+%------------------------------------------------
+
+\subsubsection*{Hàm \texttt{sqrt}}
+
+\begin{lstlisting}
+int n = 100;
+cout << (int)sqrt(n) << "\n";
+
+double x = sqrt(1000);
+cout << fixed << setprecision(2) << x << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+10
+31.62
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Hàm \texttt{ceil}, \texttt{floor}, \texttt{round}}
+
+\begin{lstlisting}
+double a = 3.14, b = 3.8;
+cout << (int)ceil(a) << " " << (int)ceil(b) << "\n";
+cout << (int)floor(a) << " " << (int)floor(b) << "\n";
+cout << (int)round(a) << " " << (int)round(b) << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+4 4
+3 3
+3 4
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Hàm trị tuyệt đối}
+
+\begin{lstlisting}
+cout << abs(10) << " " << abs(-100) << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+10 100
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsection{Thư viện \texttt{algorithm}}
+
+Thư viện \texttt{algorithm} cung cấp nhiều hàm xử lý dữ liệu rất hữu ích.
+Ở giai đoạn này, ta làm quen với một số hàm cơ bản.
+
+\subsubsection*{Hàm \texttt{swap}}
+
+\begin{lstlisting}
+#include <algorithm>
+
+int a = 100, b = 200;
+swap(a, b);
+cout << a << " " << b << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+200 100
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Hàm \texttt{min}}
+
+\begin{lstlisting}
+cout << min(100, 200) << "\n";
+cout << min({10, 20, 15, 4}) << "\n";
+cout << min({'d', 'b', 'z'}) << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+100
+4
+b
+\end{verbatim}
+
+%------------------------------------------------
+
+\subsubsection*{Hàm \texttt{max}}
+
+\begin{lstlisting}
+cout << max(100, 200) << "\n";
+cout << max({10, 20, 15, 4}) << "\n";
+cout << max({'d', 'b', 'z'}) << "\n";
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+200
+20
+z
+\end{verbatim}

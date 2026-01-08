@@ -1,0 +1,1226 @@
+\chapter{HÀM VÀ ĐỆ QUY}
+
+\minitoc
+
+\section{Hàm (Function) trong C++}
+
+\subsection{Vì sao phải học hàm? (động cơ + vấn đề cần giải quyết)}
+
+Ở các bài đầu, ta thường viết toàn bộ chương trình trong \texttt{main}. Cách này chạy được với bài nhỏ, nhưng khi bài toán lớn dần sẽ gặp 4 vấn đề:
+
+\begin{itemize}
+    \item \textbf{Code dài, khó đọc:} bạn nhìn vào \texttt{main} không biết đoạn nào làm nhiệm vụ gì.
+    \item \textbf{Khó sửa lỗi:} lỗi xuất hiện, bạn phải dò cả một ``đống'' lệnh.
+    \item \textbf{Lặp lại code:} cùng một thao tác phải viết lại nhiều lần.
+    \item \textbf{Khó mở rộng:} thêm chức năng mới dễ làm hỏng chức năng cũ.
+\end{itemize}
+
+\textbf{Hàm} ra đời để giải quyết các vấn đề trên bằng cách \textbf{chia nhỏ chương trình thành các khối có tên}, mỗi khối làm một việc.
+\subsection{Khái niệm hàm}
+
+Trong lập trình, \textbf{hàm (function)} là một \textbf{đơn vị chương trình độc lập},
+được thiết kế để thực hiện một nhiệm vụ xác định.
+Mỗi hàm có thể nhận dữ liệu đầu vào, xử lý dữ liệu đó,
+và (tuỳ trường hợp) trả về một kết quả cho nơi gọi hàm.
+
+Về mặt khái niệm, một hàm bao gồm ba giai đoạn:
+\begin{itemize}
+    \item \textbf{Tiếp nhận dữ liệu} thông qua các \textbf{tham số (parameters)};
+    \item \textbf{Thực hiện xử lý} thông qua một dãy câu lệnh;
+    \item \textbf{Trả kết quả} thông qua \textbf{giá trị trả về (return value)} hoặc kết thúc thực thi.
+\end{itemize}
+
+Do đó, trong ý nghĩa trừu tượng, một hàm có thể được xem là một ánh xạ:
+\[
+f : \text{Input} \rightarrow \text{Output}
+\]
+
+Trong C++, nhiều hàm chuẩn đã được cung cấp sẵn, ví dụ:
+\begin{itemize}
+    \item \texttt{abs(x)}: ánh xạ một số nguyên sang trị tuyệt đối của nó;
+    \item \texttt{sqrt(x)}: ánh xạ một số thực không âm sang căn bậc hai tương ứng.
+\end{itemize}
+
+Việc tự xây dựng hàm cho phép người lập trình định nghĩa các phép xử lý
+phù hợp với bài toán cụ thể, đồng thời nâng cao tính tổ chức và tái sử dụng của chương trình.
+
+\subsection{Các thành phần cấu thành của một hàm}
+
+Mỗi hàm trong C++ được đặc trưng bởi ba thành phần cơ bản:
+
+\begin{enumerate}
+    \item \textbf{Tên hàm}: định danh hàm trong chương trình và phản ánh chức năng của hàm;
+    \item \textbf{Danh sách tham số}: mô tả các dữ liệu đầu vào mà hàm tiếp nhận;
+    \item \textbf{Kiểu giá trị trả về}: xác định kiểu dữ liệu của kết quả mà hàm trả về sau khi thực thi.
+\end{enumerate}
+
+Trong trường hợp hàm không cần trả về kết quả,
+kiểu trả về được khai báo là \texttt{void}.
+
+\subsection{Cú pháp định nghĩa hàm}
+
+Cú pháp tổng quát để định nghĩa một hàm trong C++ như sau:
+
+\begin{lstlisting}
+return_type function_name(parameter_list) {
+    // function body
+    return value; // if return_type is not void
+}
+\end{lstlisting}
+
+Trong đó:
+\begin{itemize}
+    \item \textbf{return\_type}: kiểu dữ liệu của giá trị mà hàm trả về.
+    Các kiểu thường gặp gồm \texttt{int}, \texttt{long long}, \texttt{double},
+    \texttt{bool}, \texttt{string}.  
+    Nếu hàm không trả về giá trị, kiểu trả về là \texttt{void}.
+
+    \item \textbf{function\_name}: tên hàm, tuân theo quy tắc đặt tên định danh của C++,
+    và nên phản ánh rõ chức năng của hàm.
+
+    \item \textbf{parameter\_list}: danh sách các tham số, mỗi tham số gồm
+    \textbf{kiểu dữ liệu} và \textbf{tên biến}.
+\end{itemize}
+\subsection{Ví dụ 1: Hàm không có tham số và không trả về}
+
+Xét hàm chỉ thực hiện một thao tác mà không cần dữ liệu đầu vào
+và không trả về kết quả:
+
+\begin{lstlisting}
+void printAPC() {
+    cout << "APC - sot.umtoj.edu.vn\n";
+}
+
+int main() {
+    printAPC();
+    printAPC();
+}
+\end{lstlisting}
+
+\textbf{Giải thích:}
+\begin{itemize}
+    \item Hàm \texttt{printAPC} có kiểu trả về \texttt{void}, do đó không trả về giá trị.
+    \item Mỗi lần gọi hàm, nội dung bên trong hàm được thực thi đầy đủ.
+\end{itemize}
+\subsection{Ví dụ 2: Hàm có tham số và có giá trị trả về}
+
+Xét hàm thực hiện phép cộng hai số nguyên:
+
+\begin{lstlisting}
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int x = add(3, 5);
+    cout << x;
+}
+\end{lstlisting}
+
+\textbf{Giải thích:}
+\begin{itemize}
+    \item \texttt{a}, \texttt{b} là các tham số hình thức của hàm.
+    \item Khi gọi \texttt{add(3,5)}, các giá trị $3$ và $5$ được truyền vào tham số tương ứng.
+    \item Hàm trả về giá trị $8$, được gán cho biến \texttt{x}.
+\end{itemize}
+\subsection{Tham số và đối số}
+
+\begin{itemize}
+    \item \textbf{Tham số (parameter)} là các biến được khai báo trong định nghĩa hàm.
+    \item \textbf{Đối số (argument)} là các giá trị cụ thể được truyền vào khi gọi hàm.
+\end{itemize}
+
+\begin{lstlisting}
+int add(int a, int b) { // parameters
+    return a + b;
+}
+
+int main() {
+    cout << add(10, 20); // arguments
+}
+\end{lstlisting}
+\subsection{Luồng thực thi khi gọi hàm}
+
+Khi chương trình gọi một hàm, luồng điều khiển được chuyển tạm thời
+từ hàm gọi sang hàm được gọi.
+
+Xét đoạn chương trình sau:
+\begin{lstlisting}
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int x = add(2, 3);
+    cout << x;
+}
+\end{lstlisting}
+
+Trình tự thực thi diễn ra như sau:
+\begin{enumerate}
+    \item Chương trình đang thực thi trong hàm \texttt{main}.
+    \item Khi gặp lời gọi \texttt{add(2,3)}, luồng điều khiển chuyển sang hàm \texttt{add}.
+    \item Các tham số \texttt{a} và \texttt{b} lần lượt nhận giá trị $2$ và $3$.
+    \item Hàm \texttt{add} thực hiện phép cộng và trả về kết quả.
+    \item Luồng điều khiển quay lại \texttt{main}, tiếp tục thực thi câu lệnh tiếp theo.
+\end{enumerate}
+\subsection{Lệnh \texttt{return}}
+
+Lệnh \texttt{return} có hai vai trò quan trọng:
+\begin{itemize}
+    \item Trả về một giá trị cho nơi gọi hàm (nếu hàm không phải \texttt{void});
+    \item Kết thúc ngay lập tức quá trình thực thi của hàm.
+\end{itemize}
+
+\begin{lstlisting}
+int absVal(int x) {
+    if (x < 0) return -x;
+    return x;
+}
+\end{lstlisting}
+
+\subsection{Phạm vi biến và biến cục bộ}
+
+Các biến được khai báo bên trong hàm được gọi là \textbf{biến cục bộ},
+chỉ tồn tại trong suốt thời gian thực thi của hàm đó.
+
+\begin{lstlisting}
+void test() {
+    int x = 5;
+    cout << x << "\n";
+}
+
+int main() {
+    test();
+}
+\end{lstlisting}
+
+Ngược lại, các biến được khai báo bên ngoài mọi hàm là \textbf{biến toàn cục}
+và có phạm vi sử dụng rộng hơn.
+
+\section{Cơ chế truyền tham số và tham chiếu trong C++}
+
+\subsection{Mở đầu}
+
+Ở các phần trước, ta đã biết cách định nghĩa và gọi hàm trong C++.
+Tuy nhiên, một vấn đề cốt lõi ảnh hưởng trực tiếp đến hành vi của chương trình là:
+\textbf{cách đối số được truyền vào hàm thông qua tham số}.
+
+Cơ chế truyền tham số quyết định liệu những thay đổi bên trong hàm
+có được giữ lại sau khi hàm kết thúc hay không.
+Để hiểu chính xác vấn đề này, ta cần làm rõ vai trò của
+\textbf{toán tử \texttt{\&}} và khái niệm \textbf{tham chiếu (reference)}.
+
+\subsection{Toán tử \texttt{\&} trong C++}
+
+Trong C++, ký hiệu \texttt{\&} có \textbf{hai ý nghĩa hoàn toàn khác nhau}
+tùy theo ngữ cảnh sử dụng.
+
+\subsubsection{Toán tử lấy địa chỉ}
+
+Khi \texttt{\&} được đặt trước một biến trong biểu thức,
+nó là toán tử \textbf{lấy địa chỉ}, dùng để truy xuất địa chỉ bộ nhớ của biến đó.
+
+\begin{lstlisting}
+int x = 5;
+cout << &x;
+\end{lstlisting}
+
+\textbf{Output (ví dụ):}
+\begin{verbatim}
+0x6ffe1c
+\end{verbatim}
+
+Giá trị in ra là địa chỉ ô nhớ mà biến \texttt{x} đang quản lý,
+thường được biểu diễn dưới dạng số hệ thập lục phân.
+
+\subsubsection{Toán tử khai báo tham chiếu}
+
+Khi \texttt{\&} xuất hiện trong khai báo biến, giữa kiểu dữ liệu và tên biến,
+nó dùng để khai báo một \textbf{tham chiếu}.
+
+\begin{lstlisting}
+int a = 10;
+int &r = a;
+r = 20;
+cout << a;
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+20
+\end{verbatim}
+
+Trong trường hợp này, \texttt{r} không tạo ra một biến mới,
+mà trở thành một định danh khác cùng quản lý ô nhớ với \texttt{a}.
+
+\subsection{Khái niệm tham chiếu}
+
+\textbf{Tham chiếu (reference)} là một cơ chế ngôn ngữ cho phép
+liên kết một định danh với một đối tượng đã tồn tại.
+Một số tính chất quan trọng của tham chiếu:
+
+\begin{itemize}
+    \item Tham chiếu phải được khởi tạo ngay khi khai báo;
+    \item Sau khi đã liên kết, tham chiếu không thể đổi sang đối tượng khác;
+    \item Mọi thao tác trên tham chiếu đều tác động trực tiếp lên đối tượng được tham chiếu.
+\end{itemize}
+
+\subsection{Truyền tham trị (Pass by value)}
+
+Khi tham số của hàm không có ký hiệu \texttt{\&},
+C++ sử dụng cơ chế \textbf{truyền tham trị}.
+Theo đó, giá trị của đối số được sao chép vào tham số của hàm.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void thaydoi(int n){
+    cout << "Dia chi cua n: " << &n << endl;
+    n += 100;
+    cout << "Gia tri cua n trong ham: " << n << endl;
+}
+
+int main(){
+    int m = 1000;
+    cout << "Dia chi cua m: " << &m << endl;
+    thaydoi(m);
+    cout << "Gia tri cua m sau khi ham ket thuc: " << m << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output (ví dụ):}
+\begin{verbatim}
+Dia chi cua m: 0x6ffe1c
+Dia chi cua n: 0x6ffdf0
+Gia tri cua n trong ham: 1100
+Gia tri cua m sau khi ham ket thuc: 1000
+\end{verbatim}
+
+\textbf{Phân tích:}
+\begin{itemize}
+    \item \texttt{m} và \texttt{n} có hai địa chỉ bộ nhớ khác nhau;
+    \item \texttt{n} chỉ là bản sao giá trị của \texttt{m};
+    \item Thay đổi \texttt{n} không ảnh hưởng đến \texttt{m}.
+\end{itemize}
+
+\textbf{Kết luận:}
+Truyền tham trị tạo ra các bản sao độc lập,
+do đó không thể dùng để thay đổi trực tiếp đối số sau khi hàm kết thúc.
+
+\subsection{Truyền tham chiếu (Pass by reference)}
+
+Khi tham số được khai báo dưới dạng tham chiếu,
+tham số và đối số cùng quản lý một ô nhớ trong bộ nhớ.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void thaydoi(int &n){
+    cout << "Dia chi cua n: " << &n << endl;
+    n += 100;
+}
+
+int main(){
+    int m = 1000;
+    cout << "Dia chi cua m: " << &m << endl;
+    thaydoi(m);
+    cout << "Gia tri cua m sau khi ham ket thuc: " << m << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output (ví dụ):}
+\begin{verbatim}
+Dia chi cua m: 0x6ffe1c
+Dia chi cua n: 0x6ffe1c
+Gia tri cua m sau khi ham ket thuc: 1100
+\end{verbatim}
+
+\textbf{Phân tích:}
+\begin{itemize}
+    \item \texttt{n} là tham chiếu trực tiếp tới \texttt{m};
+    \item Mọi thay đổi trên \texttt{n} đều tác động lên \texttt{m};
+    \item Sau khi hàm kết thúc, giá trị thay đổi được giữ lại.
+\end{itemize}
+
+\subsection{Tham chiếu hằng (Const reference)}
+
+Trong trường hợp hàm chỉ cần đọc dữ liệu,
+việc sử dụng \texttt{const} reference giúp tăng hiệu năng
+mà vẫn đảm bảo an toàn.
+
+\begin{lstlisting}
+#include <iostream>
+#include <string>
+using namespace std;
+
+int length(const string &s){
+    return s.size();
+}
+
+int main(){
+    cout << length("APC");
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+3
+\end{verbatim}
+
+\textbf{Nhận xét:}
+\begin{itemize}
+    \item Không xảy ra sao chép chuỗi;
+    \item Hàm không được phép thay đổi dữ liệu của đối số.
+\end{itemize}
+
+\subsection{Ví dụ tổng hợp: Hoán đổi hai biến}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void swap1(int a, int b){
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+void swap2(int &a, int &b){
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+int main(){
+    int x = 100, y = 200;
+    swap1(x, y);
+    cout << x << " " << y << endl;
+    swap2(x, y);
+    cout << x << " " << y << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+100 200
+200 100
+\end{verbatim}
+
+\subsection{Tổng kết}
+
+\begin{itemize}
+    \item Toán tử \texttt{\&} có hai vai trò: lấy địa chỉ và khai báo tham chiếu;
+    \item Truyền tham trị tạo bản sao, không ảnh hưởng đối số;
+    \item Truyền tham chiếu cho phép hàm thay đổi trực tiếp biến được truyền vào;
+    \item \texttt{const reference} là lựa chọn tối ưu khi chỉ cần đọc dữ liệu.
+\end{itemize}
+
+\section{Đối số mặc định của hàm trong C++}
+
+\subsection{Khái niệm}
+
+\textbf{Đối số mặc định (default argument)} là giá trị được gán sẵn cho một tham số
+ngay tại thời điểm \textbf{khai báo hoặc định nghĩa hàm}.
+Giá trị này sẽ được sử dụng tự động khi lời gọi hàm
+\textbf{không cung cấp đối số tương ứng}.
+
+Nói cách khác, đối số mặc định cho phép một hàm
+\textbf{được gọi với số lượng đối số ít hơn số tham số đã khai báo},
+miễn là các tham số bị thiếu đã có giá trị mặc định.
+
+\subsection{Cơ chế hoạt động}
+
+Đối số mặc định được xử lý tại \textbf{thời điểm biên dịch (compile-time)},
+không phải tại thời điểm chạy chương trình.
+
+Khi biên dịch, trình biên dịch sẽ:
+\begin{itemize}
+    \item kiểm tra số lượng đối số trong lời gọi hàm;
+    \item nếu thiếu, tự động chèn các giá trị mặc định tương ứng;
+    \item sau đó sinh mã như một lời gọi hàm đầy đủ tham số.
+\end{itemize}
+
+Vì vậy, \textbf{đối số mặc định không phải là một cơ chế động}
+và không liên quan đến việc kiểm tra khi chương trình đang chạy.
+
+\subsection{Ví dụ cơ bản về đối số mặc định}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int find(int a, int b, int c = 3, int d = 4){
+    cout << a << " " << b << " " << c << " " << d << endl;
+    return a + b + c + d;
+}
+
+int main(){
+    cout << find(1, 2) << endl;
+    cout << find(1, 2, 10) << endl;
+    cout << find(1, 2, 10, 20) << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 2 3 4
+10
+1 2 10 4
+17
+1 2 10 20
+33
+\end{verbatim}
+
+\subsection{Phân tích chi tiết}
+
+\begin{itemize}
+    \item Lời gọi \texttt{find(1, 2)}:
+    \begin{itemize}
+        \item thiếu đối số thứ 3 và 4;
+        \item \texttt{c} nhận giá trị mặc định là 3;
+        \item \texttt{d} nhận giá trị mặc định là 4.
+    \end{itemize}
+
+    \item Lời gọi \texttt{find(1, 2, 10)}:
+    \begin{itemize}
+        \item đối số thứ 3 được cung cấp nên ghi đè giá trị mặc định;
+        \item đối số thứ 4 vẫn dùng giá trị mặc định là 4.
+    \end{itemize}
+
+    \item Lời gọi \texttt{find(1, 2, 10, 20)}:
+    \begin{itemize}
+        \item tất cả đối số đều được truyền đầy đủ;
+        \item không sử dụng bất kỳ giá trị mặc định nào.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Quy tắc bắt buộc của đối số mặc định}
+
+Trong C++, các tham số có đối số mặc định \textbf{phải nằm ở cuối danh sách tham số}.
+Nói cách khác:
+
+\begin{center}
+\textit{Sau khi một tham số có giá trị mặc định xuất hiện,
+mọi tham số phía sau nó đều phải có giá trị mặc định.}
+\end{center}
+
+\subsection{Ví dụ sai và lỗi biên dịch}
+
+\begin{lstlisting}
+int find(int a, int b, int c = 3, int d){
+    return a + b + c + d;
+}
+\end{lstlisting}
+
+\textbf{Lỗi biên dịch:}
+\begin{verbatim}
+error: default argument missing for parameter 4 of 'int find(int, int, int, int)'
+\end{verbatim}
+
+\textbf{Giải thích:}
+\begin{itemize}
+    \item \texttt{c} có giá trị mặc định;
+    \item \texttt{d} đứng sau \texttt{c} nhưng không có giá trị mặc định;
+    \item trình biên dịch không thể suy ra giá trị cho \texttt{d}
+          khi lời gọi hàm thiếu đối số.
+\end{itemize}
+
+\subsection{Đối số mặc định và ghi đè giá trị}
+
+Đối số mặc định \textbf{không phải là hằng số cố định}.
+Nếu lời gọi hàm cung cấp đối số,
+giá trị mặc định sẽ \textbf{bị ghi đè hoàn toàn}.
+
+\begin{lstlisting}
+int f(int x = 10){
+    return x * 2;
+}
+
+int main(){
+    cout << f() << endl;
+    cout << f(7) << endl;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+20
+14
+\end{verbatim}
+
+\subsection{Một số lưu ý quan trọng}
+
+\begin{itemize}
+    \item Đối số mặc định khác với việc truyền hằng số;
+    \item Giá trị mặc định được gán tại thời điểm biên dịch;
+    \item Đối số mặc định thường được khai báo trong prototype
+          (đặc biệt khi dùng nhiều file);
+    \item Không nên lạm dụng đối số mặc định vì có thể làm hàm khó đọc
+          và khó bảo trì.
+\end{itemize}
+
+\subsection{Tổng kết}
+
+\begin{itemize}
+    \item Đối số mặc định cho phép gọi hàm với số đối số ít hơn số tham số;
+    \item Giá trị mặc định được sử dụng khi đối số tương ứng bị thiếu;
+    \item Các tham số có đối số mặc định phải nằm ở cuối danh sách;
+    \item Nếu lời gọi hàm cung cấp đối số, giá trị mặc định sẽ bị ghi đè.
+\end{itemize}
+
+
+\section{Hàm đệ quy (Recursion) trong C++}
+
+\subsection{Khái niệm và động cơ sử dụng}
+
+\textbf{Đệ quy (recursion)} là kỹ thuật trong đó một hàm \textbf{tự gọi lại chính nó}
+(trực tiếp hoặc gián tiếp) để giải quyết bài toán.
+Tư tưởng cốt lõi của đệ quy là: \textbf{chia bài toán lớn thành các bài toán con cùng dạng}
+nhưng có kích thước nhỏ hơn, cho đến khi bài toán con trở nên đủ nhỏ để giải trực tiếp.
+
+Một lời giải đệ quy đúng luôn phải có hai thành phần:
+\begin{itemize}
+    \item \textbf{Trường hợp cơ sở (base case):} điều kiện dừng, xử lý trực tiếp, không gọi tiếp.
+    \item \textbf{Bước đệ quy (recursive step):} chuyển bài toán hiện tại thành bài toán nhỏ hơn và gọi lại hàm.
+\end{itemize}
+
+\subsection{Mô hình tư duy đệ quy: công thức truy hồi}
+
+Khi viết đệ quy, ta thường biểu diễn bài toán bằng một \textbf{công thức truy hồi}:
+
+\[
+F(n) =
+\begin{cases}
+\text{giá trị trực tiếp} & \text{nếu } n \text{ thuộc base case} \\
+\text{kết hợp từ } F(\text{bài toán nhỏ hơn}) & \text{ngược lại}
+\end{cases}
+\]
+
+Điểm quan trọng: trong bước đệ quy, tham số phải ``tiến gần'' về base case,
+nếu không chương trình sẽ rơi vào \textbf{đệ quy vô hạn}.
+
+\subsection{Cơ chế thực thi: ngăn xếp lời gọi (Call Stack)}
+
+Mỗi lần một hàm được gọi, hệ thống tạo một \textbf{khung ngăn xếp (stack frame)} mới
+để lưu:
+\begin{itemize}
+    \item tham số của lần gọi,
+    \item biến cục bộ,
+    \item địa chỉ quay về sau khi hàm kết thúc (return address).
+\end{itemize}
+
+Trong đệ quy, các stack frame được xếp chồng lên nhau theo thứ tự gọi.
+Khi gặp base case và bắt đầu \texttt{return}, chương trình ``tháo'' dần các frame
+(theo cơ chế LIFO: vào sau ra trước) để trả kết quả về cho các lần gọi trước đó.
+
+\subsection{Cú pháp tổng quát}
+
+\begin{lstlisting}
+return_type f(parameters) {
+    if (base_case_condition) {
+        // base case
+        return base_value;
+    }
+    // recursive step
+    return combine( f(smaller_problem) );
+}
+\end{lstlisting}
+
+\subsection{Ví dụ 1: Tính giai thừa}
+
+Định nghĩa:
+\[
+n! =
+\begin{cases}
+1 & \text{nếu } n = 0 \text{ hoặc } n = 1 \\
+n \cdot (n-1)! & \text{nếu } n \ge 2
+\end{cases}
+\]
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+long long fact(int n) {
+    if (n <= 1) return 1;          // base case
+    return 1LL * n * fact(n - 1);  // recursive step
+}
+
+int main() {
+    cout << fact(5) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+120
+\end{verbatim}
+
+\subsection{Ví dụ 2: Dãy Fibonacci}
+
+Định nghĩa:
+\[
+F(0)=0,\quad F(1)=1,\quad F(n)=F(n-1)+F(n-2)\ (n\ge2)
+\]
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+long long fib(int n) {
+    if (n == 0) return 0;                // base case
+    if (n == 1) return 1;                // base case
+    return fib(n - 1) + fib(n - 2);      // recursive step
+}
+
+int main() {
+    cout << fib(10) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+55
+\end{verbatim}
+
+\textbf{Lưu ý quan trọng:}
+Cách viết Fibonacci đệ quy thuần tuý có độ phức tạp thời gian rất lớn
+(do lặp lại nhiều phép tính). Với $n$ lớn, cần dùng quy hoạch động (DP)
+hoặc memoization.
+
+\subsection{Ví dụ 3: Tính tổng 1 đến n}
+
+Công thức:
+\[
+S(n)=1+2+\dots+n=
+\begin{cases}
+0 & \text{nếu } n=0\\
+n+S(n-1) & \text{nếu } n\ge 1
+\end{cases}
+\]
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+long long sum1ToN(int n) {
+    if (n == 0) return 0;
+    return 1LL * n + sum1ToN(n - 1);
+}
+
+int main() {
+    cout << sum1ToN(10) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+55
+\end{verbatim}
+
+\subsection{Đệ quy có tham số tích luỹ (Accumulator) và tối ưu đuôi}
+
+Một số bài toán cho phép viết theo dạng \textbf{đệ quy đuôi (tail recursion)}:
+lời gọi đệ quy là thao tác cuối cùng của hàm.
+Điều này giúp logic rõ ràng và đôi khi trình biên dịch có thể tối ưu.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+long long sumTail(int n, long long acc) {
+    if (n == 0) return acc;
+    return sumTail(n - 1, acc + n);
+}
+
+int main() {
+    cout << sumTail(10, 0) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+55
+\end{verbatim}
+
+\subsection{Bài toán điển hình: Ước chung lớn nhất (Euclid)}
+
+Thuật toán Euclid dựa trên tính chất:
+\[
+\gcd(a,b)=\gcd(b, a \bmod b), \quad \gcd(a,0)=a
+\]
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+long long gcd(long long a, long long b) {
+    if (b == 0) return a;        // base case
+    return gcd(b, a % b);        // recursive step
+}
+
+int main() {
+    cout << gcd(48, 18) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+6
+\end{verbatim}
+
+\subsection{Lỗi thường gặp khi viết đệ quy}
+
+\begin{itemize}
+    \item \textbf{Quên base case} hoặc base case sai $\Rightarrow$ đệ quy vô hạn.
+    \item \textbf{Bài toán không giảm kích thước} $\Rightarrow$ không tiến về điều kiện dừng.
+    \item \textbf{Tràn ngăn xếp (stack overflow)} khi độ sâu đệ quy quá lớn
+    (ví dụ gọi $10^6$ lần).
+    \item \textbf{Lặp tính toán} như Fibonacci thuần tuý $\Rightarrow$ thời gian chạy rất lớn.
+\end{itemize}
+
+\subsection{Khi nào nên dùng đệ quy?}
+
+Đệ quy phù hợp khi bài toán có cấu trúc phân rã tự nhiên, ví dụ:
+\begin{itemize}
+    \item duyệt cây, duyệt đồ thị theo DFS,
+    \item sinh hoán vị, tổ hợp, quay lui (backtracking),
+    \item chia để trị (merge sort, quick sort),
+    \item các công thức truy hồi rõ ràng (gcd, lũy thừa nhanh).
+\end{itemize}
+
+\subsection{Tổng kết}
+
+\begin{itemize}
+    \item Hàm đệ quy là hàm tự gọi lại chính nó để giải bài toán bằng phân rã.
+    \item Đệ quy đúng phải có: base case và bước đệ quy làm nhỏ bài toán.
+    \item Cơ chế thực thi dựa trên call stack, nên có nguy cơ tràn ngăn xếp nếu gọi quá sâu.
+    \item Cần cảnh giác với các đệ quy gây lặp tính toán; khi cần, dùng memoization/DP.
+\end{itemize}
+
+\section{Bài tập}
+
+\begin{baitap}{Số Fibonacci}{}
+Cho số nguyên không âm \texttt{n}. Hãy tính số Fibonacci thứ \texttt{n} với quy ước:
+\[
+F_0 = 0,\quad F_1 = 1,\quad F_n = F_{n-1} + F_{n-2}\ (n \ge 2).
+\]
+
+\noindent \textbf{Input}
+
+Một dòng chứa một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra giá trị \texttt{F\_n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+0 \le n \le 40
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+12 & 144 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Xác định bài toán cơ sở:
+  \[
+    F(0) = 0,\quad F(1) = 1.
+  \]
+  \item Với $n \ge 2$ áp dụng công thức truy hồi:
+  \[
+    F(n) = F(n-1) + F(n-2).
+  \]
+  \item Viết hàm đệ quy \texttt{F(n)} với hai trường hợp \textbf{base case} và \textbf{recursive step}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int F(int n){
+    if(n == 0 || n == 1) return n;
+    return F(n - 1) + F(n - 2);
+}
+
+signed main(){
+    int n; 
+    cin >> n;
+    cout << F(n);
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tổ hợp chập k của n}{}
+Cho hai số nguyên \texttt{n, k}. Hãy tính tổ hợp chập \texttt{k} của \texttt{n}:
+\[
+C(n,k) = \binom{n}{k}.
+\]
+
+Ta có:
+\[
+C(n,0) = 1,\quad C(n,n) = 1,\quad
+C(n,k) = C(n-1,k-1) + C(n-1,k)\ (0 < k < n).
+\]
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{n, k}.
+
+\noindent \textbf{Output}
+
+In ra giá trị \texttt{C(n,k)}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+0 \le k \le n \le 20
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+12\ 2 & 66 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item \textbf{Base case:} nếu \texttt{k = 0} hoặc \texttt{k = n} thì trả về \texttt{1}.
+  \item \textbf{Bước đệ quy:}
+  \[
+    C(n,k) = C(n-1,k-1) + C(n-1,k).
+  \]
+  \item Viết hàm đệ quy \texttt{C(n,k)} theo đúng công thức trên.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int C(int n, int k){
+    if(k == 0 || k == n) return 1;
+    return C(n - 1, k - 1) + C(n - 1, k);
+}
+
+signed main(){
+    int n, k;
+    cin >> n >> k;
+    cout << C(n, k);
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Chuyển số thập phân sang nhị phân}{}
+Cho số nguyên không âm \texttt{n}. Hãy in biểu diễn \textbf{nhị phân} của \texttt{n}
+(không in số 0 thừa ở đầu).
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra biểu diễn nhị phân của \texttt{n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+0 \le n \le 10^{12}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+37 & 100101 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Sử dụng cách chuyển cơ số: chia \texttt{n} cho 2, lưu lại số dư.
+  \item \textbf{Base case:} nếu \texttt{n < 2} thì in trực tiếp \texttt{n} (0 hoặc 1).
+  \item \textbf{Bước đệ quy:} 
+  \begin{itemize}
+    \item Gọi đệ quy với \texttt{n / 2}.
+    \item Sau khi quay về, in \texttt{n \% 2}.
+  \end{itemize}
+  \item Thứ tự gọi trước, in sau đảm bảo các bit được in theo đúng thứ tự từ trái sang phải.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+void dec_to_bin(long long n){
+    if(n < 2){
+        cout << n;
+    }else{
+        dec_to_bin(n / 2);
+        cout << (n % 2);
+    }
+}
+
+signed main(){
+    long long n;
+    cin >> n;
+    if(n == 0){
+        cout << 0;
+    }else{
+        dec_to_bin(n);
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Chuyển số thập phân sang hệ 16}{}
+Cho số nguyên không âm \texttt{n}. Hãy in biểu diễn \textbf{hệ 16} (hexadecimal) của \texttt{n},
+sử dụng các ký tự \texttt{0..9, A..F}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra biểu diễn hệ 16 của \texttt{n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+0 \le n \le 10^{12}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+762 & 2FA \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Dùng thuật toán chia cho 16, lưu số dư.
+  \item \textbf{Base case:} nếu \texttt{n < 16}, in một ký tự duy nhất:
+  \begin{itemize}
+    \item \texttt{0..9} giữ nguyên,
+    \item \texttt{10..15} chuyển thành \texttt{A..F} bằng \texttt{char(n + 55)}.
+  \end{itemize}
+  \item \textbf{Bước đệ quy:} gọi hàm với \texttt{n / 16}, sau đó in phần dư \texttt{n \% 16}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+void dec_to_hex(long long n){
+    if(n < 16){
+        if(n < 10) cout << n;
+        else cout << char(n + 55); // 10 -> 'A', 11 -> 'B', ...
+    }else{
+        dec_to_hex(n / 16);
+        int r = n % 16;
+        if(r < 10) cout << r;
+        else cout << char(r + 55);
+    }
+}
+
+signed main(){
+    long long n;
+    cin >> n;
+    if(n == 0){
+        cout << 0;
+    }else{
+        dec_to_hex(n);
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đếm số chữ số}{}
+Cho số nguyên dương \texttt{n}. Hãy đếm số chữ số của \texttt{n}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên dương \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra số chữ số của \texttt{n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+28282828 & 8 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item \textbf{Base case:} nếu \texttt{n < 10} thì chỉ có 1 chữ số.
+  \item \textbf{Bước đệ quy:} với \texttt{n $\ge$ 10}:
+  \[
+    D(n) = 1 + D\left(\left\lfloor \frac{n}{10} \right\rfloor\right).
+  \]
+  \item Mỗi lần gọi đệ quy bỏ đi chữ số hàng đơn vị, đồng thời cộng thêm 1.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int D(long long n){
+    if(n < 10) return 1;
+    return 1 + D(n / 10);
+}
+
+signed main(){
+    long long n;
+    cin >> n;
+    cout << D(n);
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tổng chữ số}{}
+Cho số nguyên dương \texttt{n}. Hãy tính tổng các chữ số của \texttt{n}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên dương \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra tổng các chữ số của \texttt{n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+28282828 & 40 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item \textbf{Base case:} nếu \texttt{n < 10} thì tổng chữ số là \texttt{n}.
+  \item \textbf{Bước đệ quy:}
+  \[
+    S(n) = (n \bmod 10) + S\left(\left\lfloor \frac{n}{10} \right\rfloor\right).
+  \]
+  \item Mỗi bước tách chữ số cuối cùng và cộng với kết quả của phần còn lại.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int S(long long n){
+    if(n < 10) return n;
+    return (n % 10) + S(n / 10);
+}
+
+signed main(){
+    long long n;
+    cin >> n;
+    cout << S(n);
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Chữ số lớn nhất}{}
+Cho số nguyên dương \texttt{n}. Hãy tìm chữ số lớn nhất trong \texttt{n}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên dương \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra chữ số lớn nhất trong \texttt{n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+12349567 & 9 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item \textbf{Base case:} nếu \texttt{n < 10} thì kết quả là \texttt{n}.
+  \item \textbf{Bước đệ quy:}
+  \[
+    F(n) = \max\left(n \bmod 10,\ F\left(\left\lfloor \frac{n}{10} \right\rfloor\right)\right).
+  \]
+  \item So sánh chữ số cuối cùng với kết quả lớn nhất của phần còn lại.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int F(long long n){
+    if(n < 10) return n;
+    int tmp = F(n / 10);
+    int last = n % 10;
+    return (last > tmp ? last : tmp);
+}
+
+signed main(){
+    long long n;
+    cin >> n;
+    cout << F(n);
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}

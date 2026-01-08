@@ -1,0 +1,2020 @@
+\chapter{CẤU TRÚC RẼ NHÁNH}
+
+\minitoc
+
+\section{Cấu trúc rẽ nhánh \texttt{if -- else} trong C++}
+
+Trong lập trình, rất nhiều bài toán yêu cầu chương trình phải \textbf{ra quyết định}:
+nếu điều kiện đúng thì làm A, nếu sai thì làm B.
+Trong C++, cấu trúc \texttt{if -- else} là công cụ cơ bản để xử lý những tình huống này.
+
+\subsection{Biểu thức điều kiện là gì?}
+
+\begin{itemize}
+    \item \textbf{Biểu thức điều kiện} là một biểu thức có giá trị \texttt{true} (đúng) hoặc \texttt{false} (sai).
+    \item Thường là các phép so sánh: \texttt{==}, \texttt{!=}, \texttt{<}, \texttt{>}, \texttt{<=}, \texttt{>=}.
+    \item Có thể kết hợp nhiều điều kiện bằng toán tử logic: \texttt{\&\&} (AND), \texttt{||} (OR), \texttt{!} (NOT).
+\end{itemize}
+
+Trong C++:
+\begin{itemize}
+    \item \texttt{0} được xem là \textbf{false}.
+    \item Mọi giá trị \textbf{khác 0} được xem là \textbf{true}.
+\end{itemize}
+
+Ví dụ, các điều kiện sau đều có kiểu \texttt{bool}:
+\begin{lstlisting}
+// Check if x equals 10
+(x == 10)
+
+// Check if n is even
+(n % 2 == 0)
+
+// Check if 20 <= n <= 50
+(n >= 20 && n <= 50)
+
+// Check if n is divisible by 3 or 5
+(n % 3 == 0 || n % 5 == 0)
+\end{lstlisting}
+
+\vspace{2mm}
+
+%------------------------------------------------
+\subsection{Câu lệnh \texttt{if}}
+
+Câu lệnh \texttt{if} cho phép bạn \textbf{chỉ thực hiện một khối lệnh nếu điều kiện đúng}.
+
+\subsubsection{Cú pháp cơ bản}
+
+\begin{lstlisting}
+if (condition) {
+    // code block executed when condition is true
+}
+\end{lstlisting}
+
+\textbf{Ý nghĩa:}
+\begin{itemize}
+    \item Nếu \texttt{condition} đúng (\texttt{true}) → khối lệnh bên trong \texttt{\{\}} được chạy.
+    \item Nếu \texttt{condition} sai (\texttt{false}) → khối lệnh bị bỏ qua.
+\end{itemize}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 1: Kiểm tra giá trị cụ thể}
+
+\textbf{Yêu cầu:} Nếu \texttt{n == 28} thì in ra \texttt{APC}.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 28;
+
+    // If n equals 28, print "APC"
+    if (n == 28) {
+        cout << "APC\n";
+    }
+
+    // This condition is false, so this line will not be printed
+    if (n > 30) {
+        cout << "APC Blog\n";
+    }
+
+    cout << "end\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+APC
+end
+\end{verbatim}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 2: Kiểm tra số chẵn}
+
+Một số nguyên \textbf{là số chẵn} nếu chia cho 2 dư 0.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 28;
+
+    // If n is even, print "CHAN"
+    if (n % 2 == 0) {
+        cout << "CHAN\n";
+    }
+
+    // If n is odd, print "LE"
+    if (n % 2 != 0) {
+        cout << "LE\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+CHAN
+\end{verbatim}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 3: Kiểm tra tính chia hết}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 28, m = 4;
+
+    // Check if n is divisible by m
+    if (n % m == 0) {
+        cout << "Chia het\n";
+    }
+
+    if (n % m != 0) {
+        cout << "Khong chia het\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+Chia het
+\end{verbatim}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 4: Kết hợp nhiều điều kiện}
+
+\textbf{Yêu cầu:} Nếu \texttt{n} thuộc một trong các số \{2, 3, 5, 7\} thì in \texttt{YES}.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 5;
+
+    // Check if n is one of 2, 3, 5 or 7
+    if (n == 2 || n == 3 || n == 5 || n == 7) {
+        cout << "YES\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+YES
+\end{verbatim}
+
+\vspace{2mm}
+
+\subsubsection{Lưu ý: dùng số làm điều kiện}
+
+Vì mọi số khác 0 được xem là \texttt{true}, ta có thể viết:
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 28;
+    int m = 0;
+
+    // n is non-zero -> condition is true
+    if (n) {
+        cout << "n is non-zero\n";
+    }
+
+    // m is zero -> condition is false
+    if (m) {
+        cout << "m is non-zero\n";
+    }
+
+    cout << "END\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+n is non-zero
+END
+\end{verbatim}
+
+\vspace{3mm}
+
+%------------------------------------------------
+\subsection{Câu lệnh \texttt{if -- else}}
+
+Câu lệnh \texttt{if -- else} cho phép ta xử lý \textbf{cả hai nhánh}:
+\begin{itemize}
+    \item Khi điều kiện đúng
+    \item Khi điều kiện sai
+\end{itemize}
+
+\subsubsection{Cú pháp}
+
+\begin{lstlisting}
+if (condition) {
+    // executed when condition is true
+} else {
+    // executed when condition is false
+}
+\end{lstlisting}
+
+\textbf{Lưu ý:}
+\begin{itemize}
+    \item \texttt{else} luôn đi kèm với một \texttt{if} trước đó.
+    \item Chỉ \textbf{một} trong hai khối \texttt{if} hoặc \texttt{else} được thực thi.
+\end{itemize}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 1: Kiểm tra chẵn / lẻ (có \texttt{else})}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    // If n is even, print "CHAN" and "APC"
+    if (n % 2 == 0) {
+        cout << "CHAN\n";
+        cout << "APC\n";
+    } else {
+        // Otherwise, print "LE" and the APC website
+        cout << "LE\n";
+        cout << "sot.umtoj.edu.vn\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ input:} \texttt{28}
+
+\textbf{Output:}
+\begin{verbatim}
+CHAN
+APC
+\end{verbatim}
+
+\vspace{2mm}
+
+\subsubsection{Ví dụ 2: Kiểm tra năm nhuận}
+
+\textbf{Định nghĩa năm nhuận:}
+\begin{itemize}
+    \item Chia hết cho 400, \textbf{hoặc}
+    \item Chia hết cho 4 nhưng \textbf{không} chia hết cho 100.
+\end{itemize}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int year;
+    cin >> year;
+
+    bool isLeap =
+        (year % 400 == 0) ||
+        (year % 4 == 0 && year % 100 != 0);
+
+    if (isLeap) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Input:}
+\begin{verbatim}
+2020
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+YES
+\end{verbatim}
+
+\vspace{3mm}
+
+%------------------------------------------------
+\subsection{Chuỗi \texttt{if -- else if -- else}}
+
+Khi có nhiều trường hợp cần phân loại, ta có thể sử dụng
+\textbf{nhiều điều kiện nối tiếp nhau}:
+
+\begin{lstlisting}
+if (condition1) {
+    // case 1
+} else if (condition2) {
+    // case 2
+} else if (condition3) {
+    // case 3
+} else {
+    // default case
+}
+\end{lstlisting}
+
+\textbf{Cách hoạt động:}
+\begin{itemize}
+    \item Các điều kiện được kiểm tra \textbf{từ trên xuống dưới}.
+    \item Ngay khi gặp điều kiện đúng, khối lệnh tương ứng được thực thi,
+    \item Các điều kiện phía sau \textbf{không được kiểm tra nữa}.
+\end{itemize}
+
+\subsubsection{Ví dụ: Phân loại điểm}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int score;
+    cin >> score;
+
+    if (score >= 90) {
+        cout << "Excellent\n";
+    } else if (score >= 75) {
+        cout << "Good\n";
+    } else if (score >= 50) {
+        cout << "Average\n";
+    } else {
+        cout << "Need improvement\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\vspace{3mm}
+
+%------------------------------------------------
+\subsection{\texttt{if -- else} lồng nhau}
+
+Khi điều kiện phức tạp, ta có thể \textbf{chia nhỏ} bằng cách đặt \texttt{if -- else}
+bên trong một \texttt{if -- else} khác.
+
+\subsubsection{Ví dụ: Kiểm tra đoạn và chia hết}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item $20 \le n \le 50$
+    \item và $n$ chia hết cho ít nhất một trong các số $2,3,5,7$
+\end{itemize}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    // First, check if n is in the range [20, 50]
+    if (n >= 20 && n <= 50) {
+
+        // Then, check divisibility by 2, 3, 5 or 7
+        if (n % 2 == 0 || n % 3 == 0 ||
+            n % 5 == 0 || n % 7 == 0) {
+            cout << "YES\n";
+        } else {
+            cout << "NO\n";
+        }
+
+    } else {
+        cout << "NO\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\vspace{3mm}
+
+%------------------------------------------------
+\subsection{Một số lưu ý quan trọng}
+
+\begin{itemize}
+    \item Luôn dùng dấu ngoặc nhọn \texttt{\{\}} cho khối lệnh, kể cả khi chỉ có một dòng,
+    để tránh bug khi thêm dòng mới sau này.
+    \item Cẩn thận với toán tử gán \texttt{=} và so sánh \texttt{==}.
+    \item Nên tách điều kiện phức tạp thành nhiều biến trung gian \texttt{bool}
+    để code dễ đọc hơn.
+    \item Khi nhiều nhánh \textbf{loại trừ lẫn nhau}, ưu tiên dùng \texttt{if -- else if -- else}
+    thay vì nhiều \texttt{if} rời rạc.
+\end{itemize}
+
+\textbf{Ví dụ: sử dụng biến \texttt{bool} giúp code dễ đọc hơn}
+
+\begin{lstlisting}
+bool inRange = (n >= 20 && n <= 50);
+bool divisible = (n % 2 == 0 || n % 3 == 0 ||
+                  n % 5 == 0 || n % 7 == 0);
+
+if (inRange && divisible) {
+    cout << "YES\n";
+} else {
+    cout << "NO\n";
+}
+\end{lstlisting}
+
+
+\section{\texttt{if} và \texttt{else if} (nhiều nhánh điều kiện)}
+
+Trong nhiều bài toán, chương trình không chỉ có hai trường hợp ``đúng/sai'' mà có thể có \textbf{nhiều nhánh} khác nhau (mỗi nhánh ứng với một điều kiện).
+Nếu chỉ dùng \texttt{if -- else} thì bạn thường phải lồng nhiều lớp \texttt{if}, khiến code dài và khó đọc.
+Khi đó, cấu trúc \texttt{if -- else if -- else} giúp viết chương trình gọn hơn và rõ ràng hơn.
+
+\subsection{Cú pháp và cách hoạt động}
+
+\begin{lstlisting}
+// The program checks conditions from top to bottom.
+// It executes the first block whose condition is true, then stops checking.
+if (condition_1) {
+    // block 1
+}
+else if (condition_2) {
+    // block 2
+}
+else if (condition_3) {
+    // block 3
+}
+else {
+    // default block (optional)
+}
+\end{lstlisting}
+
+\textbf{Ghi nhớ nhanh:}
+\begin{itemize}
+    \item Có thể có \textbf{bao nhiêu} nhánh \texttt{else if} cũng được.
+    \item Nhánh \texttt{else} \textbf{có thể có hoặc không}.
+    \item Hệ thống kiểm tra điều kiện \textbf{từ trên xuống dưới}.
+    \item Chỉ chạy \textbf{duy nhất 1 nhánh đầu tiên đúng}, sau đó \textbf{kết thúc} cấu trúc rẽ nhánh.
+\end{itemize}
+
+\vspace{2mm}
+
+\subsection{Ví dụ 1: Xếp loại điểm bằng \texttt{else if}}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int score;
+    cin >> score;
+
+    // Classify the score into categories
+    if (score >= 90) {
+        cout << "Excellent\n";
+    }
+    else if (score >= 75) {
+        cout << "Good\n";
+    }
+    else if (score >= 50) {
+        cout << "Average\n";
+    }
+    else {
+        cout << "Need improvement\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Input:}
+\begin{verbatim}
+76
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+Good
+\end{verbatim}
+
+\vspace{3mm}
+
+\subsection{Bài tập áp dụng}
+
+\subsubsection{Bài 1: Số ngày của tháng}
+
+\textbf{Yêu cầu:} Nhập tháng $m$ và năm $y$, in ra số ngày của tháng đó.
+Chú ý: tháng 2 có 29 ngày nếu năm nhuận, 28 ngày nếu không nhuận.
+
+\textbf{Quy tắc năm nhuận:}
+\begin{itemize}
+    \item Năm chia hết cho 400 $\Rightarrow$ năm nhuận, hoặc
+    \item Năm chia hết cho 4 và không chia hết cho 100 $\Rightarrow$ năm nhuận.
+\end{itemize}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int m, y;
+    cin >> m >> y;
+
+    // Months with 31 days
+    if (m == 1 || m == 3 || m == 5 || m == 7 ||
+        m == 8 || m == 10 || m == 12) {
+        cout << 31 << "\n";
+    }
+    // Months with 30 days
+    else if (m == 4 || m == 6 || m == 9 || m == 11) {
+        cout << 30 << "\n";
+    }
+    // February
+    else if (m == 2) {
+        bool isLeap = (y % 400 == 0) || (y % 4 == 0 && y % 100 != 0);
+
+        if (isLeap) cout << 29 << "\n";
+        else cout << 28 << "\n";
+    }
+    // Invalid month
+    else {
+        cout << "Invalid month\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ 1:}
+
+\textbf{Input:}
+\begin{verbatim}
+2 2020
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+29
+\end{verbatim}
+
+\textbf{Ví dụ 2:}
+
+\textbf{Input:}
+\begin{verbatim}
+2 2021
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+28
+\end{verbatim}
+
+\textbf{Ví dụ 3:}
+
+\textbf{Input:}
+\begin{verbatim}
+13 2024
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+Invalid month
+\end{verbatim}
+
+\vspace{3mm}
+
+\subsubsection{Bài 2: Phân loại tam giác}
+
+\textbf{Yêu cầu:} Nhập 3 cạnh nguyên $a,b,c$ (giả sử luôn tạo thành tam giác hợp lệ).
+In:
+\begin{itemize}
+    \item 1 nếu tam giác đều
+    \item 2 nếu tam giác cân
+    \item 3 nếu tam giác vuông
+    \item 4 nếu tam giác thường
+\end{itemize}
+
+\textbf{Ghi chú quan trọng:}
+\begin{itemize}
+    \item Kiểm tra ``đều'' trước vì ``đều'' cũng là một dạng của ``cân''.
+    \item Kiểm tra ``vuông'' dùng định lý Pythagoras:
+    $a^2=b^2+c^2$ hoặc $b^2=a^2+c^2$ hoặc $c^2=a^2+b^2$.
+\end{itemize}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    long long a, b, c;
+    cin >> a >> b >> c;
+
+    // Equilateral triangle
+    if (a == b && b == c) {
+        cout << 1 << "\n";
+    }
+    // Isosceles triangle
+    else if (a == b || b == c || a == c) {
+        cout << 2 << "\n";
+    }
+    // Right triangle (use long long to avoid overflow in squaring)
+    else if (a * a == b * b + c * c ||
+             b * b == a * a + c * c ||
+             c * c == a * a + b * b) {
+        cout << 3 << "\n";
+    }
+    // Scalene triangle
+    else {
+        cout << 4 << "\n";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ 1:}
+
+\textbf{Input:}
+\begin{verbatim}
+3 3 3
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+1
+\end{verbatim}
+
+\textbf{Ví dụ 2:}
+
+\textbf{Input:}
+\begin{verbatim}
+5 5 8
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+2
+\end{verbatim}
+
+\textbf{Ví dụ 3:}
+
+\textbf{Input:}
+\begin{verbatim}
+3 4 5
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+3
+\end{verbatim}
+
+\textbf{Ví dụ 4:}
+
+\textbf{Input:}
+\begin{verbatim}
+4 5 6
+\end{verbatim}
+\textbf{Output:}
+\begin{verbatim}
+4
+\end{verbatim}
+
+\section{Bảng mã ASCII và thư viện \texttt{cctype}}
+
+\subsection{Bảng mã ASCII là gì?}
+
+\textbf{ASCII} (American Standard Code for Information Interchange) là bảng mã gán \textbf{mỗi ký tự} (chữ cái, chữ số, ký hiệu, \dots) với một \textbf{số nguyên} tương ứng.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{resource/img/ascii.png}
+\end{figure}
+
+Trong thực tế học C++ cơ bản, bạn chỉ cần nhớ một số cụm quan trọng để làm bài nhanh.
+
+\subsubsection*{Các cụm ASCII nên nhớ}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Cụm ký tự} & \textbf{Mã ASCII (thập phân)} \\
+\hline
+\texttt{'a' -- 'z'} & 97 -- 122 \\
+\texttt{'A' -- 'Z'} & 65 -- 90 \\
+\texttt{'0' -- '9'} & 48 -- 57 \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Lưu ý quan trọng:} Trong C++, kiểu \texttt{char} lưu ký tự, nhưng bản chất nó vẫn là một số nhỏ (thường 1 byte).  
+Khi bạn dùng \texttt{char} trong biểu thức số học, chương trình sẽ dùng \textbf{mã ASCII} của ký tự đó.
+
+\vspace{2mm}
+
+\subsection{Ví dụ: \texttt{char} hoạt động như số (ASCII)}
+
+\subsubsection*{Ví dụ 1: In mã ASCII của ký tự}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c1 = 'A', c2 = 'a', c3 = '0';
+
+    // Print ASCII codes by casting to int
+    cout << (int)c1 << " " << (int)c2 << " " << (int)c3 << "\n";
+
+    int n = c1; // n becomes 65
+    cout << n << "\n";
+
+    // 'A' = 65, so 'A' + 100 = 165
+    cout << (c1 + 100) << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+65 97 48
+65
+165
+\end{verbatim}
+
+\subsubsection*{Ví dụ 2: Tăng/giảm ký tự}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'A';
+
+    // 'A' = 65, so 65 + 10 = 75
+    int n = c + 10;
+    cout << n << "\n";
+
+    // Pre-increment: 'A' -> 'B'
+    ++c;
+    cout << (int)c << "\n";
+    cout << c << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+75
+66
+B
+\end{verbatim}
+
+\vspace{3mm}
+
+\subsection{Tự kiểm tra loại ký tự (không cần thư viện)}
+
+Trong nhiều bài về chuỗi, bạn hay gặp các yêu cầu:
+\textit{``ký tự này là chữ thường/chữ hoa/chữ số?''}
+Bạn có thể tự kiểm tra bằng cách so sánh theo khoảng ASCII.
+
+\subsubsection*{Kiểm tra chữ thường \texttt{'a'..'z'}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'u';
+
+    // Method 1: compare by characters
+    if (c >= 'a' && c <= 'z') cout << "YES\n";
+    else cout << "NO\n";
+
+    // Method 2: compare by ASCII codes
+    if (c >= 97 && c <= 122) cout << "YES\n";
+    else cout << "NO\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Kiểm tra chữ hoa \texttt{'A'..'Z'}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'u';
+
+    if (c >= 'A' && c <= 'Z') cout << "YES\n";
+    else cout << "NO\n";
+
+    if (c >= 65 && c <= 90) cout << "YES\n";
+    else cout << "NO\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Kiểm tra chữ cái (hoa hoặc thường)}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'Z';
+
+    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) cout << "YES\n";
+    else cout << "NO\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Kiểm tra chữ số \texttt{'0'..'9'}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = '5';
+
+    // Method 1
+    if (c >= '0' && c <= '9') cout << "YES\n";
+    else cout << "NO\n";
+
+    // Method 2
+    if (c >= 48 && c <= 57) cout << "YES\n";
+    else cout << "NO\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\vspace{2mm}
+
+\subsubsection*{Đổi chữ hoa $\leftrightarrow$ chữ thường bằng ASCII}
+
+Trong ASCII, chữ thường có mã \textbf{lớn hơn} chữ hoa tương ứng \textbf{32 đơn vị}:
+\[
+\texttt{'a'} - \texttt{'A'} = 97 - 65 = 32
+\]
+\begin{itemize}
+    \item Hoa $\rightarrow$ thường: cộng 32
+    \item Thường $\rightarrow$ hoa: trừ 32
+\end{itemize}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'A';
+    c += 32; // 'A' -> 'a'
+    cout << c << "\n";
+
+    char d = 'z';
+    d -= 32; // 'z' -> 'Z'
+    cout << d << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+a
+Z
+\end{verbatim}
+
+\vspace{3mm}
+
+\subsection{Thư viện \texttt{cctype}}
+
+C++ có sẵn các hàm để kiểm tra/chuyển đổi ký tự trong thư viện \texttt{<cctype>}
+(\texttt{<ctype.h>} cũng dùng được).
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Hàm} & \textbf{Ý nghĩa} \\
+\hline
+\texttt{islower(c)} & 1 nếu \texttt{c} là chữ thường, ngược lại 0 \\
+\texttt{isupper(c)} & 1 nếu \texttt{c} là chữ hoa, ngược lại 0 \\
+\texttt{isalpha(c)} & 1 nếu \texttt{c} là chữ cái, ngược lại 0 \\
+\texttt{isdigit(c)} & 1 nếu \texttt{c} là chữ số, ngược lại 0 \\
+\texttt{isalnum(c)} & 1 nếu \texttt{c} là chữ cái hoặc chữ số, ngược lại 0 \\
+\texttt{tolower(c)} & trả về ký tự thường tương ứng (nếu có) \\
+\texttt{toupper(c)} & trả về ký tự hoa tương ứng (nếu có) \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Lưu ý nhỏ khi dùng \texttt{cctype}:} Các hàm như \texttt{isupper}, \texttt{tolower} nhận \texttt{int} (thực chất là giá trị ký tự), nên trong C++ an toàn nhất là ép \texttt{unsigned char} trước khi gọi nếu dữ liệu có thể ngoài ASCII. Với newbie làm bài cơ bản ASCII thì cứ dùng trực tiếp cũng ổn.
+
+\vspace{2mm}
+
+\subsubsection*{Ví dụ 1: Kiểm tra chữ hoa/chữ thường}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'A', d = 'z';
+
+    if (isupper(c)) cout << "YES\n";
+    else cout << "NO\n";
+
+    if (islower(d)) cout << "YES\n";
+    else cout << "NO\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+YES
+YES
+\end{verbatim}
+
+\subsubsection*{Ví dụ 2: Chuyển đổi hoa/thường}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    char c = 'A', d = 'z';
+
+    c = tolower(c); // 'A' -> 'a'
+    d = toupper(d); // 'z' -> 'Z'
+
+    cout << c << " " << d << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+a Z
+\end{verbatim}
+
+\section{Bài tập}
+
+\begin{baitap}{Phân loại nấm}{https://marisaoj.com/problem/396}
+Marisa đang phân tích một cây nấm có chỉ số độc tố \texttt{T} (từ \texttt{0.0} đến \texttt{10.0}).
+
+\begin{itemize}
+  \item Rất độc nếu \texttt{T} từ \texttt{9.0} trở lên.
+  \item Độc nếu \texttt{T} từ \texttt{5.0} đến \texttt{8.9}.
+  \item An toàn nếu \texttt{T} dưới \texttt{5.0}.
+\end{itemize}
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số thực \texttt{T} (có đúng 1 chữ số thập phân).
+
+\noindent \textbf{Output}
+
+\begin{itemize}
+  \item In \texttt{VERY TOXIC} nếu nấm rất độc.
+  \item In \texttt{TOXIC} nếu nấm độc.
+  \item In \texttt{SAFE} nếu nấm an toàn.
+\end{itemize}
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+5.0 & TOXIC \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Đọc số thực \texttt{T}.
+  \item So sánh theo ngưỡng:
+  \begin{itemize}
+    \item Nếu \texttt{T >= 9.0} $\rightarrow$ \texttt{VERY TOXIC}.
+    \item Ngược lại nếu \texttt{T >= 5.0} $\rightarrow$ \texttt{TOXIC}.
+    \item Còn lại $\rightarrow$ \texttt{SAFE}.
+  \end{itemize}
+  \item Vì dữ liệu có đúng 1 chữ số thập phân nên so sánh trực tiếp kiểu \texttt{double} là đủ an toàn.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    double T;
+    cin >> T;
+
+    if(T >= 9.0){
+        cout << "VERY TOXIC";
+    }else if(T >= 5.0){
+        cout << "TOXIC";
+    }else{
+        cout << "SAFE";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Phương trình nghiệm nguyên}{https://marisaoj.com/problem/397}
+Tìm nghiệm nguyên của phương trình:
+\[
+a x + b = 0.
+\]
+Trong đó \textbf{nghiệm nguyên} nghĩa là \(x\) phải là một số nguyên.
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{a, b}.
+
+\noindent \textbf{Output}
+
+\begin{itemize}
+  \item Nếu có đúng một nghiệm nguyên, in ra nghiệm đó.
+  \item Nếu có vô số nghiệm, in ra \texttt{INFINITE SOLUTIONS}.
+  \item Nếu không tồn tại nghiệm nguyên, in ra \texttt{NO SOLUTION}.
+\end{itemize}
+
+\noindent \textbf{Điều kiện}
+
+\[
+-100 \le a, b \le 100
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+3 6 & -2 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Xét các trường hợp của hệ số \texttt{a}:
+  \begin{itemize}
+    \item Nếu \(a = 0\):
+      \begin{itemize}
+        \item Nếu \(b = 0\) thì phương trình \(0x + 0 = 0\) đúng với mọi \(x\) $\Rightarrow$ vô số nghiệm.
+        \item Nếu \(b \ne 0\) thì \(0x + b = 0\) vô lý $\Rightarrow$ không có nghiệm.
+      \end{itemize}
+    \item Nếu \(a \ne 0\):
+      \begin{itemize}
+        \item Ta có \(x = -\dfrac{b}{a}\).
+        \item Để \(x\) là số nguyên thì \(b\) phải chia hết cho \(a\), tức là \(b \bmod a = 0\).
+      \end{itemize}
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b;
+    cin >> a >> b;
+
+    if(a == 0){
+        if(b == 0) cout << "INFINITE SOLUTIONS";
+        else cout << "NO SOLUTION";
+    }else{
+        if(b % a == 0){
+            cout << (-b / a);
+        }else{
+            cout << "NO SOLUTION";
+        }
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tuổi}{https://marisaoj.com/problem/420}
+Có hai người:
+\begin{itemize}
+  \item Người thứ nhất sinh ngày \texttt{a}, tháng \texttt{b}, năm \texttt{c}.
+  \item Người thứ hai sinh ngày \texttt{x}, tháng \texttt{y}, năm \texttt{z}.
+\end{itemize}
+Biết rằng hai người không sinh cùng ngày. Hãy xác định người nào nhiều tuổi hơn.
+
+\noindent \textbf{Input}
+
+Một dòng gồm sáu số nguyên \texttt{a, b, c, x, y, z}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{1} nếu người thứ nhất nhiều tuổi hơn, ngược lại in ra \texttt{2}.
+
+\noindent \textbf{Điều kiện}
+
+Đảm bảo ngày hợp lệ và hai người không sinh cùng ngày.
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+7 10 1990 8 10 1990 & 1 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Người nhiều tuổi hơn là người có ngày sinh \textbf{sớm hơn}.
+  \item So sánh theo thứ tự:
+  \begin{itemize}
+    \item So sánh năm: năm nhỏ hơn $\Rightarrow$ sinh sớm hơn.
+    \item Nếu năm bằng nhau, so sánh tháng: tháng nhỏ hơn $\Rightarrow$ sinh sớm hơn.
+    \item Nếu tháng bằng nhau, so sánh ngày: ngày nhỏ hơn $\Rightarrow$ sinh sớm hơn.
+  \end{itemize}
+  \item Nếu ngày sinh của người thứ nhất sớm hơn người thứ hai $\Rightarrow$ in \texttt{1}, ngược lại in \texttt{2}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c, x, y, z;
+    cin >> a >> b >> c >> x >> y >> z;
+
+    // so sanh nam truoc
+    if(c != z){
+        if(c < z) cout << 1;
+        else cout << 2;
+        return 0;
+    }
+
+    // neu nam bang nhau, so sanh thang
+    if(b != y){
+        if(b < y) cout << 1;
+        else cout << 2;
+        return 0;
+    }
+
+    // neu thang bang nhau, so sanh ngay
+    if(a < x) cout << 1;
+    else cout << 2;
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Ghép hình chữ nhật}{https://marisaoj.com/problem/421}
+Cho hai hình chữ nhật có kích thước lần lượt \texttt{a×b} và \texttt{c×d}.
+Kiểm tra xem có thể ghép hai hình chữ nhật này thành một hình chữ nhật khác bằng cách đặt chúng cạnh nhau hay không.
+
+\noindent \textbf{Input}
+
+Một dòng gồm bốn số nguyên \texttt{a, b, c, d}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{YES} nếu có thể ghép, ngược lại in ra \texttt{NO}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b, c, d \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+1 2 3 4 & NO \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ghép ``cạnh nhau'' có 2 kiểu:
+  \begin{itemize}
+    \item Ghép ngang: hai hình phải có \textbf{cùng chiều cao}.
+    \item Ghép dọc: hai hình phải có \textbf{cùng chiều rộng}.
+  \end{itemize}
+  \item Mỗi hình có thể xoay, tức là \((a,b)\) hoặc \((b,a)\), và \((c,d)\) hoặc \((d,c)\).
+  \item Ta xét 4 cách xoay, với mỗi cách kiểm tra:
+  \begin{itemize}
+    \item \(H_1 = H_2\) (ghép ngang) hoặc \(W_1 = W_2\) (ghép dọc).
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+
+    int ok = 0;
+
+    // Case 1: (a,b) va (c,d)
+    if(b == d) ok = 1; // ghep ngang (cao bang nhau)
+    if(a == c) ok = 1; // ghep doc (rong bang nhau)
+
+    // Case 2: (a,b) va (d,c)
+    if(b == c) ok = 1;
+    if(a == d) ok = 1;
+
+    // Case 3: (b,a) va (c,d)
+    if(a == d) ok = 1;
+    if(b == c) ok = 1;
+
+    // Case 4: (b,a) va (d,c)
+    if(a == c) ok = 1;
+    if(b == d) ok = 1;
+
+    cout << (ok ? "YES" : "NO");
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+
+\begin{baitap}{Tam giác}{https://marisaoj.com/problem/4}
+Nhập vào ba số nguyên \texttt{a, b, c}. Hãy kiểm tra xem có thể tạo được một tam giác từ ba cạnh có độ dài \texttt{a, b, c} hay không.
+
+\noindent \textbf{Input}
+
+Một dòng gồm 3 số nguyên \texttt{a, b, c}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{YES} nếu có thể tạo thành tam giác, ngược lại in ra \texttt{NO}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b, c \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+3 4 5 & YES \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ba đoạn thẳng tạo thành tam giác khi và chỉ khi \textbf{tổng độ dài hai cạnh bất kỳ lớn hơn cạnh còn lại}.
+  \item Tức là cần đồng thời thỏa:
+  \[
+  a+b>c,\quad a+c>b,\quad b+c>a.
+  \]
+  \item Nếu cả 3 bất đẳng thức đều đúng thì in \texttt{YES}, ngược lại in \texttt{NO}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c;
+    cin >> a >> b >> c;
+
+    if(a + b > c && a + c > b && b + c > a){
+        cout << "YES";
+    }else{
+        cout << "NO";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Máy tính}{https://marisaoj.com/problem/535}
+Thiết kế một chiếc máy tính xử lí được bốn phép toán cơ bản: cộng (\texttt{+}), trừ (\texttt{-}),
+nhân (\texttt{*}) và chia (\texttt{/}) với hai số thực \texttt{a}, \texttt{b}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm lần lượt:
+\begin{itemize}
+  \item Số thực \texttt{a}
+  \item Một kí tự biểu diễn phép toán
+  \item Số thực \texttt{b}
+\end{itemize}
+
+\noindent \textbf{Output}
+
+\begin{itemize}
+  \item In ra kết quả của phép tính, làm tròn tới \texttt{3} chữ số thập phân.
+  \item Nếu phép tính không thể thực hiện được (chia cho 0), in ra \texttt{ze}.
+\end{itemize}
+
+\noindent \textbf{Điều kiện}
+
+\[
+-1000 \le a, b \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 * 5 & 20.000 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Đọc hai số thực \texttt{a}, \texttt{b} và kí tự phép toán.
+  \item Xét từng trường hợp của phép toán:
+  \begin{itemize}
+    \item \texttt{+}: tính \(a + b\)
+    \item \texttt{-}: tính \(a - b\)
+    \item \texttt{*}: tính \(a \times b\)
+    \item \texttt{/}: nếu \(b = 0\) thì không thực hiện được
+  \end{itemize}
+  \item Nếu phép toán hợp lệ, in kết quả với định dạng \texttt{fixed} và \texttt{setprecision(3)}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    double a, b;
+    char op;
+    cin >> a >> op >> b;
+
+    double res;
+    bool ok = true;
+
+    if(op == '+'){
+        res = a + b;
+    }else if(op == '-'){
+        res = a - b;
+    }else if(op == '*'){
+        res = a * b;
+    }else if(op == '/'){
+        if(b == 0){
+            ok = false;
+        }else{
+            res = a / b;
+        }
+    }else{
+        ok = false;
+    }
+
+    if(!ok){
+        cout << "ze";
+    }else{
+        cout << fixed << setprecision(3) << res;
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Nhỏ nhất và lớn nhất}{https://marisaoj.com/problem/5}
+Cho ba số nguyên \texttt{a, b, c}. Hãy in ra số nhỏ nhất và số lớn nhất trong ba số đó.
+
+\noindent \textbf{Input}
+
+Một dòng gồm 3 số nguyên \texttt{a, b, c}.
+
+\noindent \textbf{Output}
+
+In ra hai số: số nhỏ nhất và số lớn nhất.
+
+\noindent \textbf{Giới hạn}
+
+\[
+1 \le a, b, c \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 3 4 & 3 4 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Khởi tạo \texttt{mn} và \texttt{mx} lần lượt bằng \texttt{a}.
+  \item So sánh \texttt{b} và \texttt{c} với \texttt{mn} để cập nhật giá trị nhỏ nhất.
+  \item So sánh \texttt{b} và \texttt{c} với \texttt{mx} để cập nhật giá trị lớn nhất.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c;
+    cin >> a >> b >> c;
+
+    int mn = a, mx = a;
+
+    if(b < mn) mn = b;
+    if(c < mn) mn = c;
+
+    if(b > mx) mx = b;
+    if(c > mx) mx = c;
+
+    cout << mn << " " << mx;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Hình chữ nhật}{https://marisaoj.com/problem/7}
+Cho độ dài ba cạnh \texttt{a, b, c} của một hình chữ nhật.
+Biết rằng trong ba cạnh này có hai cạnh bằng nhau (là hai cạnh đối diện của hình chữ nhật).
+Hãy in ra độ dài của cạnh còn lại.
+
+\noindent \textbf{Input}
+
+Một dòng gồm ba số nguyên \texttt{a, b, c}.
+
+\noindent \textbf{Output}
+
+In ra độ dài cạnh còn lại của hình chữ nhật.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b, c \le 1000
+\]
+
+Không có trường hợp không hợp lệ.
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 3 4 & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Trong hình chữ nhật, hai cạnh đối diện có độ dài bằng nhau.
+  \item Do đó trong ba số \texttt{a, b, c}:
+  \begin{itemize}
+    \item Nếu \texttt{a = b} thì cạnh còn lại là \texttt{c}.
+    \item Nếu \texttt{a = c} thì cạnh còn lại là \texttt{b}.
+    \item Ngược lại, \texttt{b = c} và cạnh còn lại là \texttt{a}.
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c;
+    cin >> a >> b >> c;
+
+    if(a == b){
+        cout << c;
+    }else if(a == c){
+        cout << b;
+    }else{
+        cout << a;
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đoạn thẳng}{https://marisaoj.com/problem/419}
+Cho hai đoạn thẳng \texttt{AB} và \texttt{CD} nằm trên trục số.
+Đoạn \texttt{AB} kéo dài từ \texttt{a} đến \texttt{b}, đoạn \texttt{CD} kéo dài từ \texttt{c} đến \texttt{d}.
+Hãy kiểm tra xem hai đoạn thẳng có điểm chung không.
+
+\noindent \textbf{Input}
+
+Một dòng gồm bốn số nguyên \texttt{a, b, c, d}.
+
+\noindent \textbf{Output}
+
+Nếu hai đoạn thẳng có điểm chung, in ra \texttt{YES}. Ngược lại in ra \texttt{NO}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a \le b \le 1000,\quad 1 \le c \le d \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+1 2 2 3 & YES \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Hai đoạn thẳng \([a,b]\) và \([c,d]\) có điểm chung khi chúng \textbf{giao nhau}.
+  \item Chúng \textbf{không} có điểm chung chỉ khi một đoạn nằm hoàn toàn bên trái đoạn kia:
+  \[
+  b < c \quad \text{hoặc} \quad d < a.
+  \]
+  \item Nếu không rơi vào hai trường hợp trên thì chắc chắn có ít nhất một điểm chung $\Rightarrow$ in \texttt{YES}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+
+    if(b < c || d < a){
+        cout << "NO";
+    }else{
+        cout << "YES";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tăng dần}{https://marisaoj.com/problem/6}
+Cho ba số nguyên \texttt{a, b, c}. Hãy in ra ba số theo thứ tự từ bé đến lớn.
+
+\noindent \textbf{Input}
+
+Một dòng gồm 3 số nguyên \texttt{a, b, c}.
+
+\noindent \textbf{Output}
+
+In ra 3 số theo thứ tự tăng dần.
+
+\noindent \textbf{Giới hạn}
+
+\[
+1 \le a, b, c \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+8 3 9 & 3 8 9 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ta sắp xếp ba số bằng cách so sánh và đổi chỗ.
+  \item Nếu \texttt{a > b} thì đổi chỗ \texttt{a} và \texttt{b}.
+  \item Nếu \texttt{a > c} thì đổi chỗ \texttt{a} và \texttt{c}.
+  \item Nếu \texttt{b > c} thì đổi chỗ \texttt{b} và \texttt{c}.
+  \item Sau các bước trên, ta có \(\texttt{a} \le \texttt{b} \le \texttt{c}\).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c;
+    cin >> a >> b >> c;
+
+    if(a > b){
+        int t = a; a = b; b = t;
+    }
+    if(a > c){
+        int t = a; a = c; c = t;
+    }
+    if(b > c){
+        int t = b; b = c; c = t;
+    }
+
+    cout << a << " " << b << " " << c;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Số chính phương}{https://marisaoj.com/problem/11}
+Cho số nguyên \texttt{a}. Hãy xác định xem \texttt{a} có phải là số chính phương hay không.
+
+\noindent \textbf{Input}
+
+Một số nguyên \texttt{a}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{YES} nếu \texttt{a} là số chính phương, ngược lại in ra \texttt{NO}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+16 & YES \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Một số là số chính phương nếu tồn tại số nguyên \texttt{x} sao cho \(\texttt{x}^2 = a\).
+  \item Ta lấy căn bậc hai của \texttt{a}, làm tròn xuống để được \texttt{x}.
+  \item Nếu \(\texttt{x} \times \texttt{x} = a\) thì \texttt{a} là số chính phương.
+  \item Cách này chạy rất nhanh và phù hợp với \texttt{a} lớn tới \(10^{18}\).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a;
+    cin >> a;
+
+    int x = sqrt((long double)a);
+    if(x * x == a){
+        cout << "YES";
+    }else{
+        cout << "NO";
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Chữ hoa chữ thường}{https://marisaoj.com/problem/13}
+Cho một chữ cái \texttt{c}. Nếu \texttt{c} là chữ thường, hãy in ra \texttt{c} dưới dạng chữ hoa, và ngược lại.
+
+\noindent \textbf{Input}
+
+Một chữ cái \texttt{c} (chữ cái trong bảng chữ cái tiếng Anh).
+
+\noindent \textbf{Output}
+
+Nếu \texttt{c} là chữ hoa, in ra \texttt{c} dưới dạng chữ thường;  
+nếu \texttt{c} là chữ thường, in ra \texttt{c} dưới dạng chữ hoa.
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+C & c \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Trong bảng mã ASCII:
+  \begin{itemize}
+    \item Chữ hoa nằm trong đoạn từ \texttt{'A'} đến \texttt{'Z'}.
+    \item Chữ thường nằm trong đoạn từ \texttt{'a'} đến \texttt{'z'}.
+  \end{itemize}
+  \item Nếu \texttt{c} là chữ hoa, ta đổi sang chữ thường bằng cách cộng hiệu \texttt{'a' - 'A'}.
+  \item Nếu \texttt{c} là chữ thường, ta đổi sang chữ hoa bằng cách trừ hiệu \texttt{'a' - 'A'}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    char c;
+    cin >> c;
+
+    if(c >= 'A' && c <= 'Z'){
+        // doi sang chu thuong
+        c = c + ('a' - 'A');
+    }else{
+        // doi sang chu hoa
+        c = c - ('a' - 'A');
+    }
+
+    cout << c;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đếm chữ}{https://marisaoj.com/problem/14}
+Cho hai chữ cái \texttt{a}, \texttt{b} (có thể là chữ hoa hoặc chữ thường).
+Hãy đếm số lượng chữ cái \textbf{nằm giữa} \texttt{a} và \texttt{b} trong bảng chữ cái tiếng Anh.
+
+\noindent \textbf{Input}
+
+Một dòng gồm 2 chữ cái \texttt{a, b}.
+
+\noindent \textbf{Output}
+
+In ra số lượng chữ cái giữa \texttt{a} và \texttt{b} trong bảng chữ cái tiếng Anh.
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+a E & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Chuyển cả hai chữ cái về cùng một dạng (ví dụ: chữ thường) để dễ so sánh.
+  \item Khi đã cùng dạng, vị trí của chữ cái trong bảng chữ cái có thể tính bằng:
+  \[
+  pos = c - 'a'
+  \]
+  (với \texttt{a} có vị trí 0, \texttt{b} có vị trí 1, \dots).
+  \item Số chữ cái nằm giữa hai chữ là:
+  \[
+  |pos(a) - pos(b)| - 1.
+  \]
+  \item Ví dụ: \texttt{a} và \texttt{e} có khoảng cách 4, nên ở giữa có \(4-1=3\) chữ: \texttt{b, c, d}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    char a, b;
+    cin >> a >> b;
+
+    // chuyen ve chu thuong neu la chu hoa
+    if(a >= 'A' && a <= 'Z') a = a + ('a' - 'A');
+    if(b >= 'A' && b <= 'Z') b = b + ('a' - 'A');
+
+    int posa = a - 'a';
+    int posb = b - 'a';
+
+    int ans = llabs(posa - posb) - 1;
+    cout << ans;
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Định dạng thời gian}{https://marisaoj.com/problem/416}
+Hãy đổi từ \texttt{d} giây sang dạng giờ, phút, giây.
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{d} (số giây).
+
+\noindent \textbf{Output}
+
+In ra ba số nguyên \texttt{h, m, s} lần lượt là số giờ, phút và giây tương ứng.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le d \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+3929 & 1 5 29 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Một giờ có \(3600\) giây, một phút có \(60\) giây.
+  \item Số giờ:
+  \[
+  h = \left\lfloor \dfrac{d}{3600} \right\rfloor
+  \]
+  \item Số giây còn lại sau khi lấy giờ:
+  \[
+  d = d \bmod 3600
+  \]
+  \item Số phút:
+  \[
+  m = \left\lfloor \dfrac{d}{60} \right\rfloor
+  \]
+  \item Số giây còn lại chính là:
+  \[
+  s = d \bmod 60
+  \]
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int d;
+    cin >> d;
+
+    int h = d / 3600;
+    d %= 3600;
+
+    int m = d / 60;
+    int s = d % 60;
+
+    cout << h << " " << m << " " << s;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Hóa đơn tiền điện}{https://marisaoj.com/problem/587}
+Tiền điện hàng tháng được tính theo các mức sau:
+\begin{itemize}
+  \item Từ kWh \texttt{0} đến \texttt{50}: mỗi kWh giá \texttt{a} đồng.
+  \item Từ kWh \texttt{51} đến \texttt{100}: mỗi kWh giá \texttt{b} đồng.
+  \item Từ kWh \texttt{101} đến \texttt{150}: mỗi kWh giá \texttt{c} đồng.
+  \item Từ kWh \texttt{151} trở đi: mỗi kWh giá \texttt{d} đồng.
+\end{itemize}
+
+Cho số kWh sử dụng là \texttt{x} và bốn số nguyên \texttt{a, b, c, d}.  
+Hãy tính tổng số tiền điện phải trả.
+
+\noindent \textbf{Input}
+
+Một dòng gồm năm số nguyên \texttt{x, a, b, c, d}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là số tiền điện.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le x, a, b, c, d \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+60 1 2 3 4 & 70 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Tiền điện được tính theo từng bậc, không phải tất cả kWh đều tính cùng một giá.
+  \item Ta lần lượt trừ số kWh đã tính ở các mức trước:
+  \begin{itemize}
+    \item Nếu \texttt{x} lớn hơn 50, tính 50 kWh đầu với giá \texttt{a}.
+    \item Nếu còn vượt 100, tính tiếp 50 kWh với giá \texttt{b}.
+    \item Nếu còn vượt 150, tính tiếp 50 kWh với giá \texttt{c}.
+    \item Phần còn lại (nếu có) tính với giá \texttt{d}.
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int x, a, b, c, d;
+    cin >> x >> a >> b >> c >> d;
+
+    int cost = 0;
+
+    if(x <= 50){
+        cost = x * a;
+    }else if(x <= 100){
+        cost = 50 * a + (x - 50) * b;
+    }else if(x <= 150){
+        cost = 50 * a + 50 * b + (x - 100) * c;
+    }else{
+        cost = 50 * a + 50 * b + 50 * c + (x - 150) * d;
+    }
+
+    cout << cost;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Ăn nấm}{https://marisaoj.com/problem/588}
+Vào những ngày \textbf{không phải cuối tuần} (từ thứ Hai đến thứ Sáu), Marisa sẽ ăn một cây nấm.
+Marisa bắt đầu ăn nấm từ \texttt{thứ x}, hỏi sau \texttt{y} ngày Marisa đã ăn bao nhiêu nấm.
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{x, y}.
+
+\noindent \textbf{Output}
+
+In ra số nấm Marisa đã ăn.
+
+\noindent \textbf{Điều kiện}
+
+\[
+2 \le x \le 8 \ (8 \text{ là Chủ Nhật}), \qquad 1 \le y \le 10^6
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+6 5 & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Quy ước: \texttt{2..8} tương ứng Thứ Hai..Chủ Nhật.
+  \item Gọi \(\texttt{full} = \lfloor y/7 \rfloor\) là số tuần đầy đủ, khi đó ăn được \(\texttt{full} \times 5\) nấm.
+  \item Phần còn lại \(\texttt{rem} = y \bmod 7\) chỉ nằm trong 7 ngày đầu của một tuần, có thể tính bằng công thức:
+  \begin{itemize}
+    \item Đặt \(s = x - 2\) (đổi về chỉ số 0..6), với 0..4 là ngày ăn, 5..6 là cuối tuần.
+    \item Trong \texttt{rem} ngày, ta xét các chỉ số ngày \(s, s+1, \dots, s+\texttt{rem}-1\) theo modulo 7.
+    \item Số ngày ăn bằng \(\texttt{rem} -\) (số ngày rơi vào cuối tuần).
+  \end{itemize}
+  \item Số ngày cuối tuần trong đoạn dài \texttt{rem} được tính bằng cách đếm số phần tử rơi vào tập \(\{5,6\}\).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int x, y;
+    cin >> x >> y;
+
+    int full = y / 7;
+    int rem  = y % 7;
+
+    int ans = full * 5;
+
+    // s: 0..6 (0=Mon,1=Tue,...,4=Fri,5=Sat,6=Sun)
+    int s = x - 2;
+
+    // dem so ngay cuoi tuan trong doan rem ngay
+    int weekend = 0;
+    if(rem > 0){
+        // neu doan rem khong vuot qua het tuan (s+rem-1 <= 6)
+        if(s + rem - 1 <= 6){
+            // giao voi [5,6]
+            int L = s;
+            int R = s + rem - 1;
+            int l2 = max(L, 5LL);
+            int r2 = min(R, 6LL);
+            if(l2 <= r2) weekend = r2 - l2 + 1;
+        }else{
+            // doan bi "vong" qua tuan moi: tach thanh 2 doan
+            // Doan 1: [s, 6], Doan 2: [0, (s+rem-1)%7]
+            int L1 = s, R1 = 6;
+            int l2 = max(L1, 5LL);
+            int r2 = min(R1, 6LL);
+            if(l2 <= r2) weekend += r2 - l2 + 1;
+
+            int end2 = (s + rem - 1) % 7;
+            int L2 = 0, R2 = end2;
+            l2 = max(L2, 5LL);
+            r2 = min(R2, 6LL);
+            if(l2 <= r2) weekend += r2 - l2 + 1;
+        }
+    }
+
+    ans += (rem - weekend);
+    cout << ans;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}

@@ -1,0 +1,274 @@
+\chapter{TỔNG QUAN}
+
+\noindent\textbf{Người soạn:} Đặng Phúc An Khang -- Khóa 2 ngành Công nghệ Thông tin \\
+\textbf{Tài liệu tham khảo chính:} \textit{Competitive Programmer's Handbook} -- Antti Laaksonen
+
+\minitoc
+
+\section{Giới thiệu về Lập trình thi đấu}
+
+\subsection{Lập trình thi đấu là gì?}
+
+\textbf{Lập trình thi đấu (Competitive Programming - CP)} là hình thức giải các bài toán thuật toán 
+(làm bài trên máy tính) trong một khoảng thời gian hữu hạn (thường từ 1,5 đến 5 giờ), 
+dưới những \emph{ràng buộc chặt chẽ} về thời gian chạy và bộ nhớ. 
+Thí sinh (cá nhân hoặc đội) viết chương trình nhằm:
+\begin{itemize}
+  \item \textbf{Đọc} dữ liệu từ bàn phím/file và \textbf{ghi} kết quả ra màn hình/file.
+  \item \textbf{Được chấm tự động} trên bộ test ẩn bởi hệ thống \emph{Online Judge} (OJ) hoặc chấm offline với các kỳ thi như Học sinh giỏi Quốc gia (HSGQG).
+  \item \textbf{Được đánh giá} theo các tiêu chí chính: \emph{đúng} (correctness), \emph{nhanh} (time complexity/performance), \emph{tiết kiệm bộ nhớ} (space usage), đôi khi có \emph{điểm từng phần} (partial score).
+\end{itemize}
+
+Lập trình thi đấu vì thế vừa là một hình thức thi, vừa là môi trường rèn luyện tư duy thuật toán và kỹ năng lập trình trong điều kiện áp lực về thời gian và tài nguyên.
+
+\subsection{Thiết kế thuật toán trong lập trình thi đấu}
+
+Lập trình thi đấu kết hợp hai nội dung chính:
+\begin{itemize}
+    \item \textbf{Thiết kế thuật toán}
+    \item \textbf{Hiện thực (cài đặt) thuật toán}
+\end{itemize}
+
+Việc thiết kế thuật toán bao gồm quá trình giải quyết bài toán và tư duy toán học. 
+Người học cần có kỹ năng phân tích bài toán và khả năng tìm ra lời giải một cách sáng tạo. 
+Một thuật toán giải quyết bài toán phải vừa đúng vừa hiệu quả, và cốt lõi của nhiều bài toán thường nằm ở việc xây dựng được một thuật toán có độ phức tạp tối ưu.
+
+Kiến thức lý thuyết về thuật toán đóng vai trò quan trọng đối với lập trình viên thi đấu. 
+Thông thường, lời giải cho một bài toán là sự kết hợp giữa các kỹ thuật đã được biết đến và những ý tưởng mới. 
+Các kỹ thuật xuất hiện trong lập trình thi đấu cũng chính là nền tảng cho các nghiên cứu khoa học trong lĩnh vực thuật toán.
+
+\subsection{Hiện thực thuật toán và phong cách lập trình}
+
+Việc hiện thực thuật toán đòi hỏi kỹ năng lập trình tốt. 
+Trong lập trình thi đấu, các lời giải được đánh giá thông qua việc kiểm tra chương trình đã cài đặt bằng một tập bộ test do hệ thống cung cấp. 
+Do đó, không chỉ ý tưởng thuật toán cần đúng, mà phần cài đặt cũng phải hoàn toàn chính xác; một lỗi nhỏ trong cài đặt cũng có thể dẫn tới kết quả \emph{Wrong Answer} hoặc \emph{Runtime Error}.
+
+Phong cách lập trình trong các kỳ thi thường cần \textbf{đơn giản và súc tích}. 
+Chương trình phải được viết nhanh do thời gian hạn chế, đồng thời đủ rõ ràng để dễ dàng sửa lỗi nếu cần. 
+Khác với kỹ nghệ phần mềm truyền thống, các chương trình trong lập trình thi đấu thường ngắn 
+(thường không quá vài trăm dòng mã) và không cần bảo trì sau khi cuộc thi kết thúc.
+
+\subsection{Một số thuật ngữ và \textit{verdict} thường gặp}
+
+Trong quá trình nộp bài trên các hệ thống chấm tự động, lập trình viên thi đấu thường gặp các \textit{verdict} sau:
+\begin{itemize}
+  \item \texttt{AC} (Accepted): Kết quả đúng trên tất cả test.
+  \item \texttt{WA} (Wrong Answer): Sai kết quả trên ít nhất một test.
+  \item \texttt{TLE} (Time Limit Exceeded): Vượt quá giới hạn thời gian cho phép.
+  \item \texttt{MLE} (Memory Limit Exceeded): Vượt quá giới hạn bộ nhớ.
+  \item \texttt{RE} (Runtime Error): Lỗi trong quá trình chạy (ví dụ chia cho 0, truy cập ngoài mảng,\dots).
+  \item \texttt{CE} (Compilation Error): Lỗi biên dịch, chương trình không biên dịch được.
+\end{itemize}
+
+Những thuật ngữ này là một phần không thể tách rời của lập trình thi đấu và giúp thí sinh hiểu rõ hơn lý do bài làm của mình chưa được chấp nhận (nếu không được \texttt{AC}).
+
+% --------------------------------------------------------------------
+
+\section{Ngôn ngữ lập trình}
+
+Hiện nay, các ngôn ngữ lập trình được sử dụng phổ biến nhất trong lập trình thi đấu là \textbf{C++}, \textbf{Python} và \textbf{Java}. 
+Theo thống kê từ cuộc thi Google Code Jam năm 2017, trong số khoảng 3.000 thí sinh có thứ hạng cao nhất, 
+khoảng 79\% sử dụng C++, 16\% sử dụng Python và 8\% sử dụng Java. 
+Ngoài ra, một số thí sinh còn sử dụng kết hợp nhiều ngôn ngữ khác nhau tùy theo từng bài toán.
+
+Nhiều lập trình viên cho rằng C++ là lựa chọn tối ưu nhất cho lập trình thi đấu, 
+và trên thực tế, C++ gần như luôn được hỗ trợ trong tất cả các hệ thống chấm bài. 
+Ưu điểm lớn nhất của C++ là hiệu năng cao, khả năng kiểm soát bộ nhớ tốt, 
+cùng với thư viện chuẩn phong phú, cung cấp nhiều cấu trúc dữ liệu và thuật toán hiệu quả. 
+Những yếu tố này giúp C++ đặc biệt phù hợp với các bài toán có ràng buộc nghiêm ngặt về thời gian và bộ nhớ.
+
+Tuy nhiên, việc thành thạo nhiều ngôn ngữ lập trình và hiểu rõ điểm mạnh của từng ngôn ngữ cũng rất quan trọng. 
+Chẳng hạn, trong các bài toán yêu cầu xử lý số nguyên rất lớn, Python có thể là một lựa chọn thuận lợi nhờ hỗ trợ sẵn các phép toán trên số nguyên có độ chính xác cao. 
+Dù vậy, hầu hết các bài toán trong lập trình thi đấu đều được thiết kế sao cho việc sử dụng một ngôn ngữ lập trình cụ thể 
+không tạo ra lợi thế không công bằng so với các ngôn ngữ khác.
+
+Trong tài liệu này, tất cả các ví dụ minh họa đều được viết bằng \textbf{C++} và thường xuyên sử dụng các cấu trúc dữ liệu 
+và thuật toán trong thư viện chuẩn. 
+Các chương trình tuân theo chuẩn \textbf{C++20}, vốn đã được hỗ trợ rộng rãi trong hầu hết các kỳ thi lập trình hiện nay. 
+Đối với người học chưa quen với C++, đây là thời điểm thích hợp để bắt đầu làm quen và rèn luyện với ngôn ngữ này.
+
+\subsection{Mẫu code C++ trong lập trình thi đấu}
+
+Một mẫu chương trình C++ cơ bản thường được sử dụng trong lập trình thi đấu có dạng như sau:
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    // solution comes here
+}
+\end{lstlisting}
+
+Dòng \texttt{\#include <bits/stdc++.h>} là một đặc điểm của trình biên dịch \texttt{g++}, 
+cho phép nạp toàn bộ thư viện chuẩn của C++ chỉ trong một dòng lệnh. 
+Nhờ đó, người lập trình không cần phải lần lượt khai báo các thư viện như \texttt{iostream}, 
+\texttt{vector} hay \texttt{algorithm}, vì tất cả đã được bao gồm sẵn.
+
+Dòng lệnh \texttt{using namespace std;} cho phép sử dụng trực tiếp các lớp và hàm trong thư viện chuẩn. 
+Nếu không có dòng lệnh này, người lập trình sẽ phải viết đầy đủ tiền tố \texttt{std::}, 
+ví dụ như \texttt{std::cout} thay vì chỉ cần \texttt{cout}.
+
+Chương trình có thể được biên dịch bằng lệnh sau:
+
+\begin{verbatim}
+g++ -std=c++20 -O2 -Wall test.cpp -o test
+\end{verbatim}
+
+Lệnh trên tạo ra tệp thực thi \texttt{test} từ mã nguồn \texttt{test.cpp}. 
+Trình biên dịch sử dụng chuẩn C++20 (\texttt{-std=c++20}), 
+tối ưu hóa chương trình (\texttt{-O2}) 
+và hiển thị các cảnh báo liên quan đến lỗi tiềm ẩn trong mã nguồn (\texttt{-Wall}).
+
+Sau khi biên dịch được tệp thực thi \texttt{test}, để chạy chương trình, ta sử dụng câu lệnh:
+
+\begin{verbatim}
+./test
+\end{verbatim}
+
+
+%------------------------------------------------
+
+
+
+\section{Các cuộc thi và tài nguyên luyện thi}
+
+Lập trình thi đấu không chỉ gắn liền với việc rèn luyện thuật toán,
+mà còn gắn với các kỳ thi ở nhiều cấp độ khác nhau,
+từ học sinh phổ thông đến sinh viên đại học và cộng đồng trực tuyến.
+Phần này giới thiệu các cuộc thi tiêu biểu và những tài nguyên quan trọng
+phục vụ cho việc học và luyện tập.
+
+%------------------------------------------------
+
+\subsection{IOI -- International Olympiad in Informatics}
+
+\textbf{International Olympiad in Informatics (IOI)} là kỳ thi Olympic Tin học quốc tế
+được tổ chức hằng năm dành cho học sinh trung học phổ thông.
+Mỗi quốc gia được cử một đội gồm \textbf{4 thí sinh} tham dự.
+Thông thường, IOI có khoảng \textbf{300 thí sinh} đến từ hơn \textbf{80 quốc gia}.
+
+Kỳ thi IOI gồm \textbf{2 ngày thi}, mỗi ngày kéo dài \textbf{5 giờ}.
+Trong mỗi ngày, thí sinh phải giải \textbf{3 bài toán thuật toán} với độ khó khác nhau.
+Các bài toán thường được chia thành nhiều \textbf{subtask},
+mỗi subtask có số điểm riêng, cho phép thí sinh nhận điểm một phần.
+
+Mặc dù thí sinh được tuyển chọn theo đội tuyển quốc gia,
+nhưng tại IOI, các thí sinh \textbf{thi đấu cá nhân}.
+
+Nội dung ra đề của IOI được quy định trong \emph{IOI Syllabus},
+bao gồm các chủ đề thuật toán và cấu trúc dữ liệu cốt lõi.
+Hầu hết các chủ đề trong chương trình IOI đều là nền tảng của lập trình thi đấu hiện đại.
+
+Trước khi tham dự IOI, thí sinh thường trải qua các kỳ thi chọn đội tuyển quốc gia,
+cũng như các kỳ thi khu vực như:
+\begin{itemize}
+    \item Baltic Olympiad in Informatics (BOI)
+    \item Central European Olympiad in Informatics (CEOI)
+    \item Asia-Pacific Informatics Olympiad (APIO)
+\end{itemize}
+
+Ngoài ra, một số quốc gia tổ chức các kỳ thi trực tuyến để luyện tập cho IOI,
+ví dụ như:
+\begin{itemize}
+    \item Croatian Open Competition in Informatics
+    \item USA Computing Olympiad (USACO)
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{ICPC -- International Collegiate Programming Contest}
+
+\textbf{International Collegiate Programming Contest (ICPC)} là kỳ thi lập trình quốc tế
+dành cho sinh viên đại học.
+Khác với IOI, ICPC là \textbf{cuộc thi theo đội}, mỗi đội gồm \textbf{3 sinh viên}
+và chỉ được sử dụng \textbf{1 máy tính} trong suốt thời gian thi.
+
+Một cuộc thi ICPC tiêu chuẩn kéo dài \textbf{5 giờ},
+trong đó mỗi đội cần giải khoảng \textbf{8--12 bài toán thuật toán}.
+Một bài toán chỉ được chấp nhận khi lời giải đúng \textbf{toàn bộ bộ test}
+và chạy hiệu quả trong giới hạn thời gian.
+
+ICPC gồm nhiều vòng:
+\begin{itemize}
+    \item Vòng miền (Nam/Trung/Bắc)
+    \item Vòng quốc gia (National)
+    \item Vòng khu vực (Regional)
+    \item Chung kết thế giới (World Finals)
+\end{itemize}
+
+Mặc dù có hàng chục nghìn đội tham gia ICPC mỗi năm,
+số lượng suất vào chung kết thế giới là rất hạn chế.
+Do đó, chỉ cần lọt vào vòng World Finals đã được xem là một thành tích lớn.
+
+Trong ICPC, bảng xếp hạng được công bố theo thời gian thực,
+nhưng \textbf{giờ cuối cùng} của cuộc thi thường bị \emph{đóng băng}
+(frozen scoreboard), khiến kết quả cuối cùng chỉ được công bố sau khi kết thúc.
+
+So với IOI, phạm vi kiến thức trong ICPC rộng hơn,
+đòi hỏi thí sinh có nền tảng toán học và tư duy thuật toán sâu hơn.
+
+%------------------------------------------------
+
+\subsection{Các cuộc thi trực tuyến}
+
+Bên cạnh các kỳ thi chính thức, hiện nay có rất nhiều
+\textbf{cuộc thi trực tuyến} mở cho mọi đối tượng tham gia.
+
+Nền tảng tổ chức contest trực tuyến phổ biến nhất hiện nay là \textbf{Codeforces},
+với các cuộc thi diễn ra gần như hàng tuần.
+Trên Codeforces, người chơi được chia thành hai hạng:
+\begin{itemize}
+    \item Div.2: dành cho người mới và trung cấp
+    \item Div.1: dành cho người có kinh nghiệm
+\end{itemize}
+
+Ngoài Codeforces, còn nhiều nền tảng khác như:
+\begin{itemize}
+    \item AtCoder
+    \item HackerRank
+    \item TopCoder
+    \item CS Academy
+\end{itemize}
+
+Một số công ty công nghệ lớn cũng tổ chức các cuộc thi trực tuyến
+kết hợp vòng chung kết trực tiếp, tiêu biểu như:
+\begin{itemize}
+    \item Google Code Jam
+    \item Facebook Hacker Cup
+    \item Yandex.Algorithm
+\end{itemize}
+
+Các cuộc thi này không chỉ mang tính học thuật
+mà còn được sử dụng như một kênh tuyển dụng,
+giúp thí sinh thể hiện năng lực giải quyết vấn đề và thuật toán.
+
+%------------------------------------------------
+
+\subsection{Sách và tài liệu tham khảo}
+
+Ngoài việc tham gia các kỳ thi, sách và tài liệu chuyên sâu
+là nguồn học tập rất quan trọng đối với người học lập trình thi đấu.
+
+\subsubsection*{Sách về lập trình thi đấu}
+
+\begin{itemize}
+    \item S. S. Skiena, M. A. Revilla -- \emph{Programming Challenges}
+    \item S. Halim, F. Halim -- \emph{Competitive Programming 3}
+    \item K. Diks et al. -- \emph{Looking for a Challenge?}
+\end{itemize}
+
+Hai cuốn đầu phù hợp với người mới bắt đầu,
+trong khi cuốn cuối chứa nhiều bài toán nâng cao.
+
+\subsubsection*{Sách thuật toán tổng quát}
+
+\begin{itemize}
+    \item T. H. Cormen et al. -- \emph{Introduction to Algorithms}
+    \item J. Kleinberg, É. Tardos -- \emph{Algorithm Design}
+    \item S. S. Skiena -- \emph{The Algorithm Design Manual}
+\end{itemize}
+
+Các tài liệu này cung cấp nền tảng lý thuyết vững chắc,
+rất hữu ích cho việc học và nghiên cứu thuật toán chuyên sâu.
+

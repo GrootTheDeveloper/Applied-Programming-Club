@@ -1,0 +1,465 @@
+\chapter{Mảng một chiều và cấu trúc dữ liệu \texttt{vector}}
+
+\minitoc
+
+\section{Mảng một chiều (\texttt{array})}
+
+\subsection{Định nghĩa và bản chất lưu trữ trong bộ nhớ}
+
+Trong lập trình, dữ liệu thường xuất hiện dưới dạng \textbf{danh sách} (list) các giá trị cùng kiểu: dãy điểm số, dãy nhiệt độ theo ngày, dãy toạ độ, \dots
+\textbf{Mảng một chiều} là cấu trúc dữ liệu cơ bản để lưu trữ các danh sách như vậy.
+
+\begin{itemize}
+  \item \textbf{Định nghĩa:} Mảng một chiều là cấu trúc dữ liệu dùng để lưu trữ nhiều phần tử \textbf{cùng kiểu dữ liệu}, các phần tử được đặt \textbf{liên tiếp nhau} trong bộ nhớ và được truy cập thông qua \textbf{chỉ số (index)}.
+  \item \textbf{Bản chất:} Khi khai báo \texttt{int a[5];} thì chương trình cấp phát \textbf{một khối ô nhớ liên tiếp} đủ chứa 5 số nguyên, và \texttt{a[i]} chính là phần tử ở vị trí thứ \texttt{i} trong khối đó.
+\end{itemize}
+
+\subsection{Tính chất và hệ quả}
+
+\begin{itemize}
+  \item \textbf{Truy cập ngẫu nhiên O(1):} Có thể đọc/ghi \texttt{a[i]} ngay lập tức nhờ địa chỉ phần tử được tính theo công thức:
+  \[
+    \texttt{address(a[i])} = \texttt{address(a[0])} + i \cdot \texttt{sizeof(type)}
+  \]
+  \item \textbf{Chỉ số bắt đầu từ 0:} Nếu mảng có $n$ phần tử thì chỉ số hợp lệ là \(\{0,1,\dots,n-1\}\).
+  \item \textbf{Kích thước cố định:} Với mảng kiểu C, số phần tử phải được biết tại thời điểm biên dịch (hoặc phụ thuộc trình biên dịch nếu dùng VLA).
+  \item \textbf{Nguy cơ truy cập ngoài biên:} C++ không tự chặn \texttt{a[-1]} hay \texttt{a[n]} $\Rightarrow$ dễ gây sai kết quả hoặc lỗi bộ nhớ.
+\end{itemize}
+
+\subsection{Khai báo và khởi tạo mảng}
+
+\noindent \textbf{Cú pháp:}
+\begin{lstlisting}
+kieu_du_lieu ten_mang[so_luong_phan_tu];
+\end{lstlisting}
+
+\noindent \textbf{Ví dụ khai báo:}
+\begin{lstlisting}
+int a[100];          // up to 100 int elements
+double b[200];       // up to 200 double elements
+char s[20000];       // character array
+pair<int,int> p[10]; // array of pairs
+\end{lstlisting}
+
+\noindent \textbf{Khởi tạo khi khai báo:}
+\begin{lstlisting}
+int b[6] = {2, 8, 0, 4, 2, 5};
+char arr[6] = {'2', '8', 't', 'e', 'c', 'h'};
+\end{lstlisting}
+
+\noindent \textbf{Lưu ý quan trọng về giá trị ban đầu:}
+\begin{itemize}
+  \item Nếu bạn khai báo \texttt{int a[100];} (không khởi tạo), các phần tử thường là \textbf{giá trị rác} (không xác định).
+  \item Nếu bạn khởi tạo thiếu phần tử, các phần tử còn lại sẽ được gán \textbf{0}:
+\end{itemize}
+
+\begin{lstlisting}
+int b[10] = {2, 8, 0}; // b[0..2] as listed, b[3..9] = 0
+\end{lstlisting}
+
+\subsection{Thao tác cơ bản trên mảng}
+
+\subsubsection*{1) Truy cập phần tử theo chỉ số}
+
+\begin{itemize}
+  \item Cú pháp: \texttt{a[i]}
+  \item Ví dụ: Với \texttt{b = \{2,8,0,4,2,5\}} thì \texttt{b[3] = 4}.
+\end{itemize}
+
+\subsubsection*{2) Duyệt mảng thuận và ngược}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    int n = 10;
+    int a[10] = {3, 2, 1, 4, 5, 8, 9, 7, 6, 10};
+
+    cout << "Duyet thuan : ";
+    for(int i = 0; i < n; i++){
+        cout << a[i] << " ";
+    }
+
+    cout << "\nDuyet nguoc : ";
+    for(int i = n - 1; i >= 0; i--){
+        cout << a[i] << " ";
+    }
+
+    char arr[6] = {'2', '8', 't', 'e', 'c', 'h'};
+    cout << "\nMang char : ";
+    for(int i = 0; i < 6; i++){
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+Duyet thuan : 3 2 1 4 5 8 9 7 6 10
+Duyet nguoc : 10 6 7 9 8 5 4 1 2 3
+Mang char : 2 8 t e c h
+\end{verbatim}
+
+\subsubsection*{3) Thay đổi giá trị phần tử}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    int b[6] = {1, 2, 3, 4, 5, 6};
+
+    b[0] = 28;
+    b[1] = 100;
+    b[2] = 14;
+    b[3] += 10;
+    b[4] *= 2;
+    b[5] /= 2;
+
+    cout << "Mang sau khi thay doi : ";
+    for(int i = 0; i < 6; i++){
+        cout << b[i] << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+Mang sau khi thay doi : 28 100 14 14 10 3
+\end{verbatim}
+
+\subsubsection*{4) Nhập mảng từ bàn phím}
+
+\noindent \textbf{Cách 1: mảng kích thước cố định}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    int n;
+    int a[1000]; // up to 1000 elements
+
+    cin >> n;
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    for(int i = 0; i < n; i++){
+        cout << a[i] << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Cách 2: mảng theo n (không chuẩn C++ ở nhiều compiler)}
+\begin{itemize}
+  \item \textbf{Lưu ý:} C++ chuẩn \textbf{không hỗ trợ} \texttt{int a[n];} khi \texttt{n} không phải hằng số; một số trình biên dịch cho phép như một mở rộng (VLA).
+  \item Trong thực hành hiện đại, nếu cần kích thước theo \texttt{n} thì dùng \texttt{vector}.
+\end{itemize}
+
+\subsection{Mảng làm tham số cho hàm}
+
+\subsubsection*{Bản chất: mảng suy biến thành con trỏ khi truyền vào hàm}
+
+Khi truyền mảng vào hàm, tham số \texttt{int a[]} thực chất được hiểu như \texttt{int* a}.
+Do đó, thay đổi \texttt{a[i]} trong hàm sẽ tác động trực tiếp lên mảng gốc.
+
+\subsubsection*{Ví dụ: hàm nhập và in mảng}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+void nhap(int a[], int n){
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+}
+
+void in(int a[], int n){
+    for(int i = 0; i < n; i++){
+        cout << a[i] << " ";
+    }
+}
+
+signed main(){
+    int n, a[1000];
+    cin >> n;
+    nhap(a, n);
+    in(a, n);
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Ví dụ: thay đổi mảng trong hàm}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+void change(int a[], int n){
+    for(int i = 0; i < n; i++){
+        a[i] = 28;
+    }
+}
+
+signed main(){
+    int b[6] = {1, 2, 3, 4, 5, 6};
+    change(b, 6);
+
+    for(int i = 0; i < 6; i++){
+        cout << b[i] << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+28 28 28 28 28 28
+\end{verbatim}
+
+\subsection{Các chú ý quan trọng khi dùng mảng}
+
+\begin{itemize}
+  \item \textbf{Chú ý 1 (ngoài biên):} C++ không tự báo lỗi khi truy cập ngoài biên $\Rightarrow$ cần kỷ luật chỉ số.
+  \item \textbf{Chú ý 2 (giới hạn bộ nhớ):} số phần tử tối đa phụ thuộc \texttt{sizeof(type)} và giới hạn bộ nhớ đề bài.
+  \item \textbf{Chú ý 3 (stack overflow):} mảng lớn khai báo trong hàm (đặc biệt \texttt{main}) có thể làm tràn stack.
+\end{itemize}
+
+\subsubsection*{Ví dụ lỗi tràn stack}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    cout << "hello stack!\n";
+    int a[1000000]; // may overflow the stack depending on the environment
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Cách khắc phục: khai báo toàn cục (vùng nhớ lớn hơn stack)}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+int a[1000000]; // global array (stored outside stack)
+
+signed main(){
+    cout << "hello stack!\n";
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+hello stack!
+\end{verbatim}
+
+\section{Cấu trúc dữ liệu \texttt{vector}}
+
+\subsection{Vì sao cần \texttt{vector}?}
+
+Mảng kiểu C có ưu điểm truy cập nhanh, đơn giản, nhưng có 2 hạn chế lớn trong thực tế:
+\begin{itemize}
+  \item Kích thước cố định, không linh hoạt theo dữ liệu nhập.
+  \item Dễ gây lỗi khi khai báo mảng quá lớn trên stack, hoặc khi \texttt{n} thay đổi.
+\end{itemize}
+
+\textbf{\texttt{vector}} là mảng động trong thư viện STL, giải quyết các vấn đề trên:
+\begin{itemize}
+  \item Có thể thay đổi kích thước (tăng/giảm) khi chạy chương trình.
+  \item Cung cấp nhiều thao tác tiện lợi: \texttt{push\_back}, \texttt{pop\_back}, \texttt{size}, \texttt{clear}, \dots
+  \item Vẫn hỗ trợ truy cập theo chỉ số như mảng: \texttt{v[i]}.
+\end{itemize}
+
+\subsection{Khai báo và khởi tạo \texttt{vector}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    vector<int> v;                 // empty vector
+    vector<int> a(5);              // 5 elements, default = 0
+    vector<int> b(5, 7);           // 5 elements, all = 7
+    vector<int> c = {2, 8, 0, 4};   // initializer list
+
+    cout << c.size() << "\n";
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Các thao tác cơ bản với \texttt{vector}}
+
+\subsubsection*{1) Thêm/xóa phần tử cuối}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    vector<int> v;
+
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+
+    v.pop_back(); // remove the last element (30)
+
+    for(int x : v) cout << x << " ";
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+10 20
+\end{verbatim}
+
+\subsubsection*{2) Truy cập và sửa phần tử}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    vector<int> v = {1, 2, 3, 4, 5};
+
+    v[0] = 28;
+    v[3] += 10;
+
+    for(int i = 0; i < (int)v.size(); i++){
+        cout << v[i] << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+28 2 3 14 5
+\end{verbatim}
+
+\subsubsection*{3) Nhập vector theo n (cách chuẩn, không phụ thuộc compiler)}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+signed main(){
+    int n;
+    cin >> n;
+
+    vector<int> a(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    for(int x : a) cout << x << " ";
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{So sánh nhanh: mảng C vs \texttt{vector}}
+
+\begin{itemize}
+  \item \textbf{Mảng C:} nhanh, gọn, phù hợp khi biết trước kích thước tối đa và cần tối ưu tuyệt đối.
+  \item \textbf{\texttt{vector}:} linh hoạt, an toàn hơn trong nhập liệu theo \texttt{n}, dùng nhiều trong thực tế và thi đấu.
+\end{itemize}
+
+\subsection{Vector làm tham số hàm: đúng chuẩn và an toàn}
+
+\subsubsection*{Truyền tham chiếu để tránh copy}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+void fill28(vector<int> &v){
+    for(int &x : v) x = 28;
+}
+
+signed main(){
+    vector<int> v = {1,2,3,4,5};
+    fill28(v);
+
+    for(int x : v) cout << x << " ";
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+28 28 28 28 28
+\end{verbatim}
+
+\subsubsection*{Chỉ đọc dữ liệu: dùng \texttt{const vector\&}}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+int sumVector(const vector<int> &v){
+    int s = 0;
+    for(int x : v) s += x;
+    return s;
+}
+
+signed main(){
+    vector<int> v = {2, 8, 0, 4, 2, 5};
+    cout << sumVector(v);
+    return 0;
+}
+\end{lstlisting}
+
+\noindent \textbf{Output}
+\begin{verbatim}
+21
+\end{verbatim}
+
+\section{Tổng kết chương}
+
+\begin{itemize}
+  \item Mảng một chiều là khối ô nhớ liên tiếp, truy cập theo chỉ số, tốc độ nhanh nhưng kích thước cố định.
+  \item \texttt{vector} là mảng động của STL, linh hoạt, thuận lợi nhập theo \texttt{n}, thao tác đa dạng.
+  \item Khi truyền dữ liệu vào hàm:
+  \begin{itemize}
+    \item Mảng C thường được hiểu như con trỏ $\Rightarrow$ sửa trong hàm sẽ ảnh hưởng mảng gốc.
+    \item Với \texttt{vector}, nên truyền \texttt{vector<T>\&} để sửa và \texttt{const vector<T>\&} để chỉ đọc.
+  \end{itemize}
+\end{itemize}
+
+

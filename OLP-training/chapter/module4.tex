@@ -1,0 +1,1738 @@
+\chapter{VÒNG LẶP}
+
+\minitoc
+
+\section{Vòng lặp \texttt{for}}
+
+Vòng lặp là một cấu trúc điều khiển cơ bản trong lập trình, cho phép thực hiện
+một khối lệnh nhiều lần. Trong C++, vòng lặp \texttt{for} thường được sử dụng
+khi số lần lặp đã biết trước hoặc có thể kiểm soát được thông qua một biến đếm.
+
+\subsection{Cú pháp vòng lặp \texttt{for}}
+
+\begin{lstlisting}
+for (initialization; condition; update) {
+    // statements
+}
+\end{lstlisting}
+
+Trong đó:
+\begin{itemize}
+    \item \textbf{initialization}: Câu lệnh khởi tạo, được thực hiện đúng một lần
+    khi bắt đầu vòng lặp (thường dùng để khởi tạo biến đếm).
+    \item \textbf{condition}: Điều kiện lặp, được kiểm tra trước mỗi vòng lặp.
+    Nếu điều kiện đúng, khối lệnh bên trong vòng lặp sẽ được thực hiện.
+    \item \textbf{update}: Câu lệnh cập nhật, được thực hiện sau mỗi vòng lặp
+    (thường là tăng hoặc giảm biến đếm).
+\end{itemize}
+
+\subsection{Cơ chế hoạt động}
+
+Vòng lặp \texttt{for} hoạt động theo trình tự sau:
+\begin{enumerate}
+    \item Thực hiện câu lệnh khởi tạo.
+    \item Kiểm tra điều kiện lặp.
+    \item Nếu điều kiện đúng, thực hiện khối lệnh trong vòng lặp.
+    \item Thực hiện câu lệnh cập nhật.
+    \item Quay lại bước kiểm tra điều kiện.
+\end{enumerate}
+
+Khi điều kiện lặp trở thành sai, vòng lặp kết thúc.
+
+\subsection{Sơ đồ khối vòng lặp \texttt{for}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{resource/img/forloop-sdk.png}
+\end{figure}
+
+\subsection{Ví dụ cơ bản}
+
+\subsubsection*{Ví dụ 1: In ra một chuỗi nhiều lần}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    for (int i = 1; i <= 4; i++) {
+        cout << "APC - sot.umtoj.edu.vn\n";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+APC - sot.umtoj.edu.vn
+APC - sot.umtoj.edu.vn
+APC - sot.umtoj.edu.vn
+APC - sot.umtoj.edu.vn
+\end{verbatim}
+
+\subsubsection*{Ví dụ 2: In các số từ 1 đến n}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 10;
+    for (int i = 1; i <= n; i++) {
+        cout << i << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Ứng dụng thường gặp của vòng lặp \texttt{for}}
+
+\subsubsection*{Tính tổng}
+
+\begin{lstlisting}
+int sum = 0;
+for (int i = 1; i <= n; i++) {
+    sum += i;
+}
+\end{lstlisting}
+
+\subsubsection*{Tính giai thừa}
+
+\begin{lstlisting}
+long long fact = 1;
+for (int i = 1; i <= n; i++) {
+    fact *= i;
+}
+\end{lstlisting}
+
+\subsubsection*{Duyệt các ước của một số}
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) {
+    if (n % i == 0) {
+        cout << i << " ";
+    }
+}
+\end{lstlisting}
+
+\subsection{Lệnh \texttt{break}}
+
+Lệnh \texttt{break} được sử dụng để \textbf{thoát khỏi vòng lặp ngay lập tức},
+bỏ qua tất cả các lần lặp còn lại.
+
+\begin{lstlisting}
+for (int i = 1; i <= 10; i++) {
+    if (i == 5) break;
+    cout << i << " ";
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 2 3 4
+\end{verbatim}
+
+\subsection{Lệnh \texttt{continue}}
+
+Lệnh \texttt{continue} dùng để \textbf{bỏ qua phần còn lại của vòng lặp hiện tại}
+và chuyển sang lần lặp tiếp theo.
+
+\begin{lstlisting}
+for (int i = 1; i <= 10; i++) {
+    if (i == 5) continue;
+    cout << i << " ";
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 2 3 4 6 7 8 9 10
+\end{verbatim}
+
+\subsection{Vòng lặp \texttt{for} vô hạn}
+
+Nếu bỏ điều kiện lặp, vòng lặp sẽ chạy vô hạn:
+
+\begin{lstlisting}
+for (;;) {
+    // infinite loop
+}
+\end{lstlisting}
+
+Trong thực tế, vòng lặp vô hạn thường kết hợp với \texttt{break} để chủ động dừng vòng lặp.
+
+\subsection{Ví dụ: Dừng vòng lặp theo điều kiện}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    for (;;) {
+        cin >> n;
+        if (n == 28) break;
+    }
+    cout << "Finished\n";
+    return 0;
+}
+\end{lstlisting}
+
+\section{Vòng lặp \texttt{while}}
+
+Bên cạnh vòng lặp \texttt{for}, C++ còn cung cấp vòng lặp \texttt{while}.
+Vòng lặp \texttt{while} thường được sử dụng khi số lần lặp \textbf{chưa biết trước},
+và việc lặp phụ thuộc vào một điều kiện được kiểm tra liên tục.
+
+\subsection{Cú pháp vòng lặp \texttt{while}}
+
+\begin{lstlisting}
+while (condition) {
+    // statements
+}
+\end{lstlisting}
+
+Trong đó:
+\begin{itemize}
+    \item \textbf{condition}: Biểu thức điều kiện, được kiểm tra trước mỗi lần lặp.
+    Nếu điều kiện đúng, khối lệnh bên trong vòng lặp được thực hiện.
+\end{itemize}
+
+\subsection{Cơ chế hoạt động}
+
+Vòng lặp \texttt{while} hoạt động theo trình tự sau:
+\begin{enumerate}
+    \item Kiểm tra điều kiện \texttt{condition}.
+    \item Nếu điều kiện sai, vòng lặp kết thúc ngay lập tức.
+    \item Nếu điều kiện đúng, thực hiện khối lệnh bên trong vòng lặp.
+    \item Sau khi thực hiện xong, quay lại bước kiểm tra điều kiện.
+\end{enumerate}
+
+Nếu điều kiện luôn đúng và không có cơ chế dừng, vòng lặp sẽ trở thành
+\textbf{vòng lặp vô hạn}.
+
+\subsection{Sơ đồ khối vòng lặp \texttt{while}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{resource/img/whileloop-sdk.png}
+\end{figure}
+
+\subsection{Ví dụ cơ bản}
+
+\subsubsection*{Ví dụ 1: In các số từ 1 đến n}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 4;
+    int i = 1;
+    while (i <= n) {
+        cout << i << " ";
+        i++;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 2 3 4
+\end{verbatim}
+
+\subsubsection*{Giải thích}
+
+Ban đầu $i = 1$.  
+Mỗi lần lặp:
+\begin{itemize}
+    \item Kiểm tra điều kiện \texttt{i <= n}.
+    \item In giá trị của \texttt{i}.
+    \item Tăng \texttt{i} lên 1.
+\end{itemize}
+
+Khi $i = 5$, điều kiện sai và vòng lặp kết thúc.
+
+\subsection{So sánh \texttt{while} và \texttt{for}}
+
+\begin{itemize}
+    \item \texttt{for}: dùng khi số lần lặp đã biết trước.
+    \item \texttt{while}: dùng khi số lần lặp phụ thuộc vào điều kiện động.
+\end{itemize}
+
+\subsection{Các bài toán điển hình với vòng lặp \texttt{while}}
+
+\subsubsection*{Bài toán 1: Đếm số chữ số của số nguyên dương}
+
+\textbf{Ý tưởng:}  
+Mỗi lần loại bỏ chữ số hàng đơn vị bằng phép chia nguyên cho 10.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 12345;
+    int count = 0;
+    while (n != 0) {
+        count++;
+        n /= 10;
+    }
+    cout << count << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+5
+\end{verbatim}
+
+\subsubsection*{Bài toán 2: Tính tổng các chữ số của số nguyên}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 12345;
+    int sum = 0;
+    while (n != 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    cout << sum << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+15
+\end{verbatim}
+
+\subsection{Lệnh \texttt{break} trong vòng lặp \texttt{while}}
+
+Lệnh \texttt{break} dùng để \textbf{thoát khỏi vòng lặp ngay lập tức},
+bỏ qua mọi lần lặp còn lại.
+
+\begin{lstlisting}
+while (true) {
+    int x;
+    cin >> x;
+    if (x == 28) break;
+}
+\end{lstlisting}
+
+Khi nhập giá trị 28, vòng lặp dừng ngay.
+
+\subsection{Lệnh \texttt{continue} trong vòng lặp \texttt{while}}
+
+Lệnh \texttt{continue} bỏ qua phần còn lại của vòng lặp hiện tại
+và chuyển sang lần lặp tiếp theo.
+
+\begin{lstlisting}
+int i = 0;
+while (i < 10) {
+    i++;
+    if (i % 2 == 0) continue;
+    cout << i << " ";
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 3 5 7 9
+\end{verbatim}
+
+\subsection{Vòng lặp \texttt{while} vô hạn}
+
+\begin{lstlisting}
+while (true) {
+    // infinite loop
+}
+\end{lstlisting}
+
+Trong thực tế, vòng lặp vô hạn \textbf{luôn phải đi kèm điều kiện dừng}
+thông qua \texttt{break}.
+
+\subsection{Ví dụ: Dừng vòng lặp theo điều kiện}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    while (true) {
+        cin >> n;
+        if (n == 28) break;
+        cout << "Try again\n";
+    }
+    cout << "Finished\n";
+    return 0;
+}
+\end{lstlisting}
+
+\section{Vòng lặp \texttt{do-while}}
+
+Vòng lặp \texttt{do-while} là một biến thể của \texttt{while}.
+Điểm khác biệt quan trọng nhất là: \texttt{do-while} \textbf{luôn chạy ít nhất một lần},
+vì khối lệnh được thực hiện trước rồi mới kiểm tra điều kiện.
+
+\subsection{Cú pháp vòng lặp \texttt{do-while}}
+
+\begin{lstlisting}
+do {
+    // statements
+} while (condition);
+\end{lstlisting}
+
+\textbf{Lưu ý:} Sau \texttt{while(condition)} bắt buộc có dấu chấm phẩy \texttt{;}.
+
+\subsection{Cơ chế hoạt động}
+
+Vòng lặp \texttt{do-while} hoạt động theo trình tự:
+\begin{enumerate}
+    \item Thực hiện khối lệnh bên trong \texttt{do}.
+    \item Kiểm tra điều kiện \texttt{condition}.
+    \item Nếu điều kiện đúng, quay lại bước 1.
+    \item Nếu điều kiện sai, kết thúc vòng lặp.
+\end{enumerate}
+
+Như vậy, dù \texttt{condition} ban đầu là sai, vòng lặp vẫn thực hiện \textbf{1 lần}.
+
+\subsection{Sơ đồ khối vòng lặp \texttt{for}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{resource/img/dowhile-sdk.png}
+\end{figure}
+
+\subsection{So sánh nhanh với \texttt{while}}
+
+\begin{itemize}
+    \item \texttt{while}: kiểm tra điều kiện \textbf{trước} khi chạy $\Rightarrow$ có thể chạy 0 lần.
+    \item \texttt{do-while}: chạy khối lệnh \textbf{trước} rồi mới kiểm tra $\Rightarrow$ luôn chạy ít nhất 1 lần.
+\end{itemize}
+
+\subsection{Ví dụ cơ bản}
+
+\subsubsection*{Ví dụ 1: In các số từ 1 đến n}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 4;
+    int i = 1;
+    do {
+        cout << i << " ";
+        i++;
+    } while (i <= n);
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 2 3 4
+\end{verbatim}
+
+\subsubsection*{Giải thích}
+
+Vòng lặp sẽ:
+\begin{itemize}
+    \item In \texttt{i}, tăng \texttt{i}.
+    \item Sau đó mới kiểm tra \texttt{i <= n} để quyết định lặp tiếp hay dừng.
+\end{itemize}
+
+\subsection{Tình huống đặc trưng của \texttt{do-while}}
+
+\subsubsection*{Ví dụ 2: Điều kiện ban đầu sai nhưng vẫn chạy 1 lần}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 10;
+    do {
+        cout << "Run\n";
+        i++;
+    } while (i < 5);
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+Run
+\end{verbatim}
+
+\textbf{Giải thích:} Điều kiện \texttt{i < 5} là sai ngay từ đầu, nhưng do-while vẫn chạy 1 lần.
+
+\subsection{Lệnh \texttt{break} trong \texttt{do-while}}
+
+Giống các vòng lặp khác, \texttt{break} dùng để thoát vòng lặp ngay lập tức.
+
+\subsubsection*{Ví dụ 3: Nhập đến khi gặp 28 thì dừng}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    do {
+        cout << "Enter n: ";
+        cin >> n;
+        if (n == 28) break;
+        cout << "Try again\n";
+    } while (true);
+
+    cout << "Finished\n";
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ Input:}
+\begin{verbatim}
+10
+5
+28
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+Enter n: Try again
+Enter n: Try again
+Enter n: Finished
+\end{verbatim}
+
+\subsection{Lệnh \texttt{continue} trong \texttt{do-while}}
+
+\texttt{continue} bỏ qua phần còn lại của lần lặp hiện tại và nhảy đến bước kiểm tra điều kiện.
+
+\subsubsection*{Ví dụ 4: Chỉ in các số lẻ từ 1 đến n}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 10;
+    int i = 0;
+
+    do {
+        i++;
+        if (i % 2 == 0) continue; // skip even numbers
+        cout << i << " ";
+    } while (i < n);
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{verbatim}
+1 3 5 7 9
+\end{verbatim}
+
+\subsection{Bài toán điển hình với \texttt{do-while}}
+
+\subsubsection*{Bài toán 1: Nhập số nguyên dương (bắt nhập lại nếu sai)}
+
+\textbf{Ý tưởng:} Vì người dùng phải nhập ít nhất 1 lần nên \texttt{do-while} rất phù hợp.
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    do {
+        cout << "Enter a positive integer: ";
+        cin >> n;
+    } while (n <= 0);
+
+    cout << "n = " << n << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ Input:}
+\begin{verbatim}
+-3
+0
+5
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+Enter a positive integer: Enter a positive integer: Enter a positive integer: n = 5
+\end{verbatim}
+
+\subsubsection*{Bài toán 2: Menu lựa chọn (lặp cho đến khi người dùng chọn thoát)}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int choice;
+    do {
+        cout << "1. Print APC\n";
+        cout << "2. Print website\n";
+        cout << "0. Exit\n";
+        cout << "Choose: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "APC\n";
+        } else if (choice == 2) {
+            cout << "sot.umtoj.edu.vn\n";
+        } else if (choice == 0) {
+            cout << "Bye\n";
+        } else {
+            cout << "Invalid\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Ví dụ Input:}
+\begin{verbatim}
+2
+1
+0
+\end{verbatim}
+
+\textbf{Output:}
+\begin{verbatim}
+sot.umtoj.edu.vn
+APC
+Bye
+\end{verbatim}
+
+\subsection{Lưu ý}
+
+\texttt{do-while} luôn chạy ít nhất một lần, nên không phù hợp nếu bạn cần “có thể chạy 0 lần”.
+
+\section{Bài tập}
+
+\begin{baitap}{Vòng lặp}{https://marisaoj.com/problem/499}
+Cho hai số nguyên \texttt{l, r}. Hãy in ra các số nguyên từ \texttt{l} đến {r}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{l, r}.
+
+\noindent \textbf{Output}
+
+In ra các số nguyên từ \texttt{l} đến \texttt{r}.
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+2 5 & 2 3 4 5 \\
+\end{simple_example}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+ 
+signed main(){
+    int l,r; cin >> l >> r;
+    for(int i = l; i <= r; i++){
+        cout << i << " ";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Số chẵn}{https://marisaoj.com/problem/314}
+Cho số nguyên dương \texttt{n}. Hãy in ra các số nguyên dương không vượt quá \texttt{n} và chia hết cho \texttt{2} theo thứ tự giảm dần.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra các số nguyên dương không vượt quá \texttt{n} và chia hết cho \texttt{2} theo thứ tự giảm dần.
+
+\noindent \textbf{Điều kiện}
+
+\[
+2 \le n \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+7 & 6 4 2 \\
+\end{simple_example}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n; cin >> n;
+    for(int i = n; i >= 1; i--){
+        if(i % 2 == 0){
+            cout << i << " ";
+        }
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Giai thừa}{https://marisaoj.com/problem/542}
+Cho số nguyên \texttt{n}, hãy tính
+\[
+n! = 1 \times 2 \times \dots \times n.
+\]
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra giá trị \texttt{n!}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 15
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 & 24 \\
+\end{simple_example}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n; cin >> n;
+    int fact = 1;
+    for(int i = 1; i <= n; i++){
+        fact *= i;
+    }
+    cout << fact;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tam giác sao}{https://marisaoj.com/problem/16}
+Cho số nguyên \texttt{a}. Hãy in ra một tam giác sao gồm \texttt{a} dòng.
+Dòng thứ nhất gồm \texttt{a} ký tự \texttt{*}, mỗi dòng tiếp theo giảm đi 1 ký tự \texttt{*}.
+Dòng cuối cùng chỉ có 1 ký tự \texttt{*}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{a}.
+
+\noindent \textbf{Output}
+
+In ra tam giác sao theo mô tả.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+5 & *****\\
+  & ****\\
+  & ***\\
+  & **\\
+  & *\\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Tam giác có \texttt{a} dòng.
+  \item Dòng thứ \(i\) (từ 1 đến \texttt{a}) in ra \(a - i + 1\) ký tự \texttt{*}.
+  \item Dùng 2 vòng lặp: vòng ngoài chạy theo dòng, vòng trong in dấu sao.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a; 
+    cin >> a;
+    for(int i = a; i >= 1; i--){
+        for(int j = 1; j <= i; j++){
+            cout << "*";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Gấp giấy}{https://marisaoj.com/problem/402}
+Một tờ giấy khi gấp làm đôi sẽ có độ dày gấp đôi. Bạn có một tờ giấy độ dày \texttt{1} cm.
+Bạn muốn tờ giấy có độ dày ít nhất là \texttt{n} cm, hỏi bạn sẽ phải gấp ít nhất bao nhiêu lần?
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là số lần gấp ít nhất.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+7 & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ban đầu độ dày là \texttt{1}. Mỗi lần gấp thì độ dày nhân đôi.
+  \item Ta cần tìm số nguyên nhỏ nhất \texttt{k} sao cho \(2^k \ge n\).
+  \item Mô phỏng: đặt \texttt{d = 1}, \texttt{ans = 0}. Trong khi \texttt{d < n} thì \texttt{d *= 2} và \texttt{ans++}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+    int d = 1;
+    int ans = 0;
+    while(d < n){
+        d *= 2;
+        ans++;
+    }
+    cout << ans;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Phân số}{https://marisaoj.com/problem/315}
+Cho hai số nguyên dương \texttt{a, b}. Hãy tìm dạng tối giản của phân số \(\dfrac{a}{b}\).
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{a, b}.
+
+\noindent \textbf{Output}
+
+In ra hai số nguyên, số đầu tiên là tử số, số thứ hai là mẫu số của phân số tối giản.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b \le 10^6
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+6 9 & 2 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Phân số \(\dfrac{a}{b}\) tối giản khi \(\gcd(a,b)=1\).
+  \item Tính \(g = \gcd(a,b)\).
+  \item Tử số mới: \(a' = a/g\), mẫu số mới: \(b' = b/g\).
+  \item In ra \(a'\) và \(b'\).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b; cin >> a >> b;
+    int g = __gcd(a, b);
+    cout << a / g << " " << b / g;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Ước số}{https://marisaoj.com/problem/316}
+Cho số nguyên dương \texttt{n}. Hãy tìm tất cả các ước nguyên dương của \texttt{n}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra các ước nguyên dương của \texttt{n} theo thứ tự tăng dần.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^6
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+12 & 1 2 3 4 6 12 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Vì cần in theo thứ tự tăng dần, ta duyệt \(i\) từ \(1\) đến \(n\).
+  \item Nếu \(n \bmod i = 0\) thì \(i\) là một ước của \(n\), in ra ngay.
+  \item Do \(n \le 10^6\), cách này vẫn đủ nhanh trong giới hạn (cách tối ưu sẽ được giới thiệu ở những bài sau).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n; 
+    cin >> n;
+    for(int i = 1; i <= n; i++){
+        if(n % i == 0){
+            cout << i << " ";
+        }
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Phép lũy thừa phức tạp}{https://marisaoj.com/problem/24}
+Cho ba số nguyên \texttt{a, b, c}. Hãy tính giá trị biểu thức
+\[
+a^b \bmod c.
+\]
+
+\noindent \textbf{Input}
+
+Một dòng gồm ba số nguyên \texttt{a, b, c}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là giá trị của \(a^b \bmod c\).
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b, c \le 10^3
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+3 5 10 & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ta không tính trực tiếp \(a^b\) (vì có thể rất lớn), mà nhân dần và lấy dư mỗi lần.
+  \item Khởi tạo \texttt{res = 1}.
+  \item Lặp \texttt{b} lần: \texttt{res = (res * a) \% c}.
+  \item Vì \(b \le 1000\), cách này chạy rất nhanh. Khi giới hạn lớn hơn $(b \leq 10^{18})$, ta có thể dùng phương pháp \textbf{lũy thừa nhanh} (sẽ được giới thiệu ở những bài sau).
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, c;
+    cin >> a >> b >> c;
+
+    int res = 1;
+    for(int i = 1; i <= b; i++){
+        res = (res * a) % c;
+    }
+
+    cout << res;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Số nguyên tố}{https://marisaoj.com/problem/18}
+Cho số nguyên \texttt{n}. Hãy kiểm tra \texttt{n} có phải số nguyên tố không.
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{YES} nếu \texttt{n} là số nguyên tố, ngược lại in \texttt{NO}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^6
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+7 & YES \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Số nguyên tố là số lớn hơn 1 và chỉ có đúng 2 ước: 1 và chính nó.
+  \item Nếu \(n \le 1\) thì chắc chắn không phải số nguyên tố.
+  \item Duyệt \(i\) từ 2 đến \(n-1\):
+  \begin{itemize}
+    \item Nếu tồn tại \(i\) sao cho \(n \bmod i = 0\) thì \(n\) không phải số nguyên tố.
+    \item Nếu không có ước nào thì \(n\) là số nguyên tố.
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n; 
+    cin >> n;
+
+    if(n <= 1){
+        cout << "NO";
+        return 0;
+    }
+
+    for(int i = 2; i <= n - 1; i++){
+        if(n % i == 0){
+            cout << "NO";
+            return 0;
+        }
+    }
+
+    cout << "YES";
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Tổng chữ số}{https://marisaoj.com/problem/19}
+Cho số nguyên \texttt{n}. Hãy tính tổng các chữ số của \texttt{n}.
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra kết quả của bài toán.
+
+\noindent \textbf{Điều kiện}
+
+\[
+-10^{18} \le n \le 10^{18}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+3218 & 14 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Nếu \texttt{n} là số âm, ta lấy giá trị tuyệt đối của \texttt{n}.
+  \item Lặp khi \texttt{n > 0}:
+  \begin{itemize}
+    \item Lấy chữ số cuối bằng \(\texttt{n} \bmod 10\).
+    \item Cộng vào tổng.
+    \item Loại bỏ chữ số cuối bằng \(\texttt{n} /= 10\).
+  \end{itemize}
+  \item Trường hợp \texttt{n = 0} thì tổng chữ số bằng 0.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n; cin >> n;
+
+    n = llabs(n); // lay gia tri tuyet doi cua kieu du lieu long long
+    int sum = 0;
+
+    while(n > 0){
+        sum += n % 10;
+        n /= 10;
+    }
+
+    cout << sum;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Fibonacci}{https://marisaoj.com/problem/20}
+In ra số Fibonacci thứ \texttt{n}.
+
+Số Fibonacci được định nghĩa:
+\[
+F_0 = 0,\quad F_1 = 1,\quad F_n = F_{n-1} + F_{n-2}.
+\]
+
+\noindent \textbf{Input}
+
+Một dòng gồm số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra giá trị \texttt{F\_n}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 80
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 & 3 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Dựa trực tiếp vào định nghĩa Fibonacci, ta tính tuần tự từ \(F_0, F_1\) lên \(F_n\). Mỗi bước chỉ cần lưu hai giá trị trước đó.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+
+    if(n == 0){
+        cout << 0;
+        return 0;
+    }
+    if(n == 1){
+        cout << 1;
+        return 0;
+    }
+
+    int f0 = 0, f1 = 1;
+    for(int i = 2; i <= n; i++){
+        int f = f0 + f1;
+        f0 = f1;
+        f1 = f;
+    }
+
+    cout << f1;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đọc số vĩnh hằng}{https://marisaoj.com/problem/22}
+Nhập vào một dãy số nguyên \texttt{n}.  
+Nếu \texttt{n} khác 0, hãy in ra giá trị \(n^5\).  
+Nếu \texttt{n} bằng 0 thì dừng chương trình.
+
+\noindent \textbf{Input}
+
+Một dãy số nguyên, mỗi số trên một dòng.
+
+\noindent \textbf{Output}
+
+Với mỗi số \texttt{n} khác 0, in ra giá trị \(n^5\) trên một dòng.
+
+\noindent \textbf{Điều kiện}
+
+\[
+-1000 \le n \le 1000,\quad \text{dãy chứa không quá 1000 số}
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+4 & 1024\\
+3 & 243\\
+12 & 248832\\
+321 & 3408200705601\\
+0 & \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Đọc lần lượt các số nguyên \texttt{n} cho đến khi gặp \texttt{n = 0} thì dừng.
+  \item Với mỗi \texttt{n} khác 0, tính \(n^5 = n \times n \times n \times n \times n\).
+  \item Do \(|n| \le 1000\) nên \(n^5\) nằm trong phạm vi của kiểu \texttt{long long}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    while(cin >> n){
+        if(n == 0) break;
+        int res = n * n * n * n * n;
+        cout << res << "\n";
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Cực trị}{https://marisaoj.com/problem/23}
+Cho số nguyên \texttt{n} và dãy \texttt{A} gồm \texttt{n} số nguyên. Hãy tìm giá trị lớn nhất và nhỏ nhất của dãy.
+
+\noindent \textbf{Input}
+
+Dòng đầu tiên gồm số nguyên \texttt{n}.\\
+Dòng thứ hai gồm \texttt{n} số nguyên \texttt{A\_i}.
+
+\noindent \textbf{Output}
+
+In ra hai số: giá trị lớn nhất và giá trị nhỏ nhất của dãy (theo đúng thứ tự như ví dụ).
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 1000,\quad |A_i| \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+5 & 999 -2 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Đọc \texttt{n}, sau đó đọc lần lượt từng phần tử \texttt{x} của dãy.
+  \item Khởi tạo \texttt{mx} và \texttt{mn} bằng phần tử đầu tiên.
+  \item Với mỗi phần tử tiếp theo:
+  \begin{itemize}
+    \item Cập nhật \texttt{mx = max(mx, x)}.
+    \item Cập nhật \texttt{mn = min(mn, x)}.
+  \end{itemize}
+  \item Cuối cùng in ra \texttt{mx} và \texttt{mn}.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+
+    int x;
+    cin >> x;
+    int mx = x, mn = x;
+
+    for(int i = 2; i <= n; i++){
+        cin >> x;
+        mx = max(mx, x);
+        mn = min(mn, x);
+    }
+
+    cout << mx << " " << mn;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đảo ngược}{https://marisaoj.com/problem/517}
+Cho hai số nguyên \texttt{a, b}. Hãy tìm tổng của chúng và in số này theo thứ tự ngược lại.
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{a, b}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là tổng của \texttt{a} và \texttt{b} nhưng viết ngược lại.
+Số in ra không được có chữ số \texttt{0} ở đầu.
+
+\noindent \textbf{Ràng buộc}
+
+\[
+1 \le a, b \le 10^9
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+1000 230 & 321 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Tính tổng \(s = a + b\).
+  \item Đảo ngược các chữ số của \(s\):
+  \begin{itemize}
+    \item Lấy chữ số cuối bằng \(s \bmod 10\) và ghép vào kết quả.
+    \item Loại bỏ chữ số cuối bằng \(s /= 10\).
+  \end{itemize}
+  \item Việc đảo ngược tự nhiên sẽ loại bỏ các chữ số \texttt{0} ở đầu.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b;
+    cin >> a >> b;
+    int s = a + b;
+
+    int rev = 0;
+    while(s > 0){
+        rev = rev * 10 + (s % 10);
+        s /= 10;
+    }
+
+    cout << rev;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Đổi nấm}{https://marisaoj.com/problem/401}
+Cửa hàng nấm của Marisa đang có khuyến mãi: đổi \texttt{k} cuống nấm sẽ được tặng 1 cây nấm mới.
+Hiện tại bạn có \texttt{n} cây nấm. Mỗi ngày bạn ăn hết 1 cây nấm (tức là tạo ra 1 cuống nấm).
+Hỏi sau bao nhiêu ngày thì bạn hết nấm?
+
+\noindent \textbf{Input}
+
+Một dòng gồm hai số nguyên \texttt{n, k}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là số ngày trước khi bạn hết nấm.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^5,\quad 2 \le k \le 10^5
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+10 3 & 14 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Mỗi ngày:
+  \begin{itemize}
+    \item Nếu còn nấm thì ăn 1 cây: số nấm giảm 1, số cuống tăng 1, số ngày tăng 1.
+    \item Nếu đủ \texttt{k} cuống thì đổi lấy nấm mới: số cuống giảm \texttt{k}, số nấm tăng 1.
+  \end{itemize}
+  \item Lặp quá trình cho tới khi số nấm bằng 0 thì dừng.
+  \item Vì mỗi ngày chỉ ăn 1 cây, số ngày tăng dần và với ràng buộc đề bài, mô phỏng trực tiếp là đủ.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n, k;
+    cin >> n >> k;
+
+    int stems = 0; // so cuong nam
+    int days = 0;
+
+    while(n > 0){
+        // an 1 cay nam
+        n--;
+        stems++;
+        days++;
+
+        // doi cuong lay nam moi (neu du)
+        while(stems >= k){
+            stems -= k;
+            n += 1;
+        }
+    }
+
+    cout << days;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Chữ số 0 tận cùng}{https://marisaoj.com/problem/42}
+Đếm số chữ số \texttt{0} tận cùng của \texttt{n!}.
+
+\noindent \textbf{Chú ý}
+
+\[
+n! = 1 \times 2 \times \dots \times n
+\]
+
+\noindent \textbf{Input}
+
+Một số nguyên duy nhất \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là số lượng chữ số \texttt{0} tận cùng của \texttt{n!}.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 1000
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+10 & 2 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Một chữ số \texttt{0} tận cùng xuất hiện khi trong phép nhân có thừa số \(10 = 2 \times 5\).
+  \item Trong \(n!\), số lượng thừa số \(2\) luôn nhiều hơn thừa số \(5\).
+  \item Vì vậy, số chữ số \texttt{0} tận cùng bằng tổng số lần xuất hiện của thừa số \(5\) trong các số từ \(1\) đến \(n\).
+  \item Ta lần lượt chia \(n\) cho \(5, 25, 125, \dots\) và cộng các thương lại.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+
+    int cnt = 0;
+    while(n > 0){
+        n /= 5;
+        cnt += n;
+    }
+
+    cout << cnt;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Thập phân sang nhị phân}{https://marisaoj.com/problem/312}
+Cho một số nguyên dương \texttt{n} ở hệ thập phân. Hãy chuyển số này sang hệ nhị phân.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra \texttt{n} dưới dạng nhị phân, không được có chữ số \texttt{0} đứng đầu.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 10^9
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+6 & 110 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Hệ nhị phân là hệ cơ số 2.
+  \item Liên tục chia \texttt{n} cho 2:
+  \begin{itemize}
+    \item Lấy phần dư \texttt{n \% 2} làm chữ số nhị phân tiếp theo.
+    \item Cập nhật \texttt{n /= 2}.
+  \end{itemize}
+  \item Các chữ số thu được theo thứ tự ngược, nên ta ghép ngược lại để được kết quả đúng.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+
+    string bin = "";
+    while(n > 0){
+        bin = char('0' + (n % 2)) + bin;
+        n /= 2;
+    }
+
+    cout << bin;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Nhị phân sang thập phân}{https://marisaoj.com/problem/313}
+Cho một số \texttt{n} dưới dạng nhị phân. Hãy chuyển số này sang hệ thập phân.
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên \texttt{n} dưới dạng nhị phân.
+
+\noindent \textbf{Output}
+
+In ra \texttt{n} dưới dạng thập phân.
+
+\noindent \textbf{Điều kiện}
+
+Đảm bảo giá trị thập phân của \texttt{n} là số nguyên dương và không vượt quá \(2^{31}-1\).
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+110 & 6 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Mỗi chữ số nhị phân có giá trị là \(0\) hoặc \(1\).
+  \item Duyệt chuỗi từ trái sang phải:
+  \begin{itemize}
+    \item Nhân kết quả hiện tại với \(2\).
+    \item Cộng thêm chữ số hiện tại (\texttt{'0'} hoặc \texttt{'1'}) sau khi đổi sang số.
+  \end{itemize}
+  \item Cách này mô phỏng đúng quy tắc chuyển từ hệ nhị phân sang hệ thập phân.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    string n;
+    cin >> n;
+
+    int res = 0;
+    for(int i = 0; i < (int)n.size(); i++){
+        int bit = n[i] - '0';
+        res = res * 2 + bit;
+    }
+
+    cout << res;
+    return 0;
+}
+\end{lstlisting}
+
+
+\end{baitap}
+
+\begin{baitap}{Phép chia}{https://marisaoj.com/problem/417}
+Cho ba số nguyên \texttt{a, b, k}. Hãy in ra chữ số thứ \texttt{k} sau dấu thập phân của phép chia \(\dfrac{a}{b}\).
+
+\noindent \textbf{Input}
+
+Một dòng gồm ba số nguyên \texttt{a, b, k}.
+
+\noindent \textbf{Output}
+
+In ra một chữ số (từ 0 đến 9) là chữ số thứ \texttt{k} sau dấu thập phân.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le a, b, k \le 10^5
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+22 7 5 & 5 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Ta không cần tính số thực, chỉ cần mô phỏng phép chia lấy phần thập phân.
+  \item Gọi \(r = a \bmod b\) là số dư sau phần nguyên.
+  \item Với mỗi vị trí sau dấu phẩy:
+  \begin{itemize}
+    \item Nhân số dư lên 10: \(r = r \times 10\).
+    \item Chữ số tiếp theo là \(\left\lfloor \dfrac{r}{b} \right\rfloor\).
+    \item Cập nhật số dư: \(r = r \bmod b\).
+  \end{itemize}
+  \item Lặp đúng \texttt{k} lần, chữ số ở lần thứ \texttt{k} chính là đáp án.
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int a, b, k;
+    cin >> a >> b >> k;
+
+    int r = a % b;
+    int digit = 0;
+
+    for(int i = 1; i <= k; i++){
+        r *= 10;
+        digit = r / b;
+        r %= b;
+    }
+
+    cout << digit;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
+
+\begin{baitap}{Bộ nghiệm}{https://marisaoj.com/problem/425}
+Cho số nguyên dương \texttt{n}. Hãy đếm số lượng bộ bốn số nguyên dương
+\[
+x_1 < x_2 < x_3 < x_4
+\]
+sao cho:
+\[
+x_1 + x_2 + x_3 + x_4 = n.
+\]
+
+\noindent \textbf{Input}
+
+Một dòng gồm một số nguyên dương \texttt{n}.
+
+\noindent \textbf{Output}
+
+In ra một số nguyên là số lượng bộ số thỏa mãn điều kiện.
+
+\noindent \textbf{Điều kiện}
+
+\[
+1 \le n \le 50
+\]
+
+\noindent \textbf{Ví dụ}
+
+\begin{simple_example}
+10 & 1 \\
+\end{simple_example}
+
+\begin{huonggiai}
+  \item Duyệt bốn số \(x_1, x_2, x_3, x_4\) sao cho:
+  \[
+  1 \le x_1 < x_2 < x_3 < x_4
+  \]
+  \item Với mỗi bộ, kiểm tra nếu tổng bằng \texttt{n} thì tăng biến đếm.
+  \item Điều kiện \(x_1 < x_2 < x_3 < x_4\) được đảm bảo bằng cách:
+  \begin{itemize}
+    \item \(x_1\) chạy từ 1
+    \item \(x_2\) chạy từ \(x_1 + 1\)
+    \item \(x_3\) chạy từ \(x_2 + 1\)
+    \item \(x_4\) chạy từ \(x_3 + 1\)
+  \end{itemize}
+\end{huonggiai}
+
+\noindent \textbf{Cài đặt}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    int n;
+    cin >> n;
+
+    int cnt = 0;
+    for(int x1 = 1; x1 <= n; x1++){
+        for(int x2 = x1 + 1; x2 <= n; x2++){
+            for(int x3 = x2 + 1; x3 <= n; x3++){
+                for(int x4 = x3 + 1; x4 <= n; x4++){
+                    if(x1 + x2 + x3 + x4 == n){
+                        cnt++;
+                    }
+                }
+            }
+        }
+    }
+
+    cout << cnt;
+    return 0;
+}
+\end{lstlisting}
+
+\end{baitap}
