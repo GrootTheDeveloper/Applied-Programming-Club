@@ -5,6 +5,125 @@
 
 \minitoc
 
+\section{Chương trình đánh giá \& Xếp hạng}
+
+\begin{multicols}{2}
+    
+Chương trình áp dụng cơ chế \textbf{tính điểm minh bạch} để theo dõi tiến độ, khuyến khích sự chủ động và duy trì kỷ luật học tập trong suốt lộ trình.
+\textbf{Điểm tổng} của mỗi học viên được tính theo công thức:
+\[
+\text{Điểm tổng} = \text{Điểm cộng} - \text{Điểm trừ}.
+\]
+Bảng xếp hạng (BXH) được cập nhật định kỳ dựa trên điểm tổng và là căn cứ để xét giải thưởng.
+
+\subsection{Cơ cấu điểm cộng}
+
+\subsubsection{Điểm bài tập}
+Mỗi bài tập hoàn thành sẽ được cộng điểm theo độ khó như Bảng~\ref{tab:score-exercise}.
+
+\begin{table}[H]
+\centering
+\caption{Điểm cơ bản theo loại bài tập}
+\label{tab:score-exercise}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Loại bài} & \textbf{Điểm/Bài} \\ \hline
+Easy   & +2 \\ \hline
+Medium & +4 \\ \hline
+Hard   & +7 \\ \hline
+\end{tabular}
+\end{table}
+
+Ngoài điểm cơ bản, học viên có thể nhận thêm điểm thưởng khi đạt các tiêu chí trong Bảng~\ref{tab:score-bonus}.
+
+\begin{table}[H]
+\centering
+\caption{Điểm thưởng khi nộp bài}
+\label{tab:score-bonus}
+\begin{tabular}{|p{6cm}|c|}
+\hline
+\textbf{Điểm cộng} & \textbf{Điểm} \\ \hline
+Hoàn thành trong 24h sau khi ra bài & +1 \\ \hline
+Viết lời giải bằng \LaTeX & +3 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Điểm cuộc thi nội bộ}
+Cứ \textbf{mỗi 4 tuần} học sẽ tổ chức \textbf{01 cuộc thi nội bộ}. Điểm cuộc thi tính theo thứ hạng:
+\begin{itemize}
+    \item Xếp hạng 1: +12 điểm.
+    \item Xếp hạng 2: +11 điểm.
+    \item \dots
+    \item Xếp hạng 12: +1 điểm.
+    \item Không tham gia: 0 điểm.
+\end{itemize}
+
+\subsubsection{Điểm cuộc thi ngoài (Codeforces, VNOI, \dots)}
+Học viên tham gia các cuộc thi bên ngoài (có minh chứng hợp lệ) sẽ được:
+\begin{itemize}
+    \item Tham gia: +2 điểm.
+\end{itemize}
+
+\subsection{Cơ cấu điểm trừ}
+
+\subsubsection{Vi phạm AI/Sao chép}
+Để đảm bảo tính trung thực và chất lượng rèn luyện, các vi phạm sau sẽ bị xử lý nghiêm:
+\begin{enumerate}
+    \item \textbf{Dùng AI để nộp bài}
+    \begin{itemize}
+        \item Bài đó: 0 điểm.
+        \item Trừ thêm: 10 điểm.
+    \end{itemize}
+    \item \textbf{Tái phạm (lần 2)}
+    \begin{itemize}
+        \item Cảnh cáo công khai.
+        \item Không được tham gia xét giải.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Vi phạm chuyên cần}
+Các hành vi vi phạm chuyên cần bị trừ điểm như sau (Bảng~\ref{tab:score-penalty}).
+
+\begin{table}[H]
+\centering
+\caption{Điểm trừ do vi phạm chuyên cần}
+\label{tab:score-penalty}
+\begin{tabular}{|p{8cm}|c|}
+\hline
+\textbf{Hành vi} & \textbf{Điểm} \\ \hline
+Nghỉ học không lý do & -5 \\ \hline
+Không nộp hơn 50\% bài tập tuần (bài tập bắt buộc) & -5 \\ \hline
+Bỏ tham gia cuộc thi nội bộ lớp học không lý do & -5 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Nguyên tắc xếp hạng và xét giải}
+\begin{itemize}
+    \item BXH dựa trên \textbf{điểm tổng} và được cập nhật theo chu kỳ của chương trình.
+    \item Học viên có vi phạm \textbf{AI/Sao chép tái phạm} sẽ \textbf{không đủ điều kiện xét giải}, dù điểm số cao.
+    \item Kết quả cuối cùng được chốt tại thời điểm tổng kết chương trình.
+\end{itemize}
+
+\subsection{Cơ cấu giải thưởng}
+Giải thưởng được trao nhằm ghi nhận cả \textbf{thành tích} lẫn \textbf{sự bền bỉ} trong quá trình học (Bảng~\ref{tab:awards}).
+
+\begin{table}[H]
+\centering
+\caption{Cơ cấu giải thưởng}
+\label{tab:awards}
+\begin{tabular}{|p{4.2cm}|p{9.8cm}|}
+\hline
+\textbf{Giải} & \textbf{Điều kiện} \\ \hline
+OLP Champion & Tổng điểm cao nhất BXH \\ \hline
+Top Performer (02 giải) & Xếp hạng Top 2--3 tổng điểm \\ \hline
+Consistency Award & Hoàn thành nhiều bài tập nhất \\ \hline
+Most Improved & So sánh tổng điểm sau 2 tuần đầu với tổng điểm cuối chương trình; ai tăng nhiều điểm nhất thắng giải \\ \hline
+\end{tabular}
+\end{table}
+
+\end{multicols}
+
+
 \section{Giới thiệu về Lập trình thi đấu}
 
 \subsection{Lập trình thi đấu là gì?}

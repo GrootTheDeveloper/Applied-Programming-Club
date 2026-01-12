@@ -2,5 +2,11 @@
 using namespace std;
 
 int main() {
-    cout << "hello world";
+    int a;
+    cin >> a;
+    cout << a;
+    float a;
+    cout << a;
 }
+
+
